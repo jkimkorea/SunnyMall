@@ -52,6 +52,11 @@ public class AdProduct_ServiceImpl implements AdProduct_Service {
 	public ProductVO readProduct(int prd_no) throws Exception {
 		return dao.readProduct(prd_no);
 	}
+	//상품 정보 수정하기
+	@Override
+	public void editProduct(ProductVO vo) throws Exception {
+		dao.editProduct(vo);
+	}
 
 
 }

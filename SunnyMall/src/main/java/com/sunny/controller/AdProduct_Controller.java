@@ -190,11 +190,23 @@ public class AdProduct_Controller {
 			model.addAttribute("originFile", originFile);
 			model.addAttribute("cateList",service.mainCGList());
 			model.addAttribute("subCateList",service.subCGList(vo.getCg_parent()));
-			
+			logger.info("=================voForEdit:"+vo);
 			PageMaker pm = new PageMaker();
 			pm.setCri(cri);
 			
 			model.addAttribute("pm",pm);
+		}
+		//상품 정보 수정
+		@RequestMapping(value = "edit",method=RequestMethod.POST)
+		public String productEditPost(ProductVO vo,SearchCriteria cri,RedirectAttributes rttr) throws Exception {
+			logger.info("============productEditPost() execute=======");
+			if(vo.getFile1().getSize() > 0) {
+				vo.setPrd_img(FileUtils.uploadFile(uploadPath, vo.getFile1().getOriginalFilename(), vo.getFile1().getBytes()));
+			}
+			service.editProduct(vo);
+			rttr.addFlashAttribute("cri",cri);
+			rttr.addFlashAttribute("msg","EDIT_SUCCESS");
+			return "redirect:/admin/product/list";
 		}
 }
 

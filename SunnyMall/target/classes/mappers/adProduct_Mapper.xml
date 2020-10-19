@@ -71,4 +71,10 @@
 		on p.cg_code = c.cg_code
 		where prd_no=#{prd_no} 
 	</select>
+	<update id="editProduct" parameterType="ProductVO">
+		update product
+		set prd_no=#{prd_no},cg_code=#{cg_code},prd_name=#{prd_name},prd_price=#{prd_price},prd_discount=#{prd_discount},prd_company=#{prd_company},
+		prd_detail=#{prd_detail},prd_img=#{prd_img},prd_stock=#{prd_stock},prd_buy=#{prd_buy},prd_date_up=sysdate
+		where prd_no=#{prd_no}
+	</update>
 </mapper>

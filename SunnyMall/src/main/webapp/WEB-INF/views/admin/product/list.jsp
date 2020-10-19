@@ -14,7 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script>
 	 if("${msg}"=="INSERT_SUCCESS"){
 		 alert("상품등록이 완료되었습니다.");
-	 }else if("${msg}"){
+	 }else if("${msg}"=="EDIT_SUCCESS"){
 		 alert("상품 수정이 완료되었습니다.");
 	 }else if("${msg}"=="DELETE_SUCCESS"){
 		 alert("상품 삭제가 완료되었습니다.");
@@ -82,15 +82,26 @@ $(function(){
 		}else{}
 	});
 	//선택 상품 수정 버튼 클릭시
-	$("").click(function(){
+	$("btn_edit_check").click(function(){
 		
+		if($("input[name='check']:checked").lengh==0){
+			alert("수정할 상품을 선택해주세요.");
+			return;
+		}
+		var checkArr=[];
+		var stockArr=[];
+		var buyArr=[];
+		
+		var prd_stock =$("#").val();
+		var prd_buy =$("#").val();
 	});
 });
 </script>
 <script>
 	var clickEdit = function(prd_no){
-		var url = '/admin/product/edit${pm.makeSearch(pm.cri.page)}$prd_no='+prd_no;
+		var url = '/admin/product/edit${pm.makeSearch(pm.cri.page)}&prd_no='+prd_no;
 		location.href=url;
+		
 	}
 </script>
 <!--

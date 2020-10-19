@@ -22,4 +22,6 @@ public interface AdProduct_DAO {
 	public void deleteProduct(int prd_no) throws Exception;
 	//상품 정보 읽어오기
 	public ProductVO readProduct(int prd_no) throws Exception;
+	//상품 정보 수정하기
+	public void editProduct(ProductVO vo) throws Exception;
 }

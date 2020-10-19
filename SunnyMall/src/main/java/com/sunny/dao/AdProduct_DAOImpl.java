@@ -53,5 +53,11 @@ public class AdProduct_DAOImpl implements AdProduct_DAO {
 	public ProductVO readProduct(int prd_no) throws Exception {
 		return session.selectOne(NS+".readProduct", prd_no);
 	}
+	//상품 정보 수정하기
+	@Override
+	public void editProduct(ProductVO vo) throws Exception {
+		session.update(NS+".editProduct", vo);
+		
+	}
 	
 }

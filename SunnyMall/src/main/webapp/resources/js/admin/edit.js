@@ -2,20 +2,20 @@ $(document).ready(function() {
 	
 	var form = $("#editForm");
 	
-	/* 상품 수정 버튼 클릭 시 */
+	// 상품 수정 버튼 클릭 시 
 	$("#btn_submit").on("click", function(){
 		var result = confirm("수정된 정보를 저장하시겠습니까?");
 		
 		if(result){
 			var mainCategory = $("#mainCategory option:selected");
 			var subCategory = $("#subCategory option:selected");
-			var pdt_name = $("#pdt_name");
-			var pdt_company = $("#pdt_company");
-			var pdt_price = $("#pdt_price");
-			var pdt_discount = $("#pdt_discount");
-			var ckeditor = CKEDITOR.instances['pdt_detail'];
-			var pdt_detail = $("#pdt_detail");
-			var pdt_amount = $("#pdt_amount");
+			var prd_name = $("#prd_name");
+			var prd_company = $("#prd_company");
+			var prd_price = $("#prd_price");
+			var prd_discount = $("#prd_discount");
+			var ckeditor = CKEDITOR.instances['prd_detail'];
+			var prd_detail = $("#prd_detail");
+			var prd_stock = $("#prd_stock");
 			var pdt_buy = $("#pdt_buy");
 			
 			
@@ -29,24 +29,24 @@ $(document).ready(function() {
 				subCategory.focus();
 				return;
 				
-			} else if(pdt_name.val()==null || pdt_name.val()==""){
+			} else if(prd_name.val()==null || prd_name.val()==""){
 				alert("상품명을 입력해주세요.");
-				pdt_name.focus();
+				prd_name.focus();
 				return;
 				
-			} else if(pdt_company.val()==null || pdt_company.val()==""){
+			} else if(prd_company.val()==null || prd_company.val()==""){
 				alert("제조사를 입력해주세요.");
-				pdt_company.focus();
+				prd_company.focus();
 				return;
 				
-			}else if(pdt_price.val()==null || pdt_price.val()==""){
+			}else if(prd_price.val()==null || prd_price.val()==""){
 				alert("상품 가격을 입력해주세요.");
-				pdt_price.focus();
+				prd_price.focus();
 				return;
 				
-			}else if(pdt_discount.val()==null || pdt_discount.val()==""){
+			}else if(prd_discount.val()==null || prd_discount.val()==""){
 				alert("할인 가격을 입력해주세요.");
-				pdt_discount.focus();
+				prd_discount.focus();
 				return;
 				
 			}else if(ckeditor.getData()==null || ckeditor.getData()==""){
@@ -54,9 +54,9 @@ $(document).ready(function() {
 				ckeditor.focus();	
 				return;
 				
-			}else if(pdt_amount.val()==null || pdt_amount.val()==""){
+			}else if(prd_stock.val()==null || prd_stock.val()==""){
 				alert("상품 수량을 입력해주세요.");
-				pdt_amount.focus();
+				prd_stock.focus();
 				return;
 				
 			}else {
