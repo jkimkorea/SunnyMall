@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunny.mappers.AdProduct_Mapper">
+	
+	<!-- 서브 카테고리 불러오기-->
+	<select id="subCGList" parameterType="String" resultType="CategoryVO">
+		select cg_code,cg_parent,cg_name from category where cg_parent=#{cg_parent}
+	</select>
+	<!-- 1차 카테고리 불러오기 -->
+	<select id="mainCGList" resultType="CategoryVO">
+		select cg_code,cg_parent,cg_name from category
+		where cg_parent is null
+	</select>
+	<!-- 상품 추가 -->
+	<insert id="insertProduct" parameterType="ProductVO">
+	 	insert into product(prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_buy,prd_date_post) 
+	 	values(PRODUCT_NO_SQ.NEXTVAL,#{cg_code},#{cg_parent},#{prd_name},#{prd_price},
+	 	#{prd_discount},#{prd_company},#{prd_detail},#{prd_img},#{prd_stock},#{prd_buy},sysdate)
+	</insert>
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType =='name'.toString()">
+				where prd_name like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'detail'.toString()">
+				where prd_detail like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType =='company'.toString()">
+				where prd_company like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType == 'name_detail'.toString()">
+				where (prd_name like '%' || #{keyword} || '%')
+				or (prd_detail like '%' || #{keyword} || '%')
+			</if>
+			<if test="searchType == 'name_company'.toString()">
+				where (prd_name like '%' || #{keyword} || '%')
+				or (prd_company like '%' || #{keyword} || '%')
+			</if>
+			<if test="searchType == 'all'.toString()">
+				where (prd_name like '%' || #{keyword} || '%')
+				or ( prd_detail like '%' || #{keyword) || '%')
+				or (prd_company like '%' || #{keyword} || '%')
+			</if>
+		</if>
+	</sql>
+	<!-- 상품 리스트 (검색조건 포함) -->
+	<select id="searchListProduct" parameterType="SearchCriteria"  resultType="ProductVO">
+		select prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,
+		prd_detail,prd_img,prd_stock,prd_buy,prd_date_post
+		from
+		(select prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,
+		prd_detail,prd_img,prd_stock,prd_buy,prd_date_post,ROW_NUMBER() OVER (ORDER BY prd_no desc) 
+		row_seq from product
+		<include refid="search"/>)
+		where row_seq between #{rowStart} and #{rowEnd}
+	</select>
+	<select id="searchListCount" parameterType="searchCriteria" resultType="int">
+		<![CDATA[
+			select count(prd_no) from product
+		]]>
+		<include refid="search" />
+	</select>
+	<delete id="deleteProduct" parameterType="int">
+		delete product where prd_no = #{prd_no}
+	</delete>
+	<select id="readProduct" parameterType="int" resultType="ProductVO">
+		select  p.prd_no,p.cg_code,c.cg_parent,p.prd_name,p.prd_price,p.prd_discount,p.prd_company,
+		p.prd_detail,p.prd_img,p.prd_stock,p.prd_buy,p.prd_date_post,p.prd_date_up 
+		from product p inner join category c 
+		on p.cg_code = c.cg_code
+		where prd_no=#{prd_no} 
+	</select>
+</mapper>

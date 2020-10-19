@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunny.mapper.MemberMapper">
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="MemberDTO" resultType="MemberDTO">
+		select mb_id,mb_pw,mb_nickname,mb_point,mb_name,mb_date_last 
+		from member where mb_id=#{mb_id}
+	</select>
+	
+	<!-- 로그인 시간 없데이트 -->
+	<update id="loginUpdate" parameterType="MemberDTO">
+		update member set
+		mb_date_last=sysdate where mb_id=#{mb_id}
+	</update>
+	
+	<!-- 로그인 정보 쿠키에 저장 -->
+	<update id="saveCookie">
+		update member set
+		mb_session_key=#{mb_session_key}
+		mb_session_limit=#{mb_session_limit}
+		where mb_id=#{mb_id}
+	</update>
+	
+	<!-- 쿠키에 저장된 세션값으로 정보불러오기 -->
+	<select id="checkUserSession">
+		 select 
+		 from member
+		 where mb_session_key=#{value} and mb_session_limit>now() 
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="register" parameterType="MemberVO">
+		insert into member(mb_id,mb_name,mb_pw,mb_email,
+		mb_zipcode,mb_add,mb_add_d,mb_phone,mb_nickname,mb_email_accept)
+		values(#{mb_id},#{mb_name},#{mb_pw},#{mb_email},#{mb_zipcode},
+		#{mb_add},#{mb_add_d},#{mb_phone},#{mb_nickname},#{mb_email_accept})	
+	</insert>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="checkIdDuplicate" parameterType="String" resultType="String" >
+		select mb_id from member where mb_id=#{mb_id}
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="modify" parameterType="MemberVO">
+		update member set mb_name=#{mb_name}, mb_nickname=#{mb_nickname}, mb_email=#{mb_email},
+		mb_phone=#{mb_phone}, mb_zipcode=#{mb_zipcode}, mb_add=#{mb_add}, 
+		mb_add_d=#{mb_add_d}, mb_email_accept=#{mb_email_accept}, mb_date_up=sysdate
+		where mb_id=#{mb_id}
+	</update>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="changePw" parameterType="MemberDTO">
+		update member set mb_pw=#{mb_pw} where mb_id=#{mb_id}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteUser">
+		delete from member where mb_id=#{mb_id}
+	</delete>
+	
+	<!-- 회원정보 불러오기 -->
+	<select id="readUserInfo" parameterType="String" resultType="MemberVO">
+		select mb_id,mb_pw,mb_name,mb_phone,mb_nickname,mb_email,mb_add,mb_add_d,mb_zipcode,
+		 mb_email_accept, mb_point,mb_date_first, mb_date_up, mb_date_last, mb_authcode
+		from member where mb_id=#{mb_id}
+	</select>
+	
+</mapper>
