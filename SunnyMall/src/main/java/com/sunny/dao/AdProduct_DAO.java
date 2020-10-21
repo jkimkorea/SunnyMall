@@ -1,6 +1,7 @@
 package com.sunny.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sunny.domain.CategoryVO;
 import com.sunny.domain.ProductVO;
@@ -24,4 +25,6 @@ public interface AdProduct_DAO {
 	public ProductVO readProduct(int prd_no) throws Exception;
 	//상품 정보 수정하기
 	public void editProduct(ProductVO vo) throws Exception;
+	//선택한 상품 수량, 판매정보 수정
+	public void editChecked(Map<String,Object> map) throws Exception;
 }

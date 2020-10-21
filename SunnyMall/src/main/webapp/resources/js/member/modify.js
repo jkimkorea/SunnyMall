@@ -2,26 +2,6 @@ $(function(){
 	var form=$("#modifyForm");
 	var isCheckEmail="true";
 	
-	//회원탈퇴
-	$("#btn_out").click(function(){
-		var result=confirm("정말로 탈퇴하시겠습니까?");
-		if(result){
-		var mb_id=$("#mb_id").val();
-			
-			$.ajax({
-				url:'/member/deleteUser',
-				type:'post',
-				dataType:'text',
-				data:{mb_id:mb_id},
-				success:function(data){
-					if(data=="DELETE_USER_SUCCESS"){
-						alert("회원탈퇴가 성공적으로 처리되었습니다.\n 이용해 주셔서 감사합니다.");
-						location.href='/';
-					}
-				}
-		 	});
-		 }
-	});
 	//이메일 변경 시 이메일 인증 활성화
 	$("#mb_email").on("change",function(){
 		$("#btn_sendAuthCode").show();

@@ -65,6 +65,7 @@ public class FileUtils {
 	}
 	//파일 불러오기
 	public static ResponseEntity<byte[]> getFile(String uploadPath, String fileName) throws Exception{
+		
 		InputStream in = null;
 		byte[] fileData = null;
 		ResponseEntity<byte[]> entity = null;

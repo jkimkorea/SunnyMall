@@ -1,6 +1,7 @@
 package com.sunny.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,11 @@ public class AdProduct_DAOImpl implements AdProduct_DAO {
 	public void editProduct(ProductVO vo) throws Exception {
 		session.update(NS+".editProduct", vo);
 		
+	}
+	//선택한 상품 수량, 판매정보 수정
+	@Override
+	public void editChecked(Map<String, Object> map) throws Exception {
+		session.update(NS+".editChecked", map);
 	}
 	
 }

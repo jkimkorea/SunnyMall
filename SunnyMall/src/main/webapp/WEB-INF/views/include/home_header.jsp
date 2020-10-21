@@ -13,6 +13,22 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
+          <!-- 검색 -->
+		<form action="/product/listSearch" method="get" class="sidebar-form">
+			<div class="input-group">
+				<input type="hidden" name="searchType" class="form-control" value="name_detail">
+				<input type="text" name="keyword" class="form-control" placeholder="상품 검색"  
+					<c:if test="${!empty scri}">
+						value="<c:out value='${scri.keyword}' />"
+					</c:if>
+					style="background-color: #; color:#B8C7CE">
+				<span class="input-group-btn">
+					<button type="submit" name="search" id="search-btn" class="btn btn-flat" style="background-color: #ffffff" >
+						<i class="fa fa-search">검색</i>
+					</button>
+				</span>
+			</div>
+		</form>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
             <a class="nav-link" href="/">Home

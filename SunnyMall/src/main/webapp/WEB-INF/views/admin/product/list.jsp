@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html>
 <!-- REQUIRED JS SCRIPTS -->
 <%@ include file="/WEB-INF/views/include/plugins.jsp" %>
@@ -82,9 +77,9 @@ $(function(){
 		}else{}
 	});
 	//선택 상품 수정 버튼 클릭시
-	$("btn_edit_check").click(function(){
-		
-		if($("input[name='check']:checked").lengh==0){
+	$("#btn_edit_check").click(function(){
+		alert("");
+		if($("input[name='check']:checked").length==0){
 			alert("수정할 상품을 선택해주세요.");
 			return;
 		}
@@ -92,8 +87,31 @@ $(function(){
 		var stockArr=[];
 		var buyArr=[];
 		
-		var prd_stock =$("#").val();
-		var prd_buy =$("#").val();
+		$("input[name='check']:checked").each(function(){
+			var prd_no=$(this).val();
+			var prd_stock=$("input[name='amount_"+prd_no+"']").val();
+			var prd_buy=$("select[name='buy_"+prd_no+"']").val();
+			
+			checkArr.push(prd_no);
+			stockArr.push(prd_stock);
+			buyArr.push(prd_buy);
+		});
+		$.ajax({
+			url:'/admin/product/editChecked',
+			type:'post',
+			dataType:'text',
+			data:{
+				checkArr:checkArr,
+				stockArr:stockArr,
+				buyArr:buyArr
+				},
+			success:function(data){
+				if(data=="SUCCESS"){
+				alert("수정이 완료되었습니다.");
+				location.href="/admin/product/list${pm.makeSearch(pm.cri.page)}";
+				}
+			}
+		});
 	});
 });
 </script>
@@ -256,18 +274,20 @@ desired effect
 		        
 						</table>
 	
-					<div class="clearfix"></div>
-					<ul class="pagination pull-right">
-					  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-					  <li class="active"><a href="#">1</a></li>
-					  <li><a href="#">2</a></li>
-					  <li><a href="#">3</a></li>
-					  <li><a href="#">4</a></li>
-					  <li><a href="#">5</a></li>
-					  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-					</ul>
-                
-          		 </div>
+						<div class="clearfix">
+						<ul class="pagination pull-right">
+							<c:if test="${pm.prev}">
+						  		<li><a href="list${pm.makeSearch(pm.startPage-1)}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+						  	</c:if>
+						  	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="idx">
+							  	<li <c:out value="${pm.cri.page == idx? 'class=active':''}"/>><a href="list${pm.makeSearch(idx)}">${idx}</a></li>
+							 </c:forEach>
+							 <c:if test="${pm.next && pm.endPage >0}">
+						  		<li><a href="list${pm.makeSearch(pm.endPage+1)}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+							 </c:if>
+						</ul>
+                		</div>
+          			 </div>
             
         		</div>
 			</div>

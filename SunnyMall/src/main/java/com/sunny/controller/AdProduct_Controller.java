@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -208,6 +211,43 @@ public class AdProduct_Controller {
 			rttr.addFlashAttribute("msg","EDIT_SUCCESS");
 			return "redirect:/admin/product/list";
 		}
+		@ResponseBody
+		@RequestMapping(value = "editChecked",method=RequestMethod.POST)
+		public ResponseEntity<String> editChecked(@RequestParam("checkArr[]") List<Integer> checkArr,
+												  @RequestParam("stockArr[]") List<Integer> stockArr,
+												  @RequestParam("buyArr[]") List<String> buyArr){
+			
+			logger.info("============editChecked() execute=======");
+			ResponseEntity<String> entity=null;
+			try {
+				Map<String,Object> map= new HashMap<String,Object>();
+				for(int i=0;i<checkArr.size(); i++) {
+					map.put("prd_no",checkArr.get(i));
+					map.put("prd_stock",stockArr.get(i));
+					map.put("prd_buy",buyArr.get(i));
+					service.editChecked(map);
+				}
+				entity= new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
+			}catch(Exception e) {
+				e.printStackTrace();
+				entity= new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			}
+			
+			return entity;
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }
 
 

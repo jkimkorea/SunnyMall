@@ -1,0 +1,103 @@
+package com.sunny.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sunny.domain.CategoryVO;
+import com.sunny.domain.ProductVO;
+import com.sunny.service.Product_Service;
+import com.sunny.service.Review_Service;
+import com.sunny.util.Criteria;
+import com.sunny.util.FileUtils;
+import com.sunny.util.PageMaker;
+
+@Controller
+@RequestMapping("/product/*")
+public class Product_Controller {
+
+	@Inject
+	private Product_Service serivce;
+	
+	@Inject
+	private Review_Service reviewService;
+	
+	@Resource(name="uploadPath")
+	private String uploadPath;	
+	
+	private static final Logger logger = LoggerFactory.getLogger(Product_Controller.class);
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "displayFile",method=RequestMethod.GET)
+	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception{
+		
+		return FileUtils.getFile(uploadPath,fileName);
+	}
+	//카테고리에 따른 상품 리스트 출력
+	@RequestMapping(value = "productList",method=RequestMethod.GET)
+	public void list(@ModelAttribute("cri") Criteria cri,
+					 @ModelAttribute("cg_code") String cg_code,
+					 Model model) throws Exception {
+		logger.info("==========productList() execute==============");
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("cg_code",cg_code);
+		map.put("rowStart",cri.getRowStart());
+		map.put("rowEnd",cri.getRowEnd());
+		
+		List<ProductVO> list= serivce.productListCG(map);
+		model.addAttribute("productList", list);
+		model.addAttribute("cg_name",serivce.getCGName(cg_code));
+		
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		int count = serivce.productCount(cg_code);
+		pm.setTotalCount(count);
+		
+		model.addAttribute("pm",pm);
+	}
+	//1차 카테고리에 해당 하는 2차 카테고리 출력
+	@ResponseBody
+	@RequestMapping(value = "subCGList/{cg_code}",method=RequestMethod.GET)
+	public ResponseEntity<List<CategoryVO>> subCGList(@PathVariable("cg_code") String cg_code){
+		
+		logger.info("==========subCGList() execute==============");
+		ResponseEntity<List<CategoryVO>> entity=null;
+		try {
+			entity=new ResponseEntity<List<CategoryVO>>(serivce.subCGList(cg_code),HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity=new ResponseEntity<List<CategoryVO>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

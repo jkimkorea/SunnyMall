@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunny.mappers.Product_Mapper">
+	<!-- 1차 카테고리 출력 -->
+	<select id="mainCGList" resultType="CategoryVO">
+		select cg_code,cg_parent,cg_name 
+		from category
+		where cg_parent is null
+	</select>
+	<!-- 2차 카테고리 출력 -->
+	<select id="subCGList" resultType="CategoryVO">
+		select cg_code,cg_parent,cg_name
+		from category
+		where cg_parent = #{cg_parent}
+	</select>
+	<select id="productListCG" parameterType="Map" resultType="ProductVO">
+		select prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_date_up
+		from (select prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_date_up,
+			  row_number() over(order by prd_no desc) prd_seq
+			  from product
+			  where cg_code=#{cg_code})  
+		where prd_seq between #{rowStart} and #{rowEnd}
+	</select>
+	<select id="getCGName" parameterType="String" resultType="String">
+		select cg_name from category
+		where cg_name=#{cg_name}
+	</select>
+	<select id="productCount" parameterType="String" resultType="int">
+		select count(prd_no)
+		from product
+		where cg_code=#{cg_code}
+	</select>
+	
+</mapper>

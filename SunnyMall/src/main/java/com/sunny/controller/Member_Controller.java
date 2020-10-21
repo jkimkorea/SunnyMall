@@ -70,14 +70,14 @@ public class Member_Controller {
 	@RequestMapping(value = "/registerForm",method = RequestMethod.GET)
 	public void registerForm(MemberVO vo,RedirectAttributes rttr) {
 		
-		logger.info("==============registerForm() execute==");
+		logger.info("==============registerForm() execute=========");
 	}
 	//아이디 중복체크
 	@ResponseBody
 	@RequestMapping(value = "/checkIdDuplicate",method=RequestMethod.POST)
 	public ResponseEntity<String> checkIdDuplicate(HttpSession session,@RequestParam("mb_id") String mb_id) {
 		
-		logger.info("=============checkIdDuplicate() execute==");
+		logger.info("=============checkIdDuplicate() execute========");
 		ResponseEntity<String> entity=null;
 		try {
 			String checkId=service.checkIdDuplicate(mb_id);
@@ -96,6 +96,7 @@ public class Member_Controller {
 	@ResponseBody
 	@RequestMapping(value = "/checkAuthcode",method=RequestMethod.POST)
 	public ResponseEntity<String> checkAuthcode(@RequestParam("code") String code,HttpSession session) {
+		logger.info("============checkAuthode() execute===========");
 		logger.info("============checkAuthode:"+code);
 		ResponseEntity<String> entity=null;
 		try {
@@ -115,6 +116,7 @@ public class Member_Controller {
 	@RequestMapping(value = "/checkPw",method=RequestMethod.POST)
 	public ResponseEntity<String> checkPw(@RequestParam("mb_pw") String mb_pw,
 			                              HttpSession session,Model model) {
+		logger.info("=============checkPW() execute==========");
 		logger.info("=============pw:"+mb_pw);
 		ResponseEntity<String> entity=null;
 		MemberDTO dto=(MemberDTO)session.getAttribute("user");
@@ -130,6 +132,7 @@ public class Member_Controller {
 	//회원가입
 	@RequestMapping(value = "/register",method=RequestMethod.POST)
 	public String register(MemberVO vo,RedirectAttributes rttr) throws Exception {
+		logger.info("=============register() execute============");
 		logger.info("================입력데이타:"+vo.toString());
 		//비밀번호의 암호화 처리
 		vo.setMb_pw(crptPassEnc.encode(vo.getMb_pw()));
@@ -155,6 +158,7 @@ public class Member_Controller {
 	//회원정보 수정
 	@RequestMapping(value = "/modify",method=RequestMethod.POST)
 	public String modify(MemberVO vo,RedirectAttributes rttr,HttpSession session) throws Exception {
+		logger.info("===============modify() execute============");
 		logger.info("===============memberVO:"+vo);
 		MemberDTO dto=new MemberDTO();
 		dto.setMb_id(vo.getMb_id());
@@ -172,7 +176,7 @@ public class Member_Controller {
 	//비밀번호 변경
 	@RequestMapping(value = "/changePw",method = RequestMethod.POST)
 	public String changePw(MemberDTO dto,HttpSession session,RedirectAttributes rttr) throws Exception {
-		logger.info("==========dto:"+dto);
+		logger.info("==========changePw() execute=======");
 		dto.setMb_pw(crptPassEnc.encode(dto.getMb_pw()));
 		service.changePw(dto);
 		MemberDTO memDTO=(MemberDTO) session.getAttribute("user");		
@@ -182,12 +186,15 @@ public class Member_Controller {
 		return "redirect:/";
 	}
 	//회원 탈퇴
-	@ResponseBody
-	@RequestMapping(value = "/deleteUser",method=RequestMethod.POST)
-	public String deleteUser(String mb_id,HttpSession session,RedirectAttributes rttr) throws Exception {
-			service.deleteUser(mb_id);
+	@RequestMapping(value = "/deleteUser",method=RequestMethod.GET)
+	public String deleteUser(HttpSession session,RedirectAttributes rttr) throws Exception {
+			logger.info("===========deleteUser() execute=========");
+			MemberDTO dto=(MemberDTO) session.getAttribute("user");
+			service.deleteUser(dto.getMb_id());
 			session.invalidate();
 			rttr.addFlashAttribute("msg", "DELETE_USER_SUCCESS");
+			
+			logger.info("===========DELETE_USER_SUCCESS");
 		return "redirect:/";
 	}
 }

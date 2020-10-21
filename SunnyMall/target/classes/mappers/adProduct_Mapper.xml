@@ -77,4 +77,9 @@
 		prd_detail=#{prd_detail},prd_img=#{prd_img},prd_stock=#{prd_stock},prd_buy=#{prd_buy},prd_date_up=sysdate
 		where prd_no=#{prd_no}
 	</update>
+	<update id="editChecked" parameterType="Map">
+		update product 
+		set prd_no=#{prd_no}, prd_stock=#{prd_stock},prd_buy=#{prd_buy}
+		where prd_no=#{prd_no}
+	</update>
 </mapper>

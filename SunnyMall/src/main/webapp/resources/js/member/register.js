@@ -74,7 +74,7 @@ $(function(){
 	});
 	//아이디 중복체크
 	$("#btn_checkId").on("click",function(){
-		alert("c");
+	
 		if($("#mb_id").val()==""||$("#mb_id").val()==null){
 			$("#id_availability").html("아이디를 입력해주세요.");
 			return;
