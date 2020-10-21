@@ -61,11 +61,13 @@ public class Product_Controller {
 		map.put("cg_code",cg_code);
 		map.put("rowStart",cri.getRowStart());
 		map.put("rowEnd",cri.getRowEnd());
+		String cg_name=serivce.getCGName(cg_code);
+		logger.info("============cg_code:" + cg_code);
 		
 		List<ProductVO> list= serivce.productListCG(map);
 		model.addAttribute("productList", list);
-		model.addAttribute("cg_name",serivce.getCGName(cg_code));
-		
+		model.addAttribute("cg_name",cg_name);
+		logger.info("============cg_name:" + cg_name);
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
 		int count = serivce.productCount(cg_code);
@@ -88,7 +90,12 @@ public class Product_Controller {
 		}
 		return entity;
 	}
+	@RequestMapping(value = "readProduct",method=RequestMethod.GET)
+	public void readProduct() {
+		
+		
 	
+	}
 	
 	
 	

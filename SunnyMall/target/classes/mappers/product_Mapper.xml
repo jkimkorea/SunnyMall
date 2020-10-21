@@ -23,8 +23,9 @@
 		where prd_seq between #{rowStart} and #{rowEnd}
 	</select>
 	<select id="getCGName" parameterType="String" resultType="String">
-		select cg_name from category
-		where cg_name=#{cg_name}
+		select cg_name 
+		from category
+		where cg_code=#{cg_code}
 	</select>
 	<select id="productCount" parameterType="String" resultType="int">
 		select count(prd_no)
