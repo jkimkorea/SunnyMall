@@ -17,4 +17,6 @@ public interface Product_Service {
 	public String getCGName(String cg_code) throws Exception;
 	//상품 갯수 출력
 	public int productCount(String cg_code) throws Exception;
+	//상품 상세 출력
+	public ProductVO readProduct(int prd_no) throws Exception;
 }

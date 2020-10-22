@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -201,7 +203,7 @@ background:#eee;
 <div class="row">
           <div class="col-md-6">
               <div class="pro-img-details">
-                  <img src="https://via.placeholder.com/500x380/FFB6C1/000000" alt="">
+                  <img src="/product/displayFile?fileName=${vo.prd_img }" style="display: inline; width:90%;">
               </div>
               <div class="pro-img-list">
                   <a href="#">
@@ -219,29 +221,34 @@ background:#eee;
           <div class="col-md-6">
               <h4 class="pro-d-title">
                   <a href="#" class="">
-                      Leopard Shirt Dress
+                      ${vo.prd_name}
                   </a>
               </h4>
               <p>
-                  Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product descriptions address your ideal buyer directly and personally. The best product descriptions address your ideal buyer directly and personally.
+                 
               </p>
               <div class="product_meta">
-                  <span class="posted_in"> <strong>Categories:</strong> <a rel="tag" href="#">Jackets</a>, <a rel="tag" href="#">Men</a>, <a rel="tag" href="#">Shirts</a>, <a rel="tag" href="#">T-shirt</a>.</span>
+                  <span class="posted_in"> <strong>Categories:</strong> <a rel="tag" href="#">Jackets</a>,.</span>
                   <span class="tagged_as"><strong>Tags:</strong> <a rel="tag" href="#">mens</a>, <a rel="tag" href="#">womens</a>.</span>
               </div>
-              <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old">$544</span>  <span class="pro-price"> $300.00</span></div>
+              <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old"><fmt:formatNumber value="${vo.prd_price}" pattern="###,###,###"/>원</span>  <span class="pro-price"><fmt:formatNumber value="${vo.prd_price}" pattern="###,###,###"/>원</span></div>
               <div class="form-group">
                   <label>Quantity</label>
-                  <input type="quantiy" placeholder="1" class="form-control quantity">
+                  <input type="quantiy" value="${vo.prd_stock}" class="form-control quantity">
               </div>
+              <form action="/order/buy" method="post">
               <p>
-                  <button class="btn btn-round btn-danger" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+              <input type="hidden" id="prd_no" value="${prd_no}">
+                  <button class="btn_addCart" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+              	  <button class="btn_buy" type="submit"><i class="fa fa-shopping-cart"></i> Buy</button>
               </p>
+              </form>
           </div>
      </div>
      <!-- 상품 상세 -->
 	<label for="detail">Detail</label><br>
 		<div contenteditable="false" style="border: 1px solid grey; padding: 20px;">
+		${vo.prd_detail }
 		</div>
 		<br>
 	<label for="review">Review</label><br>

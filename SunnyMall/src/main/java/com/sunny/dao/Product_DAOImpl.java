@@ -44,6 +44,11 @@ public class Product_DAOImpl implements Product_DAO {
 	public int productCount(String cg_code) throws Exception {
 		return session.selectOne(NS+".productCount", cg_code);
 	}
+	//상품 상세 출력
+	@Override
+	public ProductVO readProduct(int prd_no) throws Exception {
+		return session.selectOne(NS+".readProduct", prd_no);
+	}
 
 	
 

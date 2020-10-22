@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sunny.domain.CategoryVO;
@@ -91,8 +92,14 @@ public class Product_Controller {
 		return entity;
 	}
 	@RequestMapping(value = "readProduct",method=RequestMethod.GET)
-	public void readProduct() {
-		
+	public void readProduct(@ModelAttribute("crt") Criteria cri,
+							@RequestParam("prd_no") int prd_no,Model model) throws Exception {
+		logger.info("============readProduct() execute============");
+		ProductVO vo = serivce.readProduct(prd_no);
+		model.addAttribute("vo", vo);
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		model.addAttribute("pm", pm);
 		
 	
 	}

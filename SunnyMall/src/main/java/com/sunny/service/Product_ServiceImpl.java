@@ -41,4 +41,9 @@ public class Product_ServiceImpl implements Product_Service {
 	public int productCount(String cg_code) throws Exception {
 		return dao.productCount(cg_code);
 	}
+	//상품 상세 출력
+	@Override
+	public ProductVO readProduct(int prd_no) throws Exception {
+		return dao.readProduct(prd_no);
+	}
 }

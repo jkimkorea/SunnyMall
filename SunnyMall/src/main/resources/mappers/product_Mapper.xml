@@ -32,5 +32,10 @@
 		from product
 		where cg_code=#{cg_code}
 	</select>
+	<select id="readProduct" parameterType="int" resultType="productVO">
+		select prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_buy,prd_date_post,prd_date_up
+		from product
+		where prd_no=#{prd_no}
+	</select>
 	
 </mapper>
