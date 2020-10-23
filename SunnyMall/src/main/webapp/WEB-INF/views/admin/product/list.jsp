@@ -73,7 +73,7 @@ $(function(){
 		
 		var result = confirm("이 상품을 삭제하시겠습니까?")
 		if(result){
-			$(".deleteForm").submit();
+			$(this).parent().submit();
 		}else{}
 	});
 	//선택 상품 수정 버튼 클릭시
@@ -280,7 +280,8 @@ desired effect
 						  		<li><a href="list${pm.makeSearch(pm.startPage-1)}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 						  	</c:if>
 						  	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="idx">
-							  	<li <c:out value="${pm.cri.page == idx? 'class=active':''}"/>><a href="list${pm.makeSearch(idx)}">${idx}</a></li>
+							  	<li <c:out value="${pm.cri.page == idx? 'class=active':''}"/>>
+							  	<a href="list${pm.makeSearch(idx)}">${idx}</a></li>
 							 </c:forEach>
 							 <c:if test="${pm.next && pm.endPage >0}">
 						  		<li><a href="list${pm.makeSearch(pm.endPage+1)}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,7 +100,7 @@
 		    <c:forEach items="${productList}" var="vo">
        		<div class="col-lg-4 col-md-6 mb-4">
 		      	<div class="card h-100">
-		              <a href="#">
+		              <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${vo.prd_no}&cg_code=${cg_code}">
 		              	<img src="/product/displayFile?fileName=${vo.prd_img}" class="card-img-top" src="http://placehold.it/700x400" alt="">
 		              </a>
 		              <div class="card-body">
@@ -107,13 +108,13 @@
 		                  <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${vo.prd_no}&cg_code=${cg_code}">${vo.prd_name}</a>
 		                </h4>
 		                <p>가격: <fmt:formatNumber value="${vo.prd_price}" pattern="###,###,###" />원<br>
-						       할인가: <fmt:formatNumber value="${vo.prd_discount}" pattern="###,###,###" />원</p>
-          		<div class="btnContainer">
-					<button class="btn btn-primary" id="btn_buy" type="button" 
-						onclick="location.href = '/order/buy?pdt_num=${productVO.pdt_num}&ord_amount=1';">구매</button>
-					<button class="btn btn-default" id="btn_cart" type="button" 
-						onclick="cart_click(${productVO.pdt_num})">장바구니</button>
-				</div>
+						      할인가: <fmt:formatNumber value="${vo.prd_discount}" pattern="###,###,###" />원</p>
+			          		<div class="btnContainer">
+								<button class="btn btn-primary" id="btn_buy" type="button" 
+									onclick="location.href = '/order/buy?pdt_num=${vo.prd_no}&ord_amount=1';">구매</button>
+								<button class="btn btn-default" id="btn_cart" type="button" 
+									onclick="cart_click(${vo.prd_no})">장바구니</button>
+							</div>
 		              </div>
 		              <div class="card-footer">
 						 <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
@@ -121,9 +122,23 @@
           	</div>
             	</div>
 		    </c:forEach>
-
         </div>
         <!-- /.row -->
+		
+			<!-- 페이징 기능 -->
+			<ul class="pagination">
+			    <c:if test="${pm.prev}">
+					<li><a class="page-link" href="${pm.makeQuery(pm.startPage-1)}">&laquo;</a></li>
+				</c:if>
+				<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="idx">
+				    <li class="page-item"<c:out value="${pm.cri.page == idx?'class:active':''}"/>>
+					    <a class="page-link" href="${pm.makeQuery(idx)} ">${idx}</a>
+				    </li>
+			    </c:forEach>
+			  	<c:if test="${pm.next && pm.endPage>0}">
+					<li><a class="page-link" href="${pm.makeQuery(pm.endPage+1)}">&raquo;</a></li>
+				</c:if>
+			</ul>
 
       </div>
       <!-- /.col-lg-9 -->

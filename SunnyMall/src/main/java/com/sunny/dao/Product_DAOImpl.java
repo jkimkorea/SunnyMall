@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sunny.domain.CategoryVO;
 import com.sunny.domain.ProductVO;
+import com.sunny.util.Criteria;
 
 @Repository
 public class Product_DAOImpl implements Product_DAO {
@@ -48,6 +49,16 @@ public class Product_DAOImpl implements Product_DAO {
 	@Override
 	public ProductVO readProduct(int prd_no) throws Exception {
 		return session.selectOne(NS+".readProduct", prd_no);
+	}
+	//모든 상품 출력
+	@Override
+	public List<ProductVO> allProductList(Criteria cri) throws Exception {
+		return session.selectList(NS+".allProductList",cri);
+	}
+	//모든 상품 갯수 출력
+	@Override
+	public int allProductCount() throws Exception {
+		return session.selectOne(NS+".allProductCount");
 	}
 
 	

@@ -68,11 +68,11 @@ public class Product_Controller {
 		List<ProductVO> list= serivce.productListCG(map);
 		model.addAttribute("productList", list);
 		model.addAttribute("cg_name",cg_name);
-		logger.info("============cg_name:" + cg_name);
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
 		int count = serivce.productCount(cg_code);
 		pm.setTotalCount(count);
+		logger.info("============pm:" + pm);
 		
 		model.addAttribute("pm",pm);
 	}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sunny.dao.Product_DAO;
 import com.sunny.domain.CategoryVO;
 import com.sunny.domain.ProductVO;
+import com.sunny.util.Criteria;
 
 @Service
 public class Product_ServiceImpl implements Product_Service {
@@ -45,5 +46,15 @@ public class Product_ServiceImpl implements Product_Service {
 	@Override
 	public ProductVO readProduct(int prd_no) throws Exception {
 		return dao.readProduct(prd_no);
+	}
+	//모든 상품 출력
+	@Override
+	public List<ProductVO> allProductList(Criteria cri) throws Exception {
+		return dao.allProductList(cri);
+	}
+	//모든 상품 갯수 출력
+	@Override
+	public int allProductCount() throws Exception {
+		return dao.allProductCount();
 	}
 }

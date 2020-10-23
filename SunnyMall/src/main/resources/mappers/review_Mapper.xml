@@ -3,4 +3,10 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunny.mappers.Review_Mapper">
 
+	<insert id="writeReview" parameterType="ReviewVO">
+		insert review (rev_no,mb_id,prd_no,rev_cont,rev_score,rev_Date)
+		values (review_seq.NEXTVAL,#{mb_id},#{prd_no},#{rev_cont},#{rev_score},#{rev_Date})
+		where prd_no=#{prd_no}
+	</insert>
+	
 </mapper>
