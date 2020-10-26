@@ -7,7 +7,7 @@
   <title>user login</title>
   <!-- Bootstrap core JavaScript -->
   <%@ include file="/WEB-INF/views/include/shop_js.jsp" %>
-  <script type="text/javascript" src="/js/member/login.js"></script>
+  <script type="text/javascript" src="/js/member/member_login.js"></script>
  
   <!-- Bootstrap core CSS -->
   <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>

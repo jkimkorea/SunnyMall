@@ -7,13 +7,84 @@
 
 <head>
   <title>user login</title>
-  <!-- Bootstrap core JavaScript -->
-  <%@ include file="/WEB-INF/views/include/shop_js.jsp" %>
-  <script type="text/javascript" src="/js/member/login.js"></script>
- 
-  <!-- Bootstrap core CSS -->
-  <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
+  
+<!-- Bootstrap core JavaScript -->
+<%@ include file="/WEB-INF/views/include/shop_js.jsp" %>
+<!-- Bootstrap core CSS -->
+<%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
+<script type="text/javascript" src="/js/product/read_review.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<script id='template' type='text/x-handlebars-template'>
+	{{#each.}}
+		<li class='replyLi' data-rev_no={{rev_no}}>
+			<i class="fa fa-comments bg-blue"></i>			
+				<div class='timeline-item'>
+				<span class='time'>
+					<i class="fa fa-clock-o"></i>{{prettifyDate rev_Date}}
+				</span>
+				<h3 class='timeline-header'>
+					<strong>{{checkRating rev_score}}<p class='rev_score' style="display:inline-block;">{{rev_score}}</p></strong>
+				</h3>
+				<div class='timeline-body'>
+					NUM: {{rev_no}} <p style='float:right;'>작성자: {{mb_id}}</p> <br>
+					<p id='rev_cont'>{{rev_cont}}</p>
+				</div>
+				<div class='timeline-footer' style='float:right;'>
+					{{eqReplyer mb_id rev_no}}
+				</div>
+				</div>
+		</li>
+	{{/each}}
 
+</script>
+<script type="text/javascript">
+	$(function(){
+		//날짜형식 지정
+		Handlebars.registerHelper('prettifyDate',function(timeValue){
+			var dateObj= new Date(timeValue);
+			var year = dateObj.getFullYear();
+			var month = dateObj.getMonth() + 1;
+			var date = dateObj.getDate();
+			return year + '/'+ month + '/' + date;
+		});
+		//별점 반환
+		Handlebars.registerHelper('checkRating',function(rating){
+			var stars = '';
+			switch(rating){
+			case 1:
+				stars='★☆☆☆☆'
+				break;
+			case 2:
+				stars='★★☆☆☆'
+				break;
+			case 3:
+				stars='★★★☆☆'
+				break;
+			case 4:
+				stars='★★★★☆'
+				break;
+			case 5:
+				stars='★★★★★'
+				break;
+			default:
+				stars='☆☆☆☆☆'
+			}
+			return stars;
+		});
+		Handlebars.registerHelper('eqReplyer',function(replyer,rev_no){
+			var btnHtml = '';
+			var mb_id = '${sessionScope.user.mb_id}';
+			if(replyer == mb_id){
+				btnHtml = "<a class='btn btn-success btn-xs' data-toggle='modal' data-target='#modifyModal'>"
+						+"EDIT</a>"
+						+"<button class='btn btn-warning btn-xs' style='margin-left:5px;'"
+						+"onclick='deleteReview("+rev_no+");'"
+						+"type='button'>DELETE</button>";
+			}
+			return new Handlebars.SafeString(btnHtml);
+		});
+	});
+</script>
 <style type="text/css">
 body{margin-top:20px;
 background:#eee;
@@ -208,6 +279,8 @@ background:#eee;
        overflow: auto;       
      } 
 </style>
+
+
 </head>
 
 <body>
@@ -260,19 +333,19 @@ background:#eee;
 			                 
 			              </p>
 			              <div class="product_meta">
-			                  <span class="posted_in"> <strong>Categories:</strong> <a rel="tag" href="#">${cg_name}</a>.</span>
+			                  <span class="posted_in"> <strong>Category:</strong> <a rel="tag" href="#">${cg_name}</a>.</span>
 						      <span><strong>Company:</strong>${vo.prd_company}</span>
 			              </div>
 			              <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old"><fmt:formatNumber value="${vo.prd_price}" pattern="###,###,###"/>원</span>  <span class="pro-price"><fmt:formatNumber value="${((vo.prd_price)-(vo.prd_discount))}" pattern="###,###,###"/>원</span></div>
 			              <div class="form-group">
 			                  <label>Quantity</label>
 			                  <input type="quantiy" value="${vo.prd_stock}" class="form-control quantity">
-			              </div>
 			              <form action="/order/buy" method="post">
 			              <input type="hidden" id="prd_no" value="${vo.prd_no}">
+			              <label>Order amount</label><br>
 			              <input type="number" id="ord_amount" name="ord_amount" value="1" /><br><br>
-			                  <button class="btn_addCart" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-			              	  <button class="btn_buy" type="submit"><i class="fa fa-shopping-cart"></i> Buy</button>
+			                  <button class="btn_addCart" id="btn_addCart" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+			              	  <button class="btn_buy" id="btn_buy" type="submit"><i class="fa fa-shopping-cart"></i> Buy</button>
 			              </form>
 			          </div>
 			     </div>
@@ -299,7 +372,7 @@ background:#eee;
 			 --%>
 		</form>
 			<div>
-				<!-- 상품 후기 작성부분-->
+				<!-- 리뷰 작성부분-->
 				<label for="review">Review</label><br>
 					<div class="rating">
 						<p id="star_grade">
@@ -313,25 +386,25 @@ background:#eee;
 						<textarea id="reviewContent" rows="3" style="width:100%;"></textarea><br>
 						
 					<ul class="timeline">
-						<li>
-							<span class="btn btn-default">
-								상품후기 보기 <small id="replycntSmall">[ ] </small>
+						<li class="time-label" id="repliesDiv" style=" list-style:none;">
+							<span class="btn btn-info">
+								상품후기 보기 <small id="replycntSmall">[${reviewCount}] </small>
 							</span>
 							<button class="btn btn-primary" id="btn_write_review" type="button">상품후기 쓰기</button>
 						</li>
 						<li id="noReview" style="display:none;">
 							<div class="timeline-item" >
-								 <h3 class="timeline-header">
+								 <p class="timeline-header">
 									상품후기가 존재하지 않습니다.<br>
-									상품후기를 입력해주세요.</h3>
+									상품후기를 입력해주세요.</p>
 							</div>
 						</li>
 					</ul>
 		
-					<!-- 상품 후기 리스트 페이지부분 -->  
-					<div class='text-center'>
+					<!-- 리뷰 페이징위치 -->  
+					
 						<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
-					</div>
+					
 			  </div>
 					<%-- Modal : 상품후기 수정/삭제 팝업 --%>
 					<div id="modifyModal" class="modal modal-primary fade" role="dialog">
@@ -350,12 +423,12 @@ background:#eee;
 										</p>
 								     </div>
 							  </div>
-							  <div class="modal-body" data-rv_num>
+							  <div class="modal-body" data-rev_no>
 					       		 <p><input type="text" id="replytext" class="form-control"></p>
 						      </div>
 							  <div class="modal-footer">
 					   			<button type="button" class="btn btn-info" id="btn_modal_modify">MODIFY</button>
-					  			<button type="button" class="btn btn-default" data-dismiss="modal">WRITE REVIEW</button>
+					  			<button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
 							  </div>						
 			 
 			  				</div>

@@ -99,10 +99,10 @@
 		    <c:forEach items="${vo}" var="list">
 			    <div class="col-lg-4 col-md-6 mb-4">
 			       	<div class="card h-100">
-			             <a href="/product/readProduct?${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
+			             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
 			         <div class="card-body">
 			             <h4 class="card-title">
-			                <a href="/product/readProduct?${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
+			                <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
 			             </h4>
 				         <p>가격: <fmt:formatNumber value="${list.prd_price}" pattern="###,###,###" />원<br>
 						       할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>

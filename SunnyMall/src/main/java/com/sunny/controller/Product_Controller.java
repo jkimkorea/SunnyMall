@@ -100,8 +100,7 @@ public class Product_Controller {
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
 		model.addAttribute("pm", pm);
-	
-	
+		model.addAttribute("reviewCount", reviewService.reviewCount(vo.getPrd_no()));
 	}
 	
 	

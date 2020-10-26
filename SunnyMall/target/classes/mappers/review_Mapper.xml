@@ -2,11 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunny.mappers.Review_Mapper">
-
+	<!-- 리뷰 쓰기 -->
 	<insert id="writeReview" parameterType="ReviewVO">
-		insert review (rev_no,mb_id,prd_no,rev_cont,rev_score,rev_Date)
-		values (review_seq.NEXTVAL,#{mb_id},#{prd_no},#{rev_cont},#{rev_score},#{rev_Date})
-		where prd_no=#{prd_no}
+		insert into review (rev_no,mb_id,prd_no,rev_cont,rev_score,rev_Date)
+		values (review_seq.NEXTVAL,#{mb_id},#{prd_no},#{rev_cont},#{rev_score},sysdate)
 	</insert>
+	<select id="reviewList" parameterType="Map" resultType="ReviewVO">
+		select rev_no,mb_id,prd_no,rev_cont,rev_score,rev_date 
+		from (select rev_no,mb_id,prd_no,rev_cont,rev_score,rev_date,row_number()
+			  over(order by rev_no desc) rev_seq 
+			  from review
+			  where prd_no=#{prd_no})
+		where rev_seq between #{cri.rowStart} and #{cri.rowEnd}
+	</select>
+	<select id="reviewCount" parameterType="int" resultType="int">
+		select count(rev_no) from review where prd_no=#{prd_no}
+	</select>
+	<delete id="deleteReview" parameterType="int">
+		delete from review where rev_no=#{rev_no}
+	</delete>
 	
 </mapper>

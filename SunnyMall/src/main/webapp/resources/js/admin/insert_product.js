@@ -2,7 +2,7 @@ $(function(){
     var form=$("#registerForm");
    
 	 $("#btn_submit").click(function(){
-		alert("");
+		
         var result=confirm("상품을 등록하시겠습니까?");
 
         if(result){

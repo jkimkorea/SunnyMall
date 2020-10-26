@@ -47,7 +47,7 @@
 	});
 </script>
 <%-- 유효성 검사 --%>
-<script type="text/javascript" src="/js/admin/insert.js"></script>
+<script type="text/javascript" src="/js/admin/insert_product.js"></script>
 
 <%--2차 카테고리 템플릿 적용함수 --%>
 <script>

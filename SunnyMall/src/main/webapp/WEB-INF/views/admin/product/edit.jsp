@@ -158,8 +158,8 @@
 										</div>
 										<div class="form-group">
 											<label for="exampleInputPassword1">Detail</label>
-											<textarea class="form-control" id="prd_detail" name="prd_detail" rows="8"
-												value="${vo.prd_detail}"></textarea>
+											<textarea class="form-control" id="prd_detail" name="prd_detail" rows="8">
+											${vo.prd_detail}</textarea>
 										</div>
 	
 										<div class="form-group">

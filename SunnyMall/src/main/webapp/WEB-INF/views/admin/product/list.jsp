@@ -280,8 +280,9 @@ desired effect
 						  		<li><a href="list${pm.makeSearch(pm.startPage-1)}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 						  	</c:if>
 						  	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="idx">
-							  	<li <c:out value="${pm.cri.page == idx? 'class=active':''}"/>>
-							  	<a href="list${pm.makeSearch(idx)}">${idx}</a></li>
+							  	<li>
+							  	<a href="list${pm.makeSearch(idx)}">${idx}</a>
+							  	</li>
 							 </c:forEach>
 							 <c:if test="${pm.next && pm.endPage >0}">
 						  		<li><a href="list${pm.makeSearch(pm.endPage+1)}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>

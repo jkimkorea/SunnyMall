@@ -109,6 +109,7 @@ public class AdProduct_Controller {
 				
 				out = new FileOutputStream(new File(uploadPath));
 				out.write(bytes);
+				logger.info("==========OUT: " + out);
 				printWriter = res.getWriter();
 				String fileUrl = "/upload/" + fileName;
 				
