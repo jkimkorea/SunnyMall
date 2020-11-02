@@ -28,7 +28,27 @@
 	}else if("${msg}"=="DELETE_USER_SUCCESS"){
 		alert("회원 탈퇴되었습니다. 감사합니다.");
 	}else{}
-  		
+  </script>
+  <script type="text/javascript">
+  	var cart_click = function(prd_no){
+  		$.ajax({
+  			url:'/cart/add',
+  			type:'post',
+  			dataType:'text',
+  			data:{prd_no:prd_no},
+  			success:function(data){
+  				if(data == "SUCCESS"){
+	  				var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
+	  					if(result){
+	  				location.href="/cart/cartList";
+	  				}else{}
+  				}else{
+  					alert("로그인이 필요한 작업입니다.\n로그인해 주세요.");
+  					location.href="/member/loginPage";
+  				}
+  			}
+  		});
+  	}
   </script>
 </head>
 
@@ -41,13 +61,11 @@
   <div class="container">
 
     <div class="row">
-
     
       <div class="col-lg-3">
-
-	 <!-- sidebar -->
-     <%@ include file="/WEB-INF/views/include/home_sidebar.jsp" %>
-</div>
+	  <!-- sidebar -->
+      <%@ include file="/WEB-INF/views/include/home_sidebar.jsp" %>
+	  </div>
 
       <div class="col-lg-9">
 
@@ -91,14 +109,14 @@
 				</ol>
 		</div>
         <div class="row">
-       		<div class="col-lg-4 col-md-6 mb-4">
+       		
 		            <c:if test="${empty vo}">
 		            	<span style="padding:30px 1px; ">등록된 상품이 존재하지 않습니다.</span>
 		            </c:if>
-		    </div>   
+		  
 		    <c:forEach items="${vo}" var="list">
 			    <div class="col-lg-4 col-md-6 mb-4">
-			       	<div class="card h-100">
+			       <div class="card h-100">
 			             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
 			         <div class="card-body">
 			             <h4 class="card-title">
@@ -106,24 +124,24 @@
 			             </h4>
 				         <p>가격: <fmt:formatNumber value="${list.prd_price}" pattern="###,###,###" />원<br>
 						       할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
-			        <div class="btnContainer">
-					<button class="btn btn-primary" id="btn_buy" type="button" 
-						onclick="location.href = '/order/buy?pdt_num=${list.prd_no}&ord_amount=1';">구매</button>
-					<button class="btn btn-default" id="btn_cart" type="button" 
-						onclick="cart_click(${list.prd_no})">장바구니</button>
-				</div>
-			    </div>
-			     <div class="card-footer">
-			                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-			          </div>
-			         </div>
+					        <div class="btnContainer">
+								<button class="btn btn-primary" id="btn_buy" type="button" 
+									onclick="location.href = '/order/buy?pdt_num=${list.prd_no}&ord_amount=1';">구매</button>
+								<button class="btn btn-info" id="btn_cart" type="button" 
+									onclick="cart_click(${list.prd_no})">장바구니</button>
+							</div>
+			    	</div>
+			     	<div class="card-footer">
+			                <small class="text-muted">리뷰 [${list.rev_count}]</small>
+			        </div>
+			       </div>
 			     </div>
 		      </c:forEach>
             	
           </div>
-  
+         <div class="text-center">
 			<!-- 페이징 기능 -->
-			<ul class="pagination">
+			<ul class="pagination justify-content-center" style="display:center-block">
 			    <c:if test="${pm.prev}">
 					<li><a class="page-link" href="${pm.makeQuery(pm.startPage-1)}">&laquo;</a></li>
 				</c:if>
@@ -136,7 +154,7 @@
 					<li><a class="page-link" href="${pm.makeQuery(pm.endPage+1)}">&raquo;</a></li>
 				</c:if>
 			</ul>
-			
+			</div>
    		</div>
         <!-- /.row -->
 		

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sunny.domain.ProductVO;
+import com.sunny.domain.ReviewVO;
 import com.sunny.service.Product_Service;
+import com.sunny.service.Review_Service;
 import com.sunny.util.Criteria;
 import com.sunny.util.PageMaker;
 
@@ -28,6 +30,8 @@ public class HomeController {
 	
 	@Inject
 	private Product_Service service;
+	@Inject
+	private Review_Service revService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -46,13 +50,13 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		List<ProductVO> vo = service.allProductList(cri);
+		logger.info("===============vo:"+vo);
 		model.addAttribute("vo",vo);
 		
 		PageMaker pm=new PageMaker();
 		pm.setCri(cri);
 		pm.setTotalCount(service.allProductCount());
 		model.addAttribute("pm",pm);
-		logger.info("========HomeController_pm:"+pm);
 		
 		return "index";
 	}

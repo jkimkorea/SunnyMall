@@ -14,7 +14,7 @@
 <%-- 2차 카테고리 템플릿 적용함수 --%>
 <script>
 	$(document).ready(function(){
-		/* 1차 카테고리에 따른 2차 카테고리 작업.   on()메서드: 매번진행 one()메서드: 단1회만 진행 */
+		
 		$(".mainCategory").one("click", function(){
 			var mainCGCode= $(this).val();
 			var url = "/product/subCGList/" + mainCGCode;

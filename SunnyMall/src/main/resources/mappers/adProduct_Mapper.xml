@@ -14,8 +14,8 @@
 	</select>
 	<!-- 상품 추가 -->
 	<insert id="insertProduct" parameterType="ProductVO">
-	 	insert into product(prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_buy,prd_date_post) 
-	 	values(PRODUCT_NO_SQ.NEXTVAL,#{cg_code},#{cg_parent},#{prd_name},#{prd_price},
+	 	insert into product(prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_buy,prd_date_post) 
+	 	values(PRODUCT_NO_SQ.NEXTVAL,0,#{cg_code},#{cg_parent},#{prd_name},#{prd_price},
 	 	#{prd_discount},#{prd_company},#{prd_detail},#{prd_img},#{prd_stock},#{prd_buy},sysdate)
 	</insert>
 	<sql id="search">

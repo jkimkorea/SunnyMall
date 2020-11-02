@@ -23,6 +23,11 @@ public class Review_DAOImpl implements Review_DAO {
 	public void writeReview(ReviewVO vo) throws Exception {
 		session.insert(NS+".writeReview", vo);
 	}
+	//리뷰 갯수 추가
+	@Override
+	public void addRevCount(ReviewVO vo) throws Exception {
+		session.update(NS+".addRevCount",vo);
+	}
 	//리뷰 리스트 출력
 	@Override
 	public List<ReviewVO> reviewList(Map<String, Object> map) throws Exception {
@@ -38,7 +43,16 @@ public class Review_DAOImpl implements Review_DAO {
 	public void deleteReview(int rev_no) throws Exception {
 		session.delete(NS+".deleteReview", rev_no);
 	}
-	
+	//리뷰 갯수 빼기
+	@Override
+	public void minusRev(int prd_no) throws Exception {
+		session.update(NS+".minusRev", prd_no);
+	}
+	//리뷰 수정
+	@Override
+	public void modify(ReviewVO vo) throws Exception {
+		session.update(NS+".modify", vo);
+	}
 	
 
 	

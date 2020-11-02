@@ -12,29 +12,35 @@
 <%@ include file="/WEB-INF/views/include/shop_js.jsp" %>
 <!-- Bootstrap core CSS -->
 <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
-<script type="text/javascript" src="/js/product/read_review.js"></script>
+<script type="text/javascript" src="/js/product/read_js.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <script id='template' type='text/x-handlebars-template'>
-	{{#each.}}
-		<li class='replyLi' data-rev_no={{rev_no}}>
-			<i class="fa fa-comments bg-blue"></i>			
-				<div class='timeline-item'>
-				<span class='time'>
-					<i class="fa fa-clock-o"></i>{{prettifyDate rev_Date}}
-				</span>
-				<h3 class='timeline-header'>
-					<strong>{{checkRating rev_score}}<p class='rev_score' style="display:inline-block;">{{rev_score}}</p></strong>
-				</h3>
-				<div class='timeline-body'>
-					NUM: {{rev_no}} <p style='float:right;'>작성자: {{mb_id}}</p> <br>
-					<p id='rev_cont'>{{rev_cont}}</p>
-				</div>
+{{#each.}}	 
+<br>
+<li class='replyLi' data-rev_no={{rev_no}} style="list-style:none;">
+	<div class= "card">
+   		<div class="card-body">
+	        <div class="row">
+        	    <div class="col-md-2">
+        	        <p class="text-secondary text-center">{{prettifyDate rev_Date}}</p>
+        	    </div>
+
+        	    <div class="col-md-10">
+					<p style='float:right;'>작성자: {{mb_id}}</p> 
+        	     	<h6>
+					{{checkRating rev_score}}<p class='rev_score' style="display:none;">{{rev_score}}</p>
+        	       </h6>
+        	       <div class="clearfix"></div>
+        	        <p id="rev_cont">{{rev_cont}}</p>
+        	     
 				<div class='timeline-footer' style='float:right;'>
-					{{eqReplyer mb_id rev_no}}
+					{{eqReplyer mb_id rev_no prd_no}}
 				</div>
-				</div>
-		</li>
-	{{/each}}
+        	    </div>
+	        </div>
+		</div>
+</li>
+{{/each}}
 
 </script>
 <script type="text/javascript">
@@ -71,14 +77,14 @@
 			}
 			return stars;
 		});
-		Handlebars.registerHelper('eqReplyer',function(replyer,rev_no){
+		Handlebars.registerHelper('eqReplyer',function(replyer,rev_no,prd_no){
 			var btnHtml = '';
 			var mb_id = '${sessionScope.user.mb_id}';
 			if(replyer == mb_id){
 				btnHtml = "<a class='btn btn-success btn-xs' data-toggle='modal' data-target='#modifyModal'>"
 						+"EDIT</a>"
 						+"<button class='btn btn-warning btn-xs' style='margin-left:5px;'"
-						+"onclick='deleteReview("+rev_no+");'"
+						+"onclick='deleteReview("+rev_no+","+prd_no+");'"
 						+"type='button'>DELETE</button>";
 			}
 			return new Handlebars.SafeString(btnHtml);
@@ -296,6 +302,7 @@ background:#eee;
       
       <!-- /.col-lg-3 -->
       <div class="col-lg-9">
+      <br>
       <section class="content-header" style="font-size:14px;">
 				<h3>
 					Product Detail 
@@ -333,7 +340,7 @@ background:#eee;
 			                 
 			              </p>
 			              <div class="product_meta">
-			                  <span class="posted_in"> <strong>Category:</strong> <a rel="tag" href="#">${cg_name}</a>.</span>
+			                  <span class="posted_in"> <strong>Category:</strong> <a rel="tag" href="#">${cg_name}</a></span>
 						      <span><strong>Company:</strong>${vo.prd_company}</span>
 			              </div>
 			              <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old"><fmt:formatNumber value="${vo.prd_price}" pattern="###,###,###"/>원</span>  <span class="pro-price"><fmt:formatNumber value="${((vo.prd_price)-(vo.prd_discount))}" pattern="###,###,###"/>원</span></div>
@@ -351,7 +358,7 @@ background:#eee;
 			     </div>
 			     <!-- 상품 상세 -->
 				<label for="detail">Detail</label><br>
-					<div contenteditable="false" style="border: 1px solid grey; padding: 20px;">
+					<div contenteditable="false" style="border: 1px solid grey; padding: 20px;width:100%;">
 					${vo.prd_detail }
 					</div>
 					<br>
@@ -359,9 +366,7 @@ background:#eee;
 		</div>
 		
 		<!-- 상품 후기 -->
-		 <div id="popup_front" class='popup front' style="display:none;">
-		     	<img id="popup_img">
-		 </div>
+		
 		 <form role="form" action="modifyPage" method="post">
 			<input type='hidden' name='bno' value="${boardVO.bno}">
 			<input type='hidden' name='page' value="${cri.page}"> 
@@ -392,6 +397,7 @@ background:#eee;
 							</span>
 							<button class="btn btn-primary" id="btn_write_review" type="button">상품후기 쓰기</button>
 						</li>
+						<br>
 						<li id="noReview" style="display:none;">
 							<div class="timeline-item" >
 								 <p class="timeline-header">
@@ -403,7 +409,7 @@ background:#eee;
 		
 					<!-- 리뷰 페이징위치 -->  
 					
-						<ul id="pagination" class="pagination pagination-sm no-margin "></ul>
+						<ul id="pagination" class="pagination justify-content-center"></ul>
 					
 			  </div>
 					<%-- Modal : 상품후기 수정/삭제 팝업 --%>

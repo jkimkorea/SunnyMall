@@ -91,9 +91,12 @@ public class Product_Controller {
 		}
 		return entity;
 	}
+	//상품 페이지
 	@RequestMapping(value = "readProduct",method=RequestMethod.GET)
 	public void readProduct(@ModelAttribute("crt") Criteria cri,
-							@RequestParam("prd_no") int prd_no,Model model) throws Exception {
+							@RequestParam("prd_no") int prd_no,
+							@RequestParam("cg_code") String cg_code,
+							Model model) throws Exception {
 		logger.info("============readProduct() execute============");
 		ProductVO vo = serivce.readProduct(prd_no);
 		model.addAttribute("vo", vo);
@@ -101,6 +104,10 @@ public class Product_Controller {
 		pm.setCri(cri);
 		model.addAttribute("pm", pm);
 		model.addAttribute("reviewCount", reviewService.reviewCount(vo.getPrd_no()));
+
+		//방법1:현재소스 - 상품후기 정보 없음. 클라이언트 코드쪽에서 ajax 요청에 의하여 처리가 되어짐.
+		//방법2:처음부터 상품후기정보를 DB에서 작업하여 Model로 가져온다. 
+		model.addAttribute("cg_name", serivce.getCGName(cg_code));
 	}
 	
 	

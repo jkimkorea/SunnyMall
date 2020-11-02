@@ -7,6 +7,12 @@
 		insert into review (rev_no,mb_id,prd_no,rev_cont,rev_score,rev_Date)
 		values (review_seq.NEXTVAL,#{mb_id},#{prd_no},#{rev_cont},#{rev_score},sysdate)
 	</insert>
+	<!-- 리뷰 갯수 추가 -->
+	<update id="addRevCount" parameterType="ReviewVO">
+		update product set rev_count = rev_count+1 
+		where prd_no=#{prd_no}
+	</update>
+	<!-- 리뷰리스트 출력 -->
 	<select id="reviewList" parameterType="Map" resultType="ReviewVO">
 		select rev_no,mb_id,prd_no,rev_cont,rev_score,rev_date 
 		from (select rev_no,mb_id,prd_no,rev_cont,rev_score,rev_date,row_number()
@@ -15,11 +21,25 @@
 			  where prd_no=#{prd_no})
 		where rev_seq between #{cri.rowStart} and #{cri.rowEnd}
 	</select>
+	<!-- 리뷰 갯수 출력 -->
 	<select id="reviewCount" parameterType="int" resultType="int">
 		select count(rev_no) from review where prd_no=#{prd_no}
 	</select>
+	<!-- 리뷰 삭제 -->
 	<delete id="deleteReview" parameterType="int">
 		delete from review where rev_no=#{rev_no}
 	</delete>
+	<!-- 리뷰 갯수 빼기 -->
+	<update id="minusRev" parameterType="int" >
+		update product  
+		set rev_count = rev_count - 1
+		where prd_no=#{prd_no}
+	</update>
+	<!-- 리뷰 수정 -->
+	<update id="modify" parameterType="ReviewVO">
+		update review
+		set rev_cont=#{rev_cont}, rev_score=#{rev_score}
+		where rev_no=#{rev_no}
+	</update>
 	
 </mapper>

@@ -3,4 +3,46 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunny.mappers.Cart_Mapper">
 
+	<!-- 장바구니에 담기 -->
+	<insert id="addToCart" parameterType="CartVO">
+		merge into cart c
+		using dual
+		on(c.mb_id = #{mb_id} and c.prd_no = #{prd_no})
+		when matched then
+			update set cart_amount = cart_amount + #{cart_amount}
+		when not matched then  
+			insert (cart_code,prd_no,mb_id,cart_amount)
+			values (cart_seq.NEXTVAL,#{prd_no},#{mb_id},#{cart_amount})
+	</insert>
+	<!-- 장바구니 리스트 -->
+	<select id="cartList" parameterType="String" resultType="CartProductVO">
+		select c.cart_code,p.prd_no,p.prd_name,p.prd_company,p.prd_price,p.prd_discount,p.prd_img,c.cart_amount
+		from (select cart_code,prd_no,mb_id,cart_amount
+			  from cart
+			  where mb_id = #{mb_id}) c inner join product p
+		on c.prd_no = p.prd_no
+	</select>
+	<!-- 리스트 갯수 출력 -->
+	<select id="countCart" parameterType="String" resultType="int">
+		select count(cart_code) from cart where mb_id=#{mb_id}
+	</select>
+	<!-- 장바구니 상품 삭제 -->
+	<delete id="deleteCart" parameterType="int">
+		delete from cart where cart_code = #{cart_code}
+	</delete>
+	<!-- 장바구니 상품 수량 변경 -->
+	<update id="updateAmount" parameterType="Map">
+		update cart 
+		set cart_amount = #{cart_amount}
+		where cart_code = #{cart_code}
+	</update>
+	<update id="changeAmount" parameterType="CartVO">
+		update cart 
+		set cart_amount = #{cart_amount}
+		where cart_code = #{cart_code} 
+	</update>
+	<!-- 주문완료시 장바구니 비움 -->
+	<delete id="deleteAfterOrder" parameterType="Map">
+		
+	</delete>
 </mapper>

@@ -27,10 +27,10 @@ public class CartVO {
 		this.mb_id = mb_id;
 	}
 	public int getCart_amount() {
-		return getCart_amount();
+		return cart_amount;
 	}
-	public void setCart_count(int cart_count) {
-		this.cart_amount = cart_count;
+	public void setCart_amount(int cart_amount) {
+		this.cart_amount = cart_amount;
 	}
 	@Override
 	public String toString() {

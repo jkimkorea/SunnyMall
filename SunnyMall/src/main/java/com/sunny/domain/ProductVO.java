@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductVO {
 
 	private int    prd_no;
+	private int    rev_count;
 	private String cg_code;
 	private String cg_parent;
 	private String prd_name;
@@ -108,6 +109,13 @@ public class ProductVO {
 	public void setFile1(MultipartFile file1) {
 		this.file1 = file1;
 	}
+	public int getRev_count() {
+		return rev_count;
+	}
+	public void setRev_count(int rev_count) {
+		this.rev_count = rev_count;
+	}
+	
 
 	@Override
 	public String toString() {
@@ -115,9 +123,8 @@ public class ProductVO {
 				+ prd_name + ", prd_price=" + prd_price + ", prd_discount=" + prd_discount + ", prd_company="
 				+ prd_company + ", prd_detail=" + prd_detail + ", prd_img=" + prd_img + ", prd_stock=" + prd_stock
 				+ ", prd_buy=" + prd_buy + ", prd_date_post=" + prd_date_post + ", prd_date_up=" + prd_date_up
-				+ ", file1=" + file1 + "]";
+				+ ", file1=" + file1 + ",rev_count="+rev_count+"]";
 	}
-	
 
 	
 }

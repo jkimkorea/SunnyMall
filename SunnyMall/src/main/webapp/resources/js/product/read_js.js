@@ -5,7 +5,29 @@ var replyPage = 1;
 $(function(){
 	//add to cart클릭시
 	$('#btn_addCart').click(function(){
-		$('#').val();
+		var prd_no=$('#prd_no').val();
+		var cart_amount=$('#ord_amount').val();
+		
+		$.ajax({
+			url:'/cart/addToCart',
+			type:'post',
+			dataType:'text',
+			data:{
+				prd_no:prd_no,
+				cart_amount:cart_amount
+			},
+			success:function(data){
+				if(data=="SUCCESS"){
+					var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
+					if(result){
+						location.href="/cart/cartList";
+					}else{}
+				}else{
+					alert("로그인 해주세요.");
+					location.href="/member/loginPage";
+				}
+			}
+		});
 		
 	});
 	//별점 선택시
@@ -92,17 +114,36 @@ $(function(){
 		$('.modal-body').attr('data-rev_no',rev_no);
 	});	
 	//modal창에서 별점 클릭시
-	$('#star_grade_modal').click(function(){
+	$('#star_grade_modal a').click(function(){
 		$(this).parent().children('a').removeClass('on');
 		$(this).addClass('on').prevAll('a').addClass('on');
 		return false;
 	});
-	$('#btn_modal_modify').on('click',function(){
+	//modal창에서 modify클릭시
+	$('#btn_modal_modify ').on('click',function(){
 		var rev_no= $('.modal-body').attr('data-rev_no');
 		var rev_cont= $('#replytext').val();
 		var prd_no= $('#prd_no').val();
-		
-		
+		var rev_score = 0;
+		$('#star_grade_modal a').each(function(i,e){
+			if($(this).attr('class')=='on'){
+			rev_score += 1;
+			}
+		});
+		$.ajax({
+			url:'/review/modify',
+			type:'post',
+			dataType:'text',
+			data:{
+				rev_no:rev_no,
+				rev_cont:rev_cont,
+				rev_score:rev_score
+			},
+			success:function(data){
+				alert("수정 되었습니다.");
+				getPage('/review/'+prd_no+'/'+replyPage);
+			}
+		});
 	});
 });
 
@@ -150,14 +191,17 @@ function getPage(reviewInfo){
 	});
 	};
 //리뷰 삭제 클릭시
-var deleteReview = function(rev_no){
+var deleteReview = function(rev_no,prd_no){
 	var result= confirm("이 리뷰를 삭제하시겠습니까?");
 	if(result){
 		$.ajax({
-			url:'/review/'+rev_no,
+			url:'/review/'+rev_no+'/'+prd_no,
 			type:'delete',
 			dataType:'text',
-			data:{rev_no:rev_no},
+			data:{
+				  rev_no:rev_no,
+				  prd_no:prd_no
+				 },
 			success:function(data){
 				alert("해당 상품 리뷰가 삭제되었습니다.");
 				var prd_no= $('#prd_no').val();

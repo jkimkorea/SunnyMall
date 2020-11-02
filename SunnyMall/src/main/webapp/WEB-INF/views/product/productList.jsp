@@ -17,19 +17,27 @@
   <!-- Bootstrap core CSS -->
   <!-- Custom styles for this template -->
   <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
-  <script>
-  	if("${msg}"=="REGISTER_SUCCESS"){
-  		alert("회원가입이 성공적으로 처리되었습니다.\n 로그인 해 주세요.");
-  	}else if("${msg}"=="LOGIN_SUCCESS"){
-  		alert("로그인 되었습니다.\n환영합니다.");
-  	}else if("${msg}"=="LOGOUT_SUCCESS"){
-  		alert("로그아웃 되었습니다. 안녕히가세요");
-  	}else if("${msg}"=="CHANGE_PW_SUCCESS"){
-		alert("비밀번호가 수정되었습니다.");
-	}else if("${msg}"=="DELETE_USER_SUCCESS"){
-		alert("회원 탈퇴되었습니다. 감사합니다.");
-	}else{}
-  		
+
+  <script type="text/javascript">
+  	var cart_click = function(prd_no){
+  		$.ajax({
+  			url:'/cart/add',
+  			type:'post',
+  			dataType:'text',
+  			data:{prd_no:prd_no},
+  			success:function(data){
+  				if(data == "SUCCESS"){
+	  				var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
+	  					if(result){
+	  				location.href="/cart/cartList";
+	  				}else{}
+  				}else{
+  					alert("로그인이 필요한 작업입니다.\n로그인해 주세요.");
+  					location.href="/member/loginPage";
+  				}
+  			}
+  		});
+  	}
   </script>
 </head>
 
@@ -112,12 +120,12 @@
 			          		<div class="btnContainer">
 								<button class="btn btn-primary" id="btn_buy" type="button" 
 									onclick="location.href = '/order/buy?pdt_num=${vo.prd_no}&ord_amount=1';">구매</button>
-								<button class="btn btn-default" id="btn_cart" type="button" 
+								<button class="btn btn-info" id="btn_cart" type="button" 
 									onclick="cart_click(${vo.prd_no})">장바구니</button>
 							</div>
 		              </div>
 		              <div class="card-footer">
-						 <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+						 <small class="text-muted">리뷰 [${vo.rev_count}]</small>
 		              </div>
           	</div>
             	</div>
@@ -126,7 +134,7 @@
         <!-- /.row -->
 		
 			<!-- 페이징 기능 -->
-			<ul class="pagination">
+			<ul class="pagination justify-content-center">
 			    <c:if test="${pm.prev}">
 					<li><a class="page-link" href="${pm.makeQuery(pm.startPage-1)}">&laquo;</a></li>
 				</c:if>

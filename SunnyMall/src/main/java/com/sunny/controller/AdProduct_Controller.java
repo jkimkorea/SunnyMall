@@ -138,6 +138,18 @@ public class AdProduct_Controller {
 			
 			return "redirect:/admin/product/list";
 		}
+		//상품 상세페이지 읽기
+		@RequestMapping(value = "read",method=RequestMethod.GET)
+		public void productRead(@ModelAttribute("cri") SearchCriteria cri,
+								@RequestParam("prd_no") int prd_no,Model model) throws Exception {
+			logger.info("=========productRead() execute============");
+			ProductVO vo = service.readProduct(prd_no);
+			vo.setPrd_img(vo.getPrd_img().substring(vo.getPrd_img().lastIndexOf("_")+1));
+			model.addAttribute("vo",vo);
+			PageMaker pm = new PageMaker();
+			pm.setCri(cri);
+			model.addAttribute("pm",pm);
+		}
 		//상품 삭제
 		@RequestMapping(value = "delete",method=RequestMethod.POST)
 		public String deleteChecked(@RequestParam("prd_no") int prd_no,

@@ -91,12 +91,15 @@ public class Review_Controller {
 		}
 		return entity;
 	}
+	//리뷰 삭제
 	@ResponseBody
-	@RequestMapping(value = "{rev_no}", method=RequestMethod.DELETE)
-	public ResponseEntity<String> deleteReview(@PathVariable("rev_no") int rev_no) throws Exception{
+	@RequestMapping(value = "{rev_no}/{prd_no}", method=RequestMethod.DELETE)
+	public ResponseEntity<String> deleteReview(@PathVariable("rev_no") Integer rev_no,
+											   @PathVariable("prd_no") Integer prd_no) throws Exception{
+		logger.info("===============deleteReview() execute==================");
 		ResponseEntity<String> entity=null;
 		try {
-			service.deleteReview(rev_no);
+			service.deleteReview(rev_no,prd_no);
 			entity = new ResponseEntity<String>(HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -104,6 +107,20 @@ public class Review_Controller {
 		}
 		return entity;
 	}
-	
+	//리뷰 수정
+	@ResponseBody
+	@RequestMapping(value = "modify",method=RequestMethod.POST)
+	public ResponseEntity<String> modify(ReviewVO vo){
+		ResponseEntity<String> entity=null;
+		
+		try {
+			service.modify(vo);
+			entity=new ResponseEntity<String>(HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity=new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
 }
 	

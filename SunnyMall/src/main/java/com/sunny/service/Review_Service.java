@@ -15,5 +15,7 @@ public interface Review_Service {
 	//리뷰 갯수 출력
 	public int reviewCount(int prd_no) throws Exception;
 	//리뷰 삭제
-	public void deleteReview(int rev_no) throws Exception;
+	public void deleteReview(int rev_no,int prd_no) throws Exception;
+	//리뷰 수정
+	public void modify(ReviewVO vo) throws Exception;
 }
