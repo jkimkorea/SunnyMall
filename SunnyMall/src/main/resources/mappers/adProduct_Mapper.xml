@@ -18,6 +18,7 @@
 	 	values(PRODUCT_NO_SQ.NEXTVAL,0,#{cg_code},#{cg_parent},#{prd_name},#{prd_price},
 	 	#{prd_discount},#{prd_company},#{prd_detail},#{prd_img},#{prd_stock},#{prd_buy},sysdate)
 	</insert>
+	<!-- 검색 정보 -->
 	<sql id="search">
 		<if test="searchType != null">
 			<if test="searchType =='name'.toString()">
@@ -55,15 +56,18 @@
 		<include refid="search"/>)
 		where row_seq between #{rowStart} and #{rowEnd}
 	</select>
+	<!-- 상품 갯수 출력 -->
 	<select id="searchListCount" parameterType="searchCriteria" resultType="int">
 		<![CDATA[
 			select count(prd_no) from product
 		]]>
 		<include refid="search" />
 	</select>
+	<!-- 상품 삭제 -->
 	<delete id="deleteProduct" parameterType="int">
 		delete product where prd_no = #{prd_no}
 	</delete>
+	<!-- 상품 정보 읽기 -->
 	<select id="readProduct" parameterType="int" resultType="ProductVO">
 		select  p.prd_no,p.cg_code,c.cg_parent,p.prd_name,p.prd_price,p.prd_discount,p.prd_company,
 		p.prd_detail,p.prd_img,p.prd_stock,p.prd_buy,p.prd_date_post,p.prd_date_up 
@@ -71,12 +75,14 @@
 		on p.cg_code = c.cg_code
 		where prd_no=#{prd_no} 
 	</select>
+	<!-- 상품 정보 수정 -->
 	<update id="editProduct" parameterType="ProductVO">
 		update product
 		set prd_no=#{prd_no},cg_code=#{cg_code},prd_name=#{prd_name},prd_price=#{prd_price},prd_discount=#{prd_discount},prd_company=#{prd_company},
 		prd_detail=#{prd_detail},prd_img=#{prd_img},prd_stock=#{prd_stock},prd_buy=#{prd_buy},prd_date_up=sysdate
 		where prd_no=#{prd_no}
 	</update>
+	<!-- 상품 수량, 판매여부 수정 -->
 	<update id="editChecked" parameterType="Map">
 		update product 
 		set prd_no=#{prd_no}, prd_stock=#{prd_stock},prd_buy=#{prd_buy}

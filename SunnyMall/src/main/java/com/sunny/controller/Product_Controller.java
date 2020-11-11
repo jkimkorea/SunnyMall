@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,9 +105,6 @@ public class Product_Controller {
 		pm.setCri(cri);
 		model.addAttribute("pm", pm);
 		model.addAttribute("reviewCount", reviewService.reviewCount(vo.getPrd_no()));
-
-		//방법1:현재소스 - 상품후기 정보 없음. 클라이언트 코드쪽에서 ajax 요청에 의하여 처리가 되어짐.
-		//방법2:처음부터 상품후기정보를 DB에서 작업하여 Model로 가져온다. 
 		model.addAttribute("cg_name", serivce.getCGName(cg_code));
 	}
 	

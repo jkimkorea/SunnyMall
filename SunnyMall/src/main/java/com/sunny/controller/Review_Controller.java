@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,24 +41,11 @@ public class Review_Controller {
 	//리뷰 작성
 	@ResponseBody
 	@RequestMapping(value = "write",method=RequestMethod.POST)
-	public ResponseEntity<String> write(ReviewVO vo,HttpSession session) throws Exception {
+	public void write(ReviewVO vo,HttpSession session) throws Exception {
 		
 		logger.info("========write() execute=======");
-		ResponseEntity<String> entity=null;
-		try {
 			MemberDTO dto=(MemberDTO) session.getAttribute("user");
-			if(dto==null) {
-			entity= new ResponseEntity<String>("FAIL",HttpStatus.OK);
-			}else {
-			entity= new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
 			service.writeReview(vo, dto.getMb_id());
-			}
-			}catch(Exception e) {
-			e.printStackTrace();
-			entity= new ResponseEntity<String>("FAIL",HttpStatus.BAD_REQUEST);
-		}
-		logger.info("===========entity:"+entity);
-		return entity;
 	}
 	//상품 후기 리스트
 	@RequestMapping(value = "{prd_no}/{page}",method=RequestMethod.GET)

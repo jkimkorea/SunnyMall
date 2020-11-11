@@ -1,6 +1,7 @@
 package com.sunny.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -42,6 +43,11 @@ public class Cart_DAOImpl implements Cart_DAO {
 	@Override
 	public void changeAmount(CartVO vo) throws Exception {
 		session.update(NS+".changeAmount", vo);
+	}
+	//결제후 장바구니 비우기
+	@Override
+	public void deleteCartAfterPay(Map map) throws Exception {
+		session.delete(NS+".deleteCartAfterPay", map);
 	}
 	
 	

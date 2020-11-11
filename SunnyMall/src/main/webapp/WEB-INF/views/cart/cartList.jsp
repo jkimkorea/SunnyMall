@@ -59,6 +59,13 @@
 	                    </tr>
 	                </thead>
 	                <tbody>
+	                	<c:if test="${empty cartProList}">
+							<tr>
+								<td colspan="10"> 
+									<p style="padding:50px 0px; text-align: center;">장바구니에 담긴 상품이 없습니다.</p>
+								</td>
+							<tr>
+						</c:if>
 	         			<c:forEach items="${cartProList }" var="vo">
 		                    <tr>
 		                    	<td>

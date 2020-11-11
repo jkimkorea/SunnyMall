@@ -17,15 +17,13 @@ $(function(){
 				cart_amount:cart_amount
 			},
 			success:function(data){
-				if(data=="SUCCESS"){
+				if(data == "SUCCESS")
 					var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
 					if(result){
 						location.href="/cart/cartList";
-					}else{}
-				}else{
-					alert("로그인 해주세요.");
-					location.href="/member/loginPage";
-				}
+					}else{
+						location.href="/member/loginPage";
+					}
 			}
 		});
 		
@@ -65,17 +63,12 @@ $(function(){
 				prd_no:prd_no
 				},
 			success:function(data){
-				if(data=='SUCCESS'){
 				alert("리뷰가 작성되었습니다.");
 				$('#star_grade a').parent().children('a').removeClass('on');
 				$('#reviewContent').val('');
 				replyPage = 1;
 				getPage('/review/'+prd_no+'/1');
-				}else if(data=='FAIL'){
-					alert("로그인 해주세요.");
-					location.href="/member/loginPage";
-				}else{}
-			}
+				}
 		});
 	});
 	//상품 후기 보기 클릭시

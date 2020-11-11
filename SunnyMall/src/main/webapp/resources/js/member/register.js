@@ -95,8 +95,7 @@ $(function(){
                     isCheckId="true";
 	
                 }else{
-					alert();
-                    $("id_availability").html("이미 존재하는 아이디 입니다.\n다시 시도해 주세요.");
+                    $("#id_availability").html("이미 존재하는 아이디 입니다.\n다시 시도해 주세요.");
                 }
             }
         });	

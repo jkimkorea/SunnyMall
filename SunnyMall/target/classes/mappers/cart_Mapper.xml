@@ -42,7 +42,7 @@
 		where cart_code = #{cart_code} 
 	</update>
 	<!-- 주문완료시 장바구니 비움 -->
-	<delete id="deleteAfterOrder" parameterType="Map">
-		
+	<delete id="deleteCartAfterPay" parameterType="Map">
+		delete from cart where prd_no=#{prd_no} and mb_id=#{mb_id}
 	</delete>
 </mapper>

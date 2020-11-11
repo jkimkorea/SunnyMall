@@ -37,13 +37,16 @@
 
 	<body>
         <h1 class="my-4">MENU</h1>
-	        <ul class="header" style="list-style-type:none;">
+	         <ul class="sidebar-menu" data-widget="tree" style="list-style-type:none;">
 		        <c:forEach items="${userCategoryList }" var="list">
 		          <li class="treeview mainCategory" value="${list.cg_code}">
 		          	<a href="#" class="list-group-item">
 							<span>${list.cg_name}</span>
+							<span class="pull-right-container">
+							<i class="fa fa-angle-left pull-right"></i>
+							</span>
 		          	</a>
-		          	<ul class="treeview-menu" id="mainCategory_${list.cg_code}">
+		          	<ul class="treeview-menu" id="mainCategory_${list.cg_code}" style="list-style-type:none;">
 		          	
 		          	</ul>
 		          </li>

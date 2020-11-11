@@ -347,8 +347,8 @@ background:#eee;
 			              <div class="form-group">
 			                  <label>Quantity</label>
 			                  <input type="quantiy" value="${vo.prd_stock}" class="form-control quantity">
-			              <form action="/order/buy" method="post">
-			              <input type="hidden" id="prd_no" value="${vo.prd_no}">
+			              <form action="/order/buy" method="get">
+			              <input type="hidden" id="prd_no" name="prd_no" value="${vo.prd_no}">
 			              <label>Order amount</label><br>
 			              <input type="number" id="ord_amount" name="ord_amount" value="1" /><br><br>
 			                  <button class="btn_addCart" id="btn_addCart" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>

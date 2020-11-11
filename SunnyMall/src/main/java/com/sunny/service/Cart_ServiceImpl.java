@@ -1,6 +1,7 @@
 package com.sunny.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -40,6 +41,11 @@ public class Cart_ServiceImpl implements Cart_Service {
 	@Override
 	public void changeAmount(CartVO vo) throws Exception {
 		dao.changeAmount(vo);
+	}
+	//상품 결제 후에 장바구니 비우기
+	@Override
+	public void deleteCartAfterPay(Map map) throws Exception {
+		dao.deleteCartAfterPay(map);
 	}
 	
 	

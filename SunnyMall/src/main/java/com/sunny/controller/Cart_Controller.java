@@ -42,10 +42,6 @@ public class Cart_Controller {
 		try {
 			MemberDTO dto =(MemberDTO)session.getAttribute("user");
 			logger.info("================dto:"+dto);
-				
-			if(dto == null) {
-				entity = new ResponseEntity<String>("FAIL",HttpStatus.OK);
-			}else {
 				vo.setMb_id(dto.getMb_id());
 				vo.setPrd_no(prd_no);
 				vo.setCart_amount(cart_amount);
@@ -53,7 +49,6 @@ public class Cart_Controller {
 				service.addToCart(vo);
 				
 				entity = new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
-				}
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -62,25 +57,23 @@ public class Cart_Controller {
 	}
 	//장바구니 리스트
 	@RequestMapping(value = "cartList",method=RequestMethod.GET)
-	public String cartList(HttpSession session, Model model) throws Exception{
+	public void cartList(HttpSession session, Model model) throws Exception{
 		
 		logger.info("============cartList() execute=============");
+		
 		MemberDTO dto=(MemberDTO)session.getAttribute("user");
-		String url=null;
-		if(dto != null) {
 			String mb_id=dto.getMb_id();
 			List<CartProductVO> list=service.cartList(mb_id);
 			model.addAttribute("cartProList",list);
-			logger.info("============mb_id:"+mb_id);
-			int count=service.countCart(mb_id);
-			logger.info("============count:"+count);
-			model.addAttribute("countCart", count);
-			url = "/cart/cartList";
 			
-		}else {
-			url = "redirect:/member/loginPage";
-		}
-		return url;
+			logger.info("============list:"+list);
+			
+			int count=service.countCart(mb_id);
+			
+			logger.info("============count:"+count);
+			
+			model.addAttribute("countCart", count);
+			
 	}
 	//장바구니 상품 삭제
 	@ResponseBody
@@ -101,22 +94,18 @@ public class Cart_Controller {
 	//상품 리스트페이지에서 장바구니로 바로 담기
 	@ResponseBody
 	@RequestMapping(value = "add",method=RequestMethod.POST)
-	public ResponseEntity<String> addProduct(HttpSession session,int prd_no){
-		logger.info("================addProduct() execute=============");
+	public ResponseEntity<String> addProduct(HttpSession session,int prd_no) throws Exception{
+		logger.info("================add() execute=============");
 		
 		ResponseEntity<String> entity=null;
 		MemberDTO dto = (MemberDTO) session.getAttribute("user");
-		CartVO vo = new CartVO();
 		try {
-			if(dto != null) {
-				vo.setMb_id(dto.getMb_id());
-				vo.setPrd_no(prd_no);
-				vo.setCart_amount(1);
-				service.addToCart(vo);
-				entity = new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
-			}else {
-				entity = new ResponseEntity<String>("FAIL",HttpStatus.OK);
-			}
+			CartVO vo = new CartVO();
+			vo.setMb_id(dto.getMb_id());
+			vo.setPrd_no(prd_no);
+			vo.setCart_amount(1);
+			service.addToCart(vo);
+			entity = new ResponseEntity<String>(HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
@@ -153,6 +142,7 @@ public class Cart_Controller {
 		CartVO vo = new CartVO();
 		vo.setCart_amount(cart_amount);
 		vo.setCart_code(cart_code);
+		logger.info("================vo:"+vo);
 		try {
 			service.changeAmount(vo);
 			entity = new ResponseEntity<String>(HttpStatus.OK);

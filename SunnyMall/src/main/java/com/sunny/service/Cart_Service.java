@@ -1,6 +1,7 @@
 package com.sunny.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sunny.domain.CartProductVO;
 import com.sunny.domain.CartVO;
@@ -17,4 +18,6 @@ public interface Cart_Service {
 	public void deleteCart(int cart_code) throws Exception;
 	//장바구니 상품 수량 변경
 	public void changeAmount(CartVO vo) throws Exception;
+	//결제 후 장바구니 비우기
+	public void deleteCartAfterPay(Map map) throws Exception;
 }

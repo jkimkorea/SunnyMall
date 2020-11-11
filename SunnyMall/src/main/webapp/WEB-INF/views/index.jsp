@@ -37,14 +37,9 @@
   			dataType:'text',
   			data:{prd_no:prd_no},
   			success:function(data){
-  				if(data == "SUCCESS"){
-	  				var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
-	  					if(result){
-	  				location.href="/cart/cartList";
-	  				}else{}
-  				}else{
-  					alert("로그인이 필요한 작업입니다.\n로그인해 주세요.");
-  					location.href="/member/loginPage";
+	  			var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
+	  				if(result){
+	  					location.href="/cart/cartList";
   				}
   			}
   		});
@@ -110,11 +105,11 @@
 		</div>
         <div class="row">
        		
-		            <c:if test="${empty vo}">
-		            	<span style="padding:30px 1px; ">등록된 상품이 존재하지 않습니다.</span>
-		            </c:if>
+		     <c:if test="${empty vo}">
+		        <span style="padding:30px 1px; ">등록된 상품이 존재하지 않습니다.</span>
+		     </c:if>
 		  
-		    <c:forEach items="${vo}" var="list">
+		     <c:forEach items="${vo}" var="list">
 			    <div class="col-lg-4 col-md-6 mb-4">
 			       <div class="card h-100">
 			             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
@@ -126,7 +121,7 @@
 						       할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
 					        <div class="btnContainer">
 								<button class="btn btn-primary" id="btn_buy" type="button" 
-									onclick="location.href = '/order/buy?pdt_num=${list.prd_no}&ord_amount=1';">구매</button>
+									onclick="location.href = '/order/buy?prd_no=${list.prd_no}&ord_amount=1';">구매</button>
 								<button class="btn btn-info" id="btn_cart" type="button" 
 									onclick="cart_click(${list.prd_no})">장바구니</button>
 							</div>

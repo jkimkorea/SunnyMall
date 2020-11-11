@@ -14,7 +14,10 @@
 
 <script type="text/javascript">
 	if("${msg}"== "LOGIN_FAIL"){
-		alert("로그인에 실패했습니다.\n 아이디와 비밀번호를 확인해 주세요.");}
+		alert("로그인에 실패했습니다.\n 아이디와 비밀번호를 확인해 주세요.");
+	}else{
+		
+	}
 </script>
 </head>
 

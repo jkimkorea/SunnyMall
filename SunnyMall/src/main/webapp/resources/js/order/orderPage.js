@@ -56,13 +56,13 @@ var updatePrice = function(){
 		var cart_amount = $(this).find('input[name="cart_amount"]').val();
 		totalPrice += price * cart_amount;
 		totalDiscount += discount * cart_amount;
-	});
 		payPrice = totalPrice - totalDiscount;
+	});
 		
 	$('#totalPrice').html(numberFormat(totalPrice)+"원");
 	$('#totalDiscount').html(numberFormat(totalDiscount)+"원");
-	$('#odr_total_price').html(numberFormat(payPrice)+"원");
-	$('#odr_total_price').val(payPrice);
+	$('#ord_total_price').html(numberFormat(payPrice)+"원");
+	$('#ord_totalprice').val(payPrice);
 };
 //숫자 표현식
 function numberFormat(inputNumber){

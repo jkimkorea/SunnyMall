@@ -26,15 +26,10 @@
   			dataType:'text',
   			data:{prd_no:prd_no},
   			success:function(data){
-  				if(data == "SUCCESS"){
 	  				var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
 	  					if(result){
 	  				location.href="/cart/cartList";
 	  				}else{}
-  				}else{
-  					alert("로그인이 필요한 작업입니다.\n로그인해 주세요.");
-  					location.href="/member/loginPage";
-  				}
   			}
   		});
   	}

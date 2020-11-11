@@ -4,8 +4,8 @@ public class OrderDetailVO {
 
 	private int ord_no;
 	private int prd_no;
-	private int ord_count;
-	private int ord_pri;
+	private int ord_amount;
+	private int ord_price;
 	
 	
 	public int getOrd_no() {
@@ -20,23 +20,23 @@ public class OrderDetailVO {
 	public void setPrd_no(int prd_no) {
 		this.prd_no = prd_no;
 	}
-	public int getOrd_count() {
-		return ord_count;
+	public int getOrd_amount() {
+		return ord_amount;
 	}
-	public void setOrd_count(int ord_count) {
-		this.ord_count = ord_count;
+	public void setOrd_amount(int ord_amount) {
+		this.ord_amount = ord_amount;
 	}
-	public int getOrd_pri() {
-		return ord_pri;
+	public int getOrd_price() {
+		return ord_price;
 	}
-	public void setOrd_pri(int ord_pri) {
-		this.ord_pri = ord_pri;
+	public void setOrd_price(int ord_price) {
+		this.ord_price = ord_price;
 	}
 	
 	@Override
 	public String toString() {
-		return "OrderDetailVO [ord_no=" + ord_no + ", prd_no=" + prd_no + ", ord_count=" + ord_count + ", ord_pri="
-				+ ord_pri + "]";
+		return "OrderDetailVO [ord_no=" + ord_no + ", prd_no=" + prd_no + ", ord_amount=" + ord_amount + ", ord_price="
+				+ ord_price + "]";
 	}
 	
 	

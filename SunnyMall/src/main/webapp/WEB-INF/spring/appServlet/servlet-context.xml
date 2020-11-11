@@ -36,14 +36,27 @@
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg value="D:\\dev\\upload"></beans:constructor-arg>
 	</beans:bean>
-	<!--   인터셉터 설정작업 
-	<beans:bean id="loginInterceptor" class="com.sunny.interceptor.LoginInterceptor"/>
-	<beans:bean id="authInterceptor" class="com.sunny.interceptor.AuthInterceptor"/>
+	<!-- 인터셉터 설정작업 
+	<beans:bean id="adminInterceptor" class="com.sunny.interceptor.AdminInterceptor"/>
+	<beans:bean id="memberInterceptor" class="com.sunny.interceptor.MemberInterceptor" />
 	<interceptors>
-		<interceptor>
-			<mapping path="/login/loginPage"/>
-			<beans:ref bean="LoginInterceptor"/>
+		 <interceptor>
+			<mapping path="/order/orderList"/>
+			<mapping path="/cart/add"/>
+			<mapping path="/order/buy"/>
+		 <mapping path="/cart/addToCart"/> 작동은 안하는데 js단으로 넘어가서 나머지 작동이 이뤄짐.	
+			<mapping path="/review/write"/>같은 현상. 작동은 안하지만 js단으로 넘어가서 나머지 동작이 이뤄짐. 
+			<beans:ref bean="memberInterceptor"/>
 		</interceptor>
+		 <interceptor>
+			<beans:ref bean="memberInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/admin_main"/>
+			<beans:ref bean="adminInterceptor"/>
+		</interceptor>
+	   
 	</interceptors>-->
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

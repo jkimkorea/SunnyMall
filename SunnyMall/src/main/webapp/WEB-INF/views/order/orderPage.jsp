@@ -22,10 +22,10 @@
   <!-- Navigation -->
   <%@ include file="/WEB-INF/views/include/home_header.jsp" %>
 
- <form id="orderForm" method="post" action="/order/orderFromCart">
   <!-- Page Content -->
   <div class="container">
 
+ <form id="orderForm" method="post" action="/order/orderFromCart">
     <div class="row">
 
       <div class="col-lg-3">
@@ -47,6 +47,7 @@
 			  </div>
     		<!-- /.col-lg-9 -->
             <br><br>
+            <%--상품 정보리스트 --%>
             <table id="ordertbl" class="table table-condensed table-responsive">
 	                <thead id="thead">
 	                    <tr>
@@ -68,6 +69,9 @@
 		                    <tr id="productVO_${vo.prd_no}" class="productRow">
 		                    	<td>
 		                        	<input type="checkbox" name="check" class="check" value="${vo.prd_no}" checked="checked" >
+									<input type="hidden" id="amount_${vo.prd_no}" name="orderDetailVOList[${i.index}].ord_amount" value="${amountList[i.index]}"/>
+		                    		<input type="hidden" name="orderDetailVOList[${i.index}].prd_no" value="${vo.prd_no}"/>
+		                    		<input type="hidden" name="orderDetailVOList[${i.index}].ord_price" value="${vo.prd_price}"/>
 		                    	</td>
 		                        <td data-th="Product">
 		                            <div class="row">
@@ -103,34 +107,37 @@
 	            </table>
 	            
 	            <hr>
-					<form id="joinForm" action="/member/join" method="post">
-						<div class="container" style="width: 800px; padding: 10% 5%;">
-							<h5>[주문정보]</h5>
-							* 아래 항목을 작성해주세요.<br><br><br>
-							<div class="form-group">
-								<label for="inputName">*받는사람 이름</label> <input type="text"
-									class="form-control" id="mem_name" name="mem_name"
-									placeholder="이름을 입력해 주세요" style="max-width: 630px;" value="${user.mb_name}">
-							</div>			
-							<div class="form-group">
-								<label for="inputMobile">* 휴대폰 번호</label> <input type="tel"
-									class="form-control" id="mem_phone" name="mem_phone"
-									placeholder="휴대폰 번호를 입력해 주세요" style="max-width: 630px;" value="${user.mb_phone }">
-							</div>
-							<div class="form-group">
-								<label for="inputAddr">* 주소</label> <br />
-								<input type="text" id="sample2_postcode" name="mem_zipcode" class="form-control" 
-									style="max-width: 510px; width:calc(100% - 128px); margin-right: 5px; display: inline-block;" placeholder="우편번호" readonly value="${user.mb_zipcode}">
-								<input type="button" onclick="sample2_execDaumPostcode()" id="btn_postCode" class="btn btn-info" value="우편번호 찾기"><br>
-								<input type="text" id="sample2_address" name="mem_addr" class="form-control" 
-									placeholder="주소" style="max-width: 630px; margin:3px 0px;" readonly value="${user.mb_add}">
-								<input type="text" id="sample2_detailAddress" name="mem_addr_d" class="form-control" 
-									placeholder="상세주소" style="max-width: 630px;" value="${user.mb_add_d }">
-								<input type="hidden" id="sample2_extraAddress" class="form-control" 
-									placeholder="참고항목">
-							</div>
+					<%--주문자 정보란 --%>
+					<div class="container" style="width: 800px; padding: 5% 5%;">
+						<h5>[주문정보]</h5>
+							* 아래 항목을 작성해주세요.<br><br>
+						<div>
+							<input type="hidden" class="form-control" id="mb_id" name="mb_id" value="${user.mb_id}">
 						</div>
-					</form>
+						<div class="form-group">
+							<label for="inputName">*받는사람 이름</label> <input type="text"
+								class="form-control" id="ord_name" name="ord_name"
+								placeholder="이름을 입력해 주세요" style="max-width: 630px;" value="${user.mb_name}">
+						</div>			
+						<div class="form-group">
+							<label for="inputMobile">* 휴대폰 번호</label> <input type="tel"
+								class="form-control" id="ord_phone" name="ord_phone"
+								placeholder="휴대폰 번호를 입력해 주세요" style="max-width: 630px;" value="${user.mb_phone }">
+						</div>
+						<div class="form-group">
+							<label for="inputAddr">* 주소</label> <br />
+							<input type="text" id="sample2_postcode" name="ord_zipcode" class="form-control" 
+								style="max-width: 510px; width:calc(100% - 128px); margin-right: 5px; display: inline-block;" placeholder="우편번호" readonly value="${user.mb_zipcode}">
+							<input type="button" onclick="sample2_execDaumPostcode()" id="btn_postCode" class="btn btn-info" value="우편번호 찾기"><br>
+							<input type="text" id="sample2_address" name="ord_add" class="form-control" 
+								placeholder="주소" style="max-width: 630px; margin:3px 0px;" readonly value="${user.mb_add}">
+							<input type="text" id="sample2_detailAddress" name="ord_add_d" class="form-control" 
+								placeholder="상세주소" style="max-width: 630px;" value="${user.mb_add_d }">
+							<input type="hidden" id="sample2_extraAddress" class="form-control" 
+								placeholder="참고항목">
+						</div>
+					</div>
+				
 				
 				<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 				</div>
@@ -176,8 +183,8 @@
 							<tr>
 									<td class="col-md-1"><label>결제 예정 금액</label></td>
 									<td class="col-md-1" style="height:30px; text-align: center;">
-										<p id="odr_total_price" style="text-align:right; width:100px;">0</p>
-										<input type="hidden" id="odr_total_price" name="odr_total_price" value="0"/>
+										<p id="ord_total_price" style="text-align:right; width:100px;">0</p>
+										<input type="hidden" id="ord_totalprice" name="ord_total_price" value="0"/>
 									</td>
 							</tr>
 							<tr>
@@ -188,10 +195,11 @@
 						</table>
 				</div>
 		</div>
-      </div>
+		</div>
+  </form>
+     
 	</div>
     <!-- /.container -->
-  </form>
 
   <!-- Footer -->
   <%@ include file="/WEB-INF/views/include/home_footer.jsp" %>

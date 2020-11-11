@@ -10,11 +10,21 @@ public class OrderVO {
 	private String ord_zipcode;
 	private String ord_add;
 	private String ord_add_d;
-	private String ord_phon;
-	private int    ord_total_pri;
+	private String ord_phone;
+	private int    ord_total_price;
+	private int    ord_total_amount;
+	private String ord_pay;
 	private Date   ord_date;
+	private Date   delivery_date;
+	private String delivery_check;
 	
 	
+	public String getDelivery_check() {
+		return delivery_check;
+	}
+	public void setDelivery_check(String delivery_check) {
+		this.delivery_check = delivery_check;
+	}
 	public int getOrd_no() {
 		return ord_no;
 	}
@@ -51,17 +61,17 @@ public class OrderVO {
 	public void setOrd_add_d(String ord_add_d) {
 		this.ord_add_d = ord_add_d;
 	}
-	public String getOrd_phon() {
-		return ord_phon;
+	public String getOrd_phone() {
+		return ord_phone;
 	}
-	public void setOrd_phon(String ord_phon) {
-		this.ord_phon = ord_phon;
+	public void setOrd_phone(String ord_phone) {
+		this.ord_phone = ord_phone;
 	}
-	public int getOrd_total_pri() {
-		return ord_total_pri;
+	public int getOrd_total_price() {
+		return ord_total_price;
 	}
-	public void setOrd_total_pri(int ord_total_pri) {
-		this.ord_total_pri = ord_total_pri;
+	public void setOrd_total_price(int ord_total_price) {
+		this.ord_total_price = ord_total_price;
 	}
 	public Date getOrd_date() {
 		return ord_date;
@@ -69,13 +79,32 @@ public class OrderVO {
 	public void setOrd_date(Date ord_date) {
 		this.ord_date = ord_date;
 	}
-	
+	public int getOrd_total_amount() {
+		return ord_total_amount;
+	}
+	public void setOrd_total_amount(int ord_total_amount) {
+		this.ord_total_amount = ord_total_amount;
+	}
+	public String getOrd_pay() {
+		return ord_pay;
+	}
+	public void setOrd_pay(String ord_pay) {
+		this.ord_pay = ord_pay;
+	}
+	public Date getDelivery_date() {
+		return delivery_date;
+	}
+	public void setDelivery_date(Date delivery_date) {
+		this.delivery_date = delivery_date;
+	}
 	@Override
 	public String toString() {
 		return "OrderVO [ord_no=" + ord_no + ", mb_id=" + mb_id + ", ord_name=" + ord_name + ", ord_zipcode="
-				+ ord_zipcode + ", ord_add=" + ord_add + ", ord_add_d=" + ord_add_d + ", ord_phon=" + ord_phon
-				+ ", ord_total_pri=" + ord_total_pri + ", ord_date=" + ord_date + "]";
+				+ ord_zipcode + ", ord_add=" + ord_add + ", ord_add_d=" + ord_add_d + ", ord_phone=" + ord_phone
+				+ ", ord_total_price=" + ord_total_price + ", ord_total_amount=" + ord_total_amount + ", ord_pay="
+				+ ord_pay + ", ord_date=" + ord_date + ", delivery_date=" + delivery_date + ", delivery_check="
+				+ delivery_check + "]";
 	}
-	
+
 	
 }

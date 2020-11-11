@@ -61,10 +61,24 @@
 							</span> </a>
 						<ul class="treeview-menu">
 							<li>
-								<a href="#">배송</a>
+								<a href="/admin/delivery/deliveryList">배송 관리</a>
 							</li>
 							<li>
-								<a href="#">새주문</a>
+								<a href="/admin/delivery/deliveryList">재고 관리</a>
+							</li>
+						</ul>
+					</li>
+					
+					<li class="treeview">
+						<a href="#"><i class="fa fa-link"></i> <span>회원관리</span> <span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+						<ul class="treeview-menu">
+							<li>
+								<a href="/admin/member/memberList">회원정보 조회</a>
+							</li>
+							<li>
+								<a href="#">회원정보 관리</a>
 							</li>
 						</ul>
 					</li>
