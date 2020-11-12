@@ -38,8 +38,8 @@
 		where prd_no=#{prd_no}
 	</select>
 	<select id="allProductList" parameterType="Criteria" resultType="ProductVO">
-	select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_date_up
-	from (select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_date_up,
+	select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_buy,prd_date_up
+	from (select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_buy,prd_date_up,
 		  row_number()over(order by prd_no desc) prd_seq
     	  from product)
 	where prd_seq between #{rowStart} and #{rowEnd}

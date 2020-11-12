@@ -3,14 +3,13 @@ package com.sunny.service;
 import java.util.List;
 import java.util.Map;
 
-import com.sunny.domain.DeliveryVO;
-import com.sunny.domain.OrderVO;
+import com.sunny.domain.DeliveryReadVO;
 import com.sunny.util.SearchCriteria;
 
 public interface Delivery_Service {
 	
 	//모든 배송정보 불러오기
-	public List<OrderVO> deliveryListAll(SearchCriteria cri) throws Exception;
+	public List<DeliveryReadVO> deliveryListAll(SearchCriteria cri) throws Exception;
 	//배송 정보 갯수 출력
 	public int deliveryCount(SearchCriteria cri) throws Exception;
 	//배송 상태 업데이트

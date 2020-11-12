@@ -64,7 +64,7 @@
 								<a href="/admin/delivery/deliveryList">배송 관리</a>
 							</li>
 							<li>
-								<a href="/admin/delivery/deliveryList">재고 관리</a>
+								<a href="/admin/stock/stockList">재고 관리</a>
 							</li>
 						</ul>
 					</li>

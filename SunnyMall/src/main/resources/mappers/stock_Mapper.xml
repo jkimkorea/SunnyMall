@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunny.mappers.Stock_Mapper">
+	
+
+	<!-- 상품 재고 리스트--> 
+	<select id="readStockList" parameterType="SearchCriteria" resultType="ProductVO">
+		select prd_no,prd_name,prd_cost,prd_price,prd_discount,prd_stock,prd_total_sales,prd_company 
+		from (select prd_no,prd_name,prd_cost,prd_price,prd_discount,prd_stock,prd_total_sales,prd_company,
+				row_number() over(order by prd_no desc) stock_seq
+				from product
+	<include refid="search"/>)
+		where stock_seq between #{rowStart} and #{rowEnd} 
+	</select>
+
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType =='prd_no'.toString()">
+				where prd_no like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType =='name'.toString()">
+				where prd_name like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType =='company'.toString()">
+				where prd_company like '%' || #{keyword} || '%'
+			</if>
+		</if>
+	</sql>
+	
+</mapper>

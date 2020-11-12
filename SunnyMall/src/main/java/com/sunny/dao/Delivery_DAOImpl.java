@@ -8,8 +8,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.sunny.domain.DeliveryVO;
-import com.sunny.domain.OrderVO;
+import com.sunny.domain.DeliveryReadVO;
 import com.sunny.util.SearchCriteria;
 
 @Repository
@@ -22,7 +21,7 @@ public class Delivery_DAOImpl implements Delivery_DAO {
 
 	//모든 배송정보 불러오기
 	@Override
-	public List<OrderVO> deliveryListAll(SearchCriteria cri) throws Exception {
+	public List<DeliveryReadVO> deliveryListAll(SearchCriteria cri) throws Exception {
 		return session.selectList(NS+".deliveryList",cri);
 	}
 	//배송 정보 갯수 출력

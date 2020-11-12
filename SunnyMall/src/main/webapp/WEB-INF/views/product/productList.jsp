@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,27 +102,27 @@
 		    <c:forEach items="${productList}" var="vo">
        		<div class="col-lg-4 col-md-6 mb-4">
 		      	<div class="card h-100">
-		              <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${vo.prd_no}&cg_code=${cg_code}">
-		              	<img src="/product/displayFile?fileName=${vo.prd_img}" class="card-img-top" src="http://placehold.it/700x400" alt="">
-		              </a>
 		              <div class="card-body">
-		                <h4 class="card-title">
-		                  <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${vo.prd_no}&cg_code=${cg_code}">${vo.prd_name}</a>
-		                </h4>
-		                <p>가격: <fmt:formatNumber value="${vo.prd_price}" pattern="###,###,###" />원<br>
-						      할인가: <fmt:formatNumber value="${vo.prd_discount}" pattern="###,###,###" />원</p>
-			          		<div class="btnContainer">
+			              <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${vo.prd_no}&cg_code=${cg_code}">
+			              	<img src="/product/displayFile?fileName=${vo.prd_img}" class="card-img-top" src="http://placehold.it/700x400" alt="">
+			              </a>
+			                <h4 class="card-title">
+			                  <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${vo.prd_no}&cg_code=${cg_code}">${vo.prd_name}</a>
+			                </h4>
+			                <p>가격: <fmt:formatNumber value="${vo.prd_price}" pattern="###,###,###" />원<br>
+							      할인가: <fmt:formatNumber value="${vo.prd_discount}" pattern="###,###,###" />원</p>
+				          	<div class="btnContainer">
 								<button class="btn btn-primary" id="btn_buy" type="button" 
-									onclick="location.href = '/order/buy?pdt_num=${vo.prd_no}&ord_amount=1';">구매</button>
+										onclick="location.href = '/order/buy?pdt_num=${vo.prd_no}&ord_amount=1';">구매</button>
 								<button class="btn btn-info" id="btn_cart" type="button" 
-									onclick="cart_click(${vo.prd_no})">장바구니</button>
+										onclick="cart_click(${vo.prd_no})">장바구니</button>
 							</div>
 		              </div>
 		              <div class="card-footer">
 						 <small class="text-muted">리뷰 [${vo.rev_count}]</small>
 		              </div>
-          	</div>
-            	</div>
+          		</div>
+            </div>
 		    </c:forEach>
         </div>
         <!-- /.row -->

@@ -55,7 +55,7 @@ public class Delivery_Controller {
 		logger.info("============deliveryCheck() execute=============");
 		logger.info("============delivery_check:"+delivery_check);
 		
-		if(delivery_check == "배송 완료" ) {
+		if(delivery_check.equals("배송 완료")) {
 			logger.info("============deliveryDate() execute=============");
 			service.deliveryDate(ord_no);
 			
@@ -70,4 +70,5 @@ public class Delivery_Controller {
 		return "ok";
 	}
 	//
+	
 }

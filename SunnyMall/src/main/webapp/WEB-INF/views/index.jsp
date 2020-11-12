@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,23 +112,36 @@
 		     <c:forEach items="${vo}" var="list">
 			    <div class="col-lg-4 col-md-6 mb-4">
 			       <div class="card h-100">
-			             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
-			         <div class="card-body">
-			             <h4 class="card-title">
-			                <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
-			             </h4>
-				         <p>가격: <fmt:formatNumber value="${list.prd_price}" pattern="###,###,###" />원<br>
-						       할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
-					        <div class="btnContainer">
-								<button class="btn btn-primary" id="btn_buy" type="button" 
-									onclick="location.href = '/order/buy?prd_no=${list.prd_no}&ord_amount=1';">구매</button>
-								<button class="btn btn-info" id="btn_cart" type="button" 
-									onclick="cart_click(${list.prd_no})">장바구니</button>
-							</div>
-			    	</div>
-			     	<div class="card-footer">
-			                <small class="text-muted">리뷰 [${list.rev_count}]</small>
-			        </div>
+			        	 <div class="card-body">
+				         	 <c:choose>
+				         	 	<c:when test="${list.prd_buy eq 'N' || list.prd_stock == 0}">
+									<img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
+						            <h4 class="card-title" style="pointer-events:none; text-decoration: line-through;">
+						                <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
+						            </h4>
+					                <small style="color:red;">[품절]</small>
+				             		<p>가격: <fmt:formatNumber value="${list.prd_price}" pattern="###,###,###" />원<br>
+									       할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
+				             	</c:when>
+				             	<c:when test="${list.prd_buy eq 'Y'}">
+			             			<a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
+							         <h4 class="card-title">
+							             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
+							         </h4>
+							         <p>가격: <fmt:formatNumber value="${list.prd_price}" pattern="###,###,###" />원<br>
+									         할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
+								     <div class="btnContainer">
+											<button class="btn btn-primary" id="btn_buy" type="button" 
+												onclick="location.href = '/order/buy?prd_no=${list.prd_no}&ord_amount=1';">구매</button>
+											<button class="btn btn-info" id="btn_cart" type="button" 
+												onclick="cart_click(${list.prd_no})">장바구니</button>
+									 </div>
+						         </c:when>
+					         </c:choose>
+				    	</div>
+				     	<div class="card-footer">
+				                <small class="text-muted">리뷰 [${list.rev_count}]</small>
+				        </div>
 			       </div>
 			     </div>
 		      </c:forEach>

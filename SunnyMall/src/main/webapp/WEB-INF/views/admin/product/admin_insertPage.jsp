@@ -122,12 +122,16 @@
 												placeholder="Enter company">
 										</div>
 										<div class="form-group">
-											<label for="exampleInputEmail1" style="width:40%; margin-right:10px;">Price</label> 
-											<label for="exampleInputEmail1" style="width:40%;">Discount</label> 
-											<input style="width:40%; margin-right:10px; display: inline-block;"
+											<label for="exampleInputEmail1" style="width:30%; margin-right:10px;">Cost</label> 
+											<label for="exampleInputEmail1" style="width:30%;">Price</label>
+											<label for="exampleInputEmail1" style="width:30%;">Discount</label> 
+											<input style="width:30%; display: inline-block;"
+												type="text" id="prd_cost" name="prd_cost" class="form-control "
+												placeholder="Enter cost" />
+											<input style="width:30%; margin-right:10px; display: inline-block;"
 												type="text" id="prd_price" name="prd_price" class="form-control" 
 												placeholder="Enter price" />
-											<input style="width:40%; display: inline-block;"
+											<input style="width:30%; display: inline-block;"
 												type="text" id="prd_discount" name="prd_discount" class="form-control "
 												placeholder="Enter discounted price" />
 										</div>

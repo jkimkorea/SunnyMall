@@ -79,16 +79,13 @@ desired effect
 					Admin Page
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> 회원 관리</a></li>
-					<li class="active">회원 목록</li>
+					<li><a href="#"><i class="fa fa-dashboard"></i> 주문 관리</a></li>
+					<li class="active">배송 관리</li>
 				</ol>
 			</section>
-			<div class="container">
+			<section class="content container-fluid">
     			<div class="row">
-		
-        
         			<div class="col-md-12">
-        
 				        <div class="row text-center">
 							<div style="display: inline-block; float: left; margin-left:15px;">
 								<select name="searchType" style="width:180px; height:26px;">
@@ -106,22 +103,22 @@ desired effect
 								<button id="btn_search" class="btn btn-default">검색</button>
 							</div>
 						</div>
-			        <h4>Member List</h4>
+			        <h4>Order List</h4>
 			        <div class="table-responsive">
 
                 
 		              <table id="mytable" class="table table-bordred table-striped">
 		                <thead>
-		                	<tr>
+		                	<tr style="font-size: 13px;text-align: right;">
 		                  	 	<th>주문 번호</th>
 		                   		<th>고객명</th>
 		                    	<th>수령인 연락처</th>
 		                     	<th>우편번호</th>
-		                     	<th>배송지</th>
+		                     	<th style="text-align: center;">배송지</th>
 		                     	<th>총수량</th>
 		                     	<th>총 결제금액</th>
 		                     	<th>입금유/무</th>
-		                      	<th>주문배송날짜</th>
+		                      	<th style="text-align: center;">주문배송날짜</th>
 		                      	<th>배송현황</th>
 		                        <th>배송 상태 선택</th>
 		                        <th></th>
@@ -138,18 +135,18 @@ desired effect
 								</tr>
 					    </c:if>
 					    <c:forEach items="${deliveryListVO}" var="deliveryVO">
-							    <tr>
+							    <tr style="text-align:center;">
 								    <td>${deliveryVO.ord_no}</td>
 								    <td>${deliveryVO.ord_name}</td>
 								    <td>${deliveryVO.ord_phone}</td>
 								    <td>${deliveryVO.ord_zipcode}</td>
 								    <td>${deliveryVO.ord_add} ${vo.ord_add_d}</td>
 								    <td>${deliveryVO.ord_total_amount}</td>
-								    <td><fmt:formatNumber value="${deliveryVO.ord_total_price}" pattern="###,###,###"/>원</span></td>							    <td>${deliveryVO.ord_pay}</td>
-								    <td>${deliveryVO.delivery_date}</td>
+								    <td><fmt:formatNumber value="${deliveryVO.ord_total_price}" pattern="###,###,###"/>원</td>							    <td>${deliveryVO.ord_pay}</td>
+								    <td><fmt:formatDate value="${deliveryVO.delivery_date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								   	<td>${deliveryVO.delivery_check}</td>
 								    <td>
-										<select class="form-control" name="delivery_${deliveryVO.ord_no}" style="width: 120px; displayL inline-block;">
+										<select class="form-control" name="delivery_${deliveryVO.ord_no}" style="width: 100px; displayL inline-block;">
 								 			<option value="null">상태 선택</option>
 								 			<option>배송 준비중</option>
 								 			<option>배송중</option>
@@ -194,8 +191,7 @@ desired effect
             
         		</div>
 			</div>
-		</div>
-
+		</section>
 
 		<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 		      <div class="modal-dialog">

@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.sunny.dao.Delivery_DAO;
-import com.sunny.domain.DeliveryVO;
+import com.sunny.domain.DeliveryReadVO;
 import com.sunny.domain.OrderVO;
 import com.sunny.util.SearchCriteria;
 
@@ -20,7 +20,7 @@ public class Delivery_ServiceImpl implements Delivery_Service{
 
 	//모든 배송정보 불러오기
 	@Override
-	public List<OrderVO> deliveryListAll(SearchCriteria cri) throws Exception {
+	public List<DeliveryReadVO> deliveryListAll(SearchCriteria cri) throws Exception {
 		return dao.deliveryListAll(cri);
 	}
 	//배송 정보 갯수 출력
