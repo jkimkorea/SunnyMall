@@ -67,5 +67,9 @@
 		 mb_email_accept, mb_point,mb_date_first, mb_date_up, mb_date_last, mb_authcode
 		from member where mb_id=#{mb_id}
 	</select>
-	
+	<!-- 탈퇴 사유 -->
+	<insert id="insertComent" parameterType="BackupMemberVO">
+	 	insert into backup_user(mb_id,mb_name,mb_email,mb_phone,coment,del_date)
+	 	values(#{mb_id},#{mb_name},#{mb_email},#{mb_phone},#{coment},sysdate)
+	</insert>
 </mapper>

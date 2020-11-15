@@ -2,9 +2,30 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<head>
+<style>
+.bgGradient{
+	background: linear-gradient(90deg, #2BC0E4,  #EAECC6) fixed;
+}
+#modify_dropdown {  
+	display:none; /* 평상시에는 서브메뉴가 안보이게 하기 */ 
+	height:auto; 
+	padding:10px 0px; 
+	margin:0px; 
+	border:0px; 
+	position:absolute; 
+	width:130px; 
+	z-index:200; 
+}
+
+#modify:hover #modify_dropdown{
+	display:block;   /* 마우스 커서 올리면 서브메뉴 보이게 하기 */
+}
+
+</style>
+</head>
  <!-- Custom styles for this template -->
 <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
-
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -40,13 +61,12 @@
           <li>
              <a class="nav-link" href="/member/logout" style="font-size:12px">로그아웃</a>
           </li>
-          <li class="dropdown">
-             <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#FFFFFF80; padding:.5rem 1rem; text-decoration: none;display:block;font-size:12px">
-             	회원정보 관리<span class="caret"></span>
+          <li class="dropdown" id="modify">
+             <a href="#" class="nav-link" style="font-size:12px">
+             	<span>회원정보 관리</span>
              </a>
           <ul class="dropdown-menu" id= "modify_dropdown">
-			<li>
-			<a href="/member/modifyGet" style="color:black;">회원정보 수정</a></li>
+			<li><a href="/member/modifyGet" style="color:black;">회원정보 수정</a></li>
 			<li><a href="/member/changePwPage" style="color:black;">비밀번호 변경</a></li>
 		  </ul>
 		  
@@ -67,8 +87,8 @@
 			<div class="input-group mb-3 input-group-sm ">
 				<input type="hidden" name="searchType" class="form-control" value="name_detail">
 				<input type="text" name="keyword" class="form-control" placeholder="상품 검색"  
-					<c:if test="${!empty scri}">
-						value="<c:out value='${scri.keyword}' />"
+					<c:if test="${!empty cri}">
+						value="<c:out value='${cri.keyword}'/>"
 					</c:if>
 					style="background-color: #; color:#B8C7CE">
 				<span class="input-group-append">

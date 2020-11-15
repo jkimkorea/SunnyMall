@@ -1,6 +1,8 @@
 package com.sunny.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sunny.domain.BackupMemberVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.dto.MemberDTO;
 import com.sunny.service.Member_Service;
@@ -159,7 +162,7 @@ public class Member_Controller {
 	@RequestMapping(value = "/modify",method=RequestMethod.POST)
 	public String modify(MemberVO vo,RedirectAttributes rttr,HttpSession session) throws Exception {
 		logger.info("===============modify() execute============");
-		logger.info("===============memberVO:"+vo);
+
 		MemberDTO dto=new MemberDTO();
 		dto.setMb_id(vo.getMb_id());
 		dto.setMb_pw(vo.getMb_pw());
@@ -177,6 +180,7 @@ public class Member_Controller {
 	@RequestMapping(value = "/changePw",method = RequestMethod.POST)
 	public String changePw(MemberDTO dto,HttpSession session,RedirectAttributes rttr) throws Exception {
 		logger.info("==========changePw() execute=======");
+		
 		dto.setMb_pw(crptPassEnc.encode(dto.getMb_pw()));
 		service.changePw(dto);
 		MemberDTO memDTO=(MemberDTO) session.getAttribute("user");		
@@ -186,15 +190,24 @@ public class Member_Controller {
 		return "redirect:/";
 	}
 	//회원 탈퇴
-	@RequestMapping(value = "/deleteUser",method=RequestMethod.GET)
-	public String deleteUser(HttpSession session,RedirectAttributes rttr) throws Exception {
+	@ResponseBody
+	@RequestMapping(value = "/deleteUser",method=RequestMethod.POST)
+	public String deleteUser(
+			String mb_id,String mb_name,@RequestParam("mb_phone") String mb_phone,String mb_email,String coment,
+			HttpSession session) throws Exception {
 			logger.info("===========deleteUser() execute=========");
+			BackupMemberVO vo = new BackupMemberVO();
+			vo.setMb_id(mb_id);
+			vo.setComent(coment);
+			vo.setMb_email(mb_email);
+			vo.setMb_name(mb_name);
+			vo.setMb_phone(mb_phone);
+			service.insertComent(vo);
+			
 			MemberDTO dto=(MemberDTO) session.getAttribute("user");
 			service.deleteUser(dto.getMb_id());
 			session.invalidate();
-			rttr.addFlashAttribute("msg", "DELETE_USER_SUCCESS");
 			
-			logger.info("===========DELETE_USER_SUCCESS");
-		return "redirect:/";
+			return "ok";
 	}
 }

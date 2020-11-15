@@ -6,7 +6,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <script id="subCGListTemplate" type="text/x-handlebars-template">
 	{{#each.}}
-		<li><a href="/product/productList?cg_code={{cg_code}}">{{cg_name}}</a></li>
+		<li class ="subCategory"><a href="/product/productList?cg_code={{cg_code}}">{{cg_name}}</a></li>
 	{{/each}}
 
 </script>
@@ -15,12 +15,13 @@
 <script>
 	$(document).ready(function(){
 		
-		$(".mainCategory").one("click", function(){
+		$(".mainCategory").on("click", function(){
 			var mainCGCode= $(this).val();
 			var url = "/product/subCGList/" + mainCGCode;
 			
 			$.getJSON(url, function(data){
-	
+				$(".subCategory").css("display","none");
+				$("#mainCategory_"+mainCGCode).css("display","");
 				subCGList(data, $("#mainCategory_"+mainCGCode) ,$("#subCGListTemplate"));
 			});
 		});	
@@ -39,12 +40,9 @@
         <h1 class="my-4">MENU</h1>
 	         <ul class="sidebar-menu" data-widget="tree" style="list-style-type:none;">
 		        <c:forEach items="${userCategoryList }" var="list">
-		          <li class="treeview mainCategory" value="${list.cg_code}">
-		          	<a href="#" class="list-group-item">
+		          <li class="treeview mainCategory" value="${list.cg_code}" >
+		          	<a href="#" class="list-group-item" >
 							<span>${list.cg_name}</span>
-							<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-							</span>
 		          	</a>
 		          	<ul class="treeview-menu" id="mainCategory_${list.cg_code}" style="list-style-type:none;">
 		          	

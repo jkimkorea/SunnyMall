@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.sunny.domain.BackupMemberVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.dto.MemberDTO;
 
@@ -67,6 +68,11 @@ public class Member_DAOImpl implements Member_DAO {
 	@Override
 	public MemberVO readUserInfo(String mb_id) throws Exception {
 		return session.selectOne(NS+".readUserInfo", mb_id);
+	}
+	//회원 탈퇴 사유 저장
+	@Override
+	public void insertComent(BackupMemberVO vo) throws Exception {
+		session.insert(NS+".insertComent", vo);
 	}
 	
 	

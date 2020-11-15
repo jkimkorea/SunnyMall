@@ -10,6 +10,7 @@ import com.sunny.dao.Product_DAO;
 import com.sunny.domain.CategoryVO;
 import com.sunny.domain.ProductVO;
 import com.sunny.util.Criteria;
+import com.sunny.util.SearchCriteria;
 
 @Service
 public class Product_ServiceImpl implements Product_Service {
@@ -49,12 +50,12 @@ public class Product_ServiceImpl implements Product_Service {
 	}
 	//모든 상품 출력
 	@Override
-	public List<ProductVO> allProductList(Criteria cri) throws Exception {
+	public List<ProductVO> allProductList(SearchCriteria cri) throws Exception {
 		return dao.allProductList(cri);
 	}
 	//모든 상품 갯수 출력
 	@Override
-	public int allProductCount() throws Exception {
-		return dao.allProductCount();
+	public int allProductCount(SearchCriteria cri) throws Exception {
+		return dao.allProductCount(cri);
 	}
 }

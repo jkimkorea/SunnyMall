@@ -138,6 +138,27 @@ $(function(){
 			location.href='/';
 		}
 	});		
-	
+	//회원 탈퇴 클릭시
+	$("#btn_modal_confirm").on('click',function(){
+		var coment = $("#coment").val();
+		var mb_id = $(".mb_id").val();
+		alert(mb_id);
+		alert("이용해 주셔서 감사합니다.")
+		
+		$.ajax({
+			url:'/member/deleteUser',
+			type:'post',
+			dataType:'text',
+			data:{
+				coment:coment,
+				mb_id:mb_id
+			},
+			success:function(data){
+				location.href="/";
+			}
+			
+		});
+		
+	});
 	
 });

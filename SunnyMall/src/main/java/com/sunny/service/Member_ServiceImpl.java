@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sunny.dao.Member_DAO;
+import com.sunny.domain.BackupMemberVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.dto.MemberDTO;
 
@@ -35,6 +36,7 @@ public class Member_ServiceImpl implements Member_Service {
 		dao.register(vo);
 	}
 	//회원탈퇴
+	@Transactional
 	@Override
 	public void deleteUser(String mb_id) throws Exception {
 		dao.deleteUser(mb_id);
@@ -76,6 +78,13 @@ public class Member_ServiceImpl implements Member_Service {
 	public MemberVO readUserInfo(String mb_id) throws Exception {
 		return dao.readUserInfo(mb_id);
 	}
+	//회원 탈퇴 사유 저장
+	@Override
+	public void insertComent(BackupMemberVO vo) throws Exception {
+		System.out.println("========insertComent in Service===========");
+		dao.insertComent(vo);
+	}
+	
 
 	
 	

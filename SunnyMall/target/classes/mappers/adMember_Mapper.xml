@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunny.mappers.AdMember_Mapper">
+	<!-- 회원 정보 불러오기 -->
+	<select id="memberList" parameterType="SearchCriteria" resultType="MemberVO">
+		select mb_id,mb_name,mb_email,mb_phone,mb_zipcode,mb_add,mb_add_d,mb_nickname,mb_point,mb_email_accept
+		from (select mb_id,mb_name,mb_email,mb_phone,mb_zipcode,mb_add,mb_add_d,mb_nickname,mb_point,mb_email_accept,
+			row_number() over(order by mb_id desc) mb_seq 
+			from member
+		<include refid="search"/>)
+		where mb_seq between #{rowStart} and #{rowEnd}
+	</select>
+	<!-- 회원수 불러오기 -->
+	<select id="memberCount" resultType="int">
+		select count(mb_id) from member
+		<include refid="search"/>
+	</select>
+	<!-- 검색에 따른 조건문 설정  -->
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType =='name'.toString()">
+				where mb_name like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType =='nickname'.toString()">
+				where mb_nickname like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchType =='mb_id'.toString()">
+				where mb_id like '%' || #{keyword} || '%'
+			</if>
+		</if>
+	</sql>
+	<!-- 회원 탈퇴 처리 -->
+	<delete id="deleteMember" parameterType="String">
+		delete from member where mb_id=#{mb_id}
+	</delete>
+	<!-- 탈퇴회원 목록 -->
+	<select id="del_MemberList" parameterType ="SearchCriteria" resultType="BackupMemberVO">
+		select mb_id,mb_name,mb_email,mb_phone,coment,del_date
+		from (select mb_id,mb_name,mb_email,mb_phone,coment,del_date,row_number() 
+				over(order by mb_id desc) delMem_seq
+				from backup_user 
+				<include refid="search"/>)
+		where delMem_seq between #{rowStart} and #{rowEnd}
+	</select>
+	<!-- 탈퇴 회원 수 출력 -->
+	<select id="delMemberCount" parameterType="SearchCriteria" resultType="int">
+		select count(mb_id) from backup_user
+		<include refid="search"/>
+	</select>
+	
+</mapper>

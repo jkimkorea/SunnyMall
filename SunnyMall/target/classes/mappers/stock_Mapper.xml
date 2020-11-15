@@ -5,8 +5,8 @@
 
 	<!-- 상품 재고 리스트--> 
 	<select id="readStockList" parameterType="SearchCriteria" resultType="ProductVO">
-		select prd_no,prd_name,prd_cost,prd_price,prd_discount,prd_stock,prd_total_sales,prd_company 
-		from (select prd_no,prd_name,prd_cost,prd_price,prd_discount,prd_stock,prd_total_sales,prd_company,
+		select prd_no,prd_name,prd_cost,prd_price,prd_discount,prd_stock,prd_total_sales,prd_company,prd_buy 
+		from (select prd_no,prd_name,prd_cost,prd_price,prd_discount,prd_stock,prd_total_sales,prd_company,prd_buy,
 				row_number() over(order by prd_no desc) stock_seq
 				from product
 	<include refid="search"/>)
@@ -26,5 +26,10 @@
 			</if>
 		</if>
 	</sql>
-	
+	<!-- 재고 수량 수정 -->
+	<update id="setProductAmount" parameterType="Map">
+		update product
+		set prd_stock=#{prd_stock}
+		where prd_no=#{prd_no}
+	</update>
 </mapper>

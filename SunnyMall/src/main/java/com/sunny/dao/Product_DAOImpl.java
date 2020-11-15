@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sunny.domain.CategoryVO;
 import com.sunny.domain.ProductVO;
-import com.sunny.util.Criteria;
+import com.sunny.util.SearchCriteria;
 
 @Repository
 public class Product_DAOImpl implements Product_DAO {
@@ -52,13 +52,13 @@ public class Product_DAOImpl implements Product_DAO {
 	}
 	//모든 상품 출력
 	@Override
-	public List<ProductVO> allProductList(Criteria cri) throws Exception {
+	public List<ProductVO> allProductList(SearchCriteria cri) throws Exception {
 		return session.selectList(NS+".allProductList",cri);
 	}
 	//모든 상품 갯수 출력
 	@Override
-	public int allProductCount() throws Exception {
-		return session.selectOne(NS+".allProductCount");
+	public int allProductCount(SearchCriteria cri) throws Exception {
+		return session.selectOne(NS+".allProductCount",cri);
 	}
 
 	

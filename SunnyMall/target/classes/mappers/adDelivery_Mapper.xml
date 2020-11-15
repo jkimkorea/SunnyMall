@@ -3,10 +3,10 @@
 <mapper namespace="com.sunny.mappers.Delivery_Mapper">
 	<!-- 주문 리스트 (검색조건 포함) -->
 	<select id="deliveryList" parameterType="SearchCriteria" resultType="DeliveryReadVO">
-	 	select ord_no,delivery_check,ord_pay,ord_name,ord_phone,
+	 	select ord_no,delivery_check,ord_pay,ord_name,ord_phone,ord_date,
 	 	ord_zipcode,ord_add,ord_add_d,
 	 	ord_total_price,ord_total_amount,delivery_date
-	 	from (select o.ord_no,d.delivery_check,d.ord_pay,o.ord_name,o.ord_phone,
+	 	from (select o.ord_no,d.delivery_check,d.ord_pay,o.ord_name,o.ord_phone,o.ord_date,
 	 	o.ord_zipcode,o.ord_add,o.ord_add_d,
 	 	o.ord_total_price,o.ord_total_amount,d.delivery_date,row_number() over( order by o.ord_no desc)delivery_seq
 	 	from delivery d

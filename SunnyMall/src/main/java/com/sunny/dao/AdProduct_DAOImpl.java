@@ -42,6 +42,7 @@ public class AdProduct_DAOImpl implements AdProduct_DAO {
 	//검색 조건에 해당하는 상품 개수
 	@Override
 	public int searchListCount(SearchCriteria cri) throws Exception {
+		System.out.println("===========AdProductDAO execute===============");
 		return session.selectOne(NS+".searchListCount",cri);
 	}
 	//선택 상품 삭제

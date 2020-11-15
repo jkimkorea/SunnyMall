@@ -15,6 +15,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script>
 $(function(){
+	//검색버튼 클릭시
 	$("#btn_search").click(function(){
 		self.location="deliveryList"
 						+'${pm.makeQuery(1)}'
@@ -23,7 +24,7 @@ $(function(){
 						+"&keyword="
 						+$("#keyword").val();
 	});
-	
+	//배송관련 여부 확인 버튼 클릭시
 	$("button[name='btn_delivery'").click(function(){
 		var ord_no = $(this).parent().find("#ord_no").val();
 		var delivery_check = $("select[name='delivery_"+ord_no+"']").val();
@@ -109,16 +110,17 @@ desired effect
                 
 		              <table id="mytable" class="table table-bordred table-striped">
 		                <thead>
-		                	<tr style="font-size: 13px;text-align: right;">
+		                	<tr style="font-size: 10px;text-align: right;">
 		                  	 	<th>주문 번호</th>
-		                   		<th>고객명</th>
+		                   		<th>수령인</th>
 		                    	<th>수령인 연락처</th>
 		                     	<th>우편번호</th>
 		                     	<th style="text-align: center;">배송지</th>
 		                     	<th>총수량</th>
 		                     	<th>총 결제금액</th>
 		                     	<th>입금유/무</th>
-		                      	<th style="text-align: center;">주문배송날짜</th>
+		                      	<th style="text-align: center;">주문일시</th>
+		                      	<th style="text-align: center;">배송일시</th>
 		                      	<th>배송현황</th>
 		                        <th>배송 상태 선택</th>
 		                        <th></th>
@@ -135,18 +137,20 @@ desired effect
 								</tr>
 					    </c:if>
 					    <c:forEach items="${deliveryListVO}" var="deliveryVO">
-							    <tr style="text-align:center;">
+							    <tr style="text-align:center;font-size: 12px;">
 								    <td>${deliveryVO.ord_no}</td>
 								    <td>${deliveryVO.ord_name}</td>
 								    <td>${deliveryVO.ord_phone}</td>
 								    <td>${deliveryVO.ord_zipcode}</td>
 								    <td>${deliveryVO.ord_add} ${vo.ord_add_d}</td>
 								    <td>${deliveryVO.ord_total_amount}</td>
-								    <td><fmt:formatNumber value="${deliveryVO.ord_total_price}" pattern="###,###,###"/>원</td>							    <td>${deliveryVO.ord_pay}</td>
+								    <td><fmt:formatNumber value="${deliveryVO.ord_total_price}" pattern="###,###,###"/>원</td>							    
+								    <td>${deliveryVO.ord_pay}</td>
+								    <td><fmt:formatDate value="${deliveryVO.ord_date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								    <td><fmt:formatDate value="${deliveryVO.delivery_date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 								   	<td>${deliveryVO.delivery_check}</td>
 								    <td>
-										<select class="form-control" name="delivery_${deliveryVO.ord_no}" style="width: 100px; displayL inline-block;">
+										<select class="form-control" name="delivery_${deliveryVO.ord_no}" style="text-align:center;font-size: 12px;width: 100px; displayL inline-block;">
 								 			<option value="null">상태 선택</option>
 								 			<option>배송 준비중</option>
 								 			<option>배송중</option>
@@ -165,7 +169,7 @@ desired effect
 	
 					<div class="clearfix"></div>
 					<!-- 페이징 기능 -->
-					<ul class="pagination pull-right">
+					<ul class="pagination pull-right" style="display:center-block">
 					  <c:if test="${pm.prev}">
 					  		<li>
 						  		<a class="page-link" href="${pm.makeSearch(pm.startPage-1)}">

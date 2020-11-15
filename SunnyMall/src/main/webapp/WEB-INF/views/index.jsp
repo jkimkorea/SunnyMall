@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +99,7 @@
 				<%= application.getRealPath("/") %>
 				--%>
 				<ol class="breadcrumb">
-					<li>모든 상품
+					<li>모든 상품수 [${pm.totalCount}]개
 					<i class="fa fa-dashboard"></i> 
 					</li>
 				</ol>
@@ -127,7 +128,7 @@
 			             			<a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
 							         <h4 class="card-title">
 							             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
-							         </h4>
+							       </h4>
 							         <p>가격: <fmt:formatNumber value="${list.prd_price}" pattern="###,###,###" />원<br>
 									         할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
 								     <div class="btnContainer">
@@ -154,7 +155,7 @@
 					<li><a class="page-link" href="${pm.makeQuery(pm.startPage-1)}">&laquo;</a></li>
 				</c:if>
 				<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="idx">
-				    <li class="page-item"<c:out value="${pm.cri.page == idx?'class:active':''}"/>>
+				    <li class="page-item"<c:out value="${pm.cri.page == idx?'class=active':''}"/>>
 					    <a class="page-link" href="${pm.makeQuery(idx)} ">${idx}</a>
 				    </li>
 			    </c:forEach>

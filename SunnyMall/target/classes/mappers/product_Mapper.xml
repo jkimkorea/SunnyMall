@@ -14,39 +14,54 @@
 		from category
 		where cg_parent = #{cg_parent}
 	</select>
+	<!-- 2차카테고리에 따른 상품 리스트 출력 -->
 	<select id="productListCG" parameterType="Map" resultType="ProductVO">
-		select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_date_up
-		from (select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_date_up,
+		select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_buy,prd_date_up
+		from (select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_buy,prd_date_up,
 			  row_number() over(order by prd_no desc) prd_seq
 			  from product
 			  where cg_code=#{cg_code})  
 		where prd_seq between #{rowStart} and #{rowEnd}
 	</select>
+	<!-- 2차 카테고리에 따른 제목란에 카테고리명 출력 -->
 	<select id="getCGName" parameterType="String" resultType="String">
 		select cg_name 
 		from category
 		where cg_code=#{cg_code}
 	</select>
+	<!-- 페이징을 위한 각 카테고리 상품수 출력 -->
 	<select id="productCount" parameterType="String" resultType="int">
 		select count(prd_no)
 		from product
 		where cg_code=#{cg_code}
 	</select>
+	<!-- 상품 상세페이지를 위한 상품 정보 출력 -->
 	<select id="readProduct" parameterType="int" resultType="productVO">
 		select prd_no,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_buy,prd_date_post,prd_date_up
 		from product
 		where prd_no=#{prd_no}
 	</select>
-	<select id="allProductList" parameterType="Criteria" resultType="ProductVO">
+	<!-- index페이지에 뿌려줄 모든 상품 출력 -->
+	<select id="allProductList" parameterType="SearchCriteria" resultType="ProductVO">
 	select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_buy,prd_date_up
 	from (select prd_no,rev_count,cg_code,cg_parent,prd_name,prd_price,prd_discount,prd_company,prd_detail,prd_img,prd_stock,prd_date_post,prd_buy,prd_date_up,
 		  row_number()over(order by prd_no desc) prd_seq
-    	  from product)
+    	  from product
+   	<include refid ="search"/>)
 	where prd_seq between #{rowStart} and #{rowEnd}
 	</select>
+	<sql id="search">
+		<if test="searchType == 'name_detail'.toString()">
+				where (prd_name like '%' || #{keyword} || '%')
+				or (prd_detail like '%' || #{keyword} || '%')
+				or (prd_company like '%' || #{keyword} || '%')
+		</if>
+	</sql>
+	<!-- index페이지 페이징을 위한 모든 상품수 출력 -->
 	<select id="allProductCount" resultType="int">
 		select count(prd_no) 
 		from product
+		<include refid="search"/>
 	</select>
 	
 </mapper>

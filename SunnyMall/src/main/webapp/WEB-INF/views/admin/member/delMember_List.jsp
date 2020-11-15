@@ -23,23 +23,7 @@ $(function(){
 						+"&keyword="
 						+$("#keyword").val();
 	});
-	//회원 탈퇴 처리버튼 클릭시
-	$("#btn-delete").click(function(){
-		var mb_id=$(this).prev().val();
-		
-		$.ajax({
-			url:"/admin/member/deleteMember",
-			type:"post",
-			dataType:"text",
-			data:{
-				mb_id:mb_id
-			},
-			success:function(data){
-				location.href="/admin/member/memberList";
-			}
-		});
-	});
-});
+
 </script>
 <!--
 BODY TAG OPTIONS:
@@ -93,8 +77,6 @@ desired effect
 										<c:out value="${cri.searchType == null?'selected':''}"/>>검색조건 선택</option>
 									<option value="name"
 										<c:out value="${cri.searchType == 'name'?'selected':''}"/>>회원명</option>
-									<option value="nickname"
-										<c:out value="${cri.searchType == 'nickname'?'selected':''}"/>>닉네임</option>
 									<option value="mb_id"
 										<c:out value="${cri.searchType == 'id'?'selected':''}"/>>아이디</option>
 								</select>
@@ -111,7 +93,7 @@ desired effect
 						    <div class="table table-responsive">
 						        <table class="table">
 							        <tr>
-							            <th>총회원</th>
+							            <th>탈퇴 회원</th>
 							            <td>${mbCount}명</td>
 							        </tr>
 						        </table>
@@ -124,19 +106,13 @@ desired effect
 		                  	 	<th><input type="checkbox" id="checkall" /></th>
 		                   		<th style="text-align: center;">ID</th>
 		                    	<th style="text-align: center;">Name</th>
-		                    	<th style="text-align: center;">NickName</th>
 		                     	<th style="text-align: center;">Phone</th>
 		                     	<th style="text-align: center;">Email</th>
-		                     	<th style="text-align: center;">Zipcode</th>
-		                     	<th style="text-align: center;">Address</th>
-		                     	<th style="text-align: center;">메일수신</th>
-		                     	<th style="text-align: center;">Point</th>
-		                      	<th>Edit</th>
-		                        <th>탈퇴처리</th>
+		                     	<th style="text-align: center;">Coment</th>
 		                	</tr>
 		                </thead>
 					    <tbody>
-		                <c:if test="${empty memberVO}">
+		                <c:if test="${empty delMemVO}">
 					    		<tr>
 									<td colspan="10"> 
 										<p style="padding:50px 0px; text-align: center;"><td colspan="10"> </p>
@@ -145,26 +121,14 @@ desired effect
 									
 								</tr>
 					    </c:if>
-					    <c:forEach items="${memberVO}" var="vo">
+					    <c:forEach items="${delMemVO}" var="vo">
 							    <tr style="text-align:center;">
 								    <td><input type="checkbox" class="checkthis" /></td>
 								    <td>${vo.mb_id}</td>
 								    <td>${vo.mb_name}</td>
-								    <td>${vo.mb_nickname}</td>
 								    <td>${vo.mb_phone}</td>
 								    <td>${vo.mb_email}</td>
-								    <td>${vo.mb_zipcode}</td>
-								    <td>${vo.mb_add}</td>
-								    <td>${vo.mb_email_accept}</td>
-								    <td>${vo.mb_point}</td>
-								    
-								    <td>
-								    		<button id="btn-edit" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
-								    </td>
-								    <td>
-								    		<input type="hidden" id="mb_id" value="${vo.mb_id}">
-								    		<button id="btn-delete" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"><span class="glyphicon glyphicon-ok"></span></button>
-								    </td>
+								    <td>${vo.coment}</td>
 							    </tr>
 					    	</c:forEach>
 					  	  </tbody>

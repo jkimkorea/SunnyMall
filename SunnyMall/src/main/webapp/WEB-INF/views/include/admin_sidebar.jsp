@@ -75,11 +75,35 @@
 							</span> </a>
 						<ul class="treeview-menu">
 							<li>
-								<a href="/admin/member/memberList">회원정보 조회</a>
+								<a href="/admin/member/memberList">회원 리스트</a>
 							</li>
 							<li>
-								<a href="#">회원정보 관리</a>
+								<a href="/admin/member/delMemberList">탈퇴회원 리스트</a>
 							</li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#"><i class="fa fa-link"></i> <span>게시판 관리</span> <span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+						<ul class="treeview-menu">
+							<li>
+								<a href="#">상품 문의</a>
+							</li>
+							<li>
+								<a href="#">상품 후기</a>
+							</li>
+						</ul>
+					</li>
+						<li class="treeview">
+						<a href="#"><i class="fa fa-link"></i> <span>디자인 관리</span> <span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span> </a>
+						<ul class="treeview-menu">
+							<li>
+								<a href="#">메인 화면</a>
+							</li>
+							
 						</ul>
 					</li>
 				</c:if>

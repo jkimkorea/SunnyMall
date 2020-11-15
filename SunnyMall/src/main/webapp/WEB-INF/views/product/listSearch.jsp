@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +17,6 @@
   <!-- Bootstrap core CSS -->
   <!-- Custom styles for this template -->
   <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
-
   <script type="text/javascript">
   	var cart_click = function(prd_no){
   		$.ajax({
@@ -27,10 +25,10 @@
   			dataType:'text',
   			data:{prd_no:prd_no},
   			success:function(data){
-	  				var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
-	  					if(result){
-	  				location.href="/cart/cartList";
-	  				}else{}
+	  			var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
+	  				if(result){
+	  					location.href="/cart/cartList";
+  				}
   			}
   		});
   	}
@@ -46,13 +44,11 @@
   <div class="container">
 
     <div class="row">
-
     
       <div class="col-lg-3">
-
-	 <!-- sidebar -->
-     <%@ include file="/WEB-INF/views/include/home_sidebar.jsp" %>
-</div>
+	  <!-- sidebar -->
+      <%@ include file="/WEB-INF/views/include/home_sidebar.jsp" %>
+	  </div>
 
       <div class="col-lg-9">
 
@@ -90,12 +86,12 @@
 				<%= application.getRealPath("/") %>
 				--%>
 				<ol class="breadcrumb">
-					<li>
-						${cg_name} 상품 수 [${pm.totalCount}]개
+					<li>검색된 상품수 [${pm.totalCount}]개 
+					<i class="fa fa-dashboard"></i> 
 					</li>
 				</ol>
 		</div>
-               <div class="row">
+        <div class="row">
        		
 		     <c:if test="${empty vo}">
 		        <span style="padding:30px 1px; ">등록된 상품이 존재하지 않습니다.</span>
@@ -105,17 +101,17 @@
 			    <div class="col-lg-4 col-md-6 mb-4">
 			       <div class="card h-100">
 			        	 <div class="card-body">
-			        	 	<c:choose>
-			        	 		<c:when test="${list.prd_stock == 0 || list.prd_buy eq 'N'}">
-									<img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt="">
+				         	 <c:choose>
+				         	 	<c:when test="${list.prd_buy eq 'N' || list.prd_stock == 0}">
+									<img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
 						            <h4 class="card-title" style="pointer-events:none; text-decoration: line-through;">
 						                <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
 						            </h4>
 					                <small style="color:red;">[품절]</small>
 				             		<p>가격: <fmt:formatNumber value="${list.prd_price}" pattern="###,###,###" />원<br>
 									       할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
-			             		</c:when>
-			             		<c:when test="${list.prd_stock > 0 && list.prd_buy == 'Y'}">
+				             	</c:when>
+				             	<c:when test="${list.prd_buy eq 'Y'}">
 			             			<a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
 							         <h4 class="card-title">
 							             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
@@ -128,8 +124,8 @@
 											<button class="btn btn-info" id="btn_cart" type="button" 
 												onclick="cart_click(${list.prd_no})">장바구니</button>
 									 </div>
-								</c:when>
-							</c:choose>
+						         </c:when>
+					         </c:choose>
 				    	</div>
 				     	<div class="card-footer">
 				                <small class="text-muted">리뷰 [${list.rev_count}]</small>
@@ -139,25 +135,25 @@
 		      </c:forEach>
             	
           </div>
-        <!-- /.row -->
-		
+         <div class="text-center">
 			<!-- 페이징 기능 -->
-			<ul class="pagination justify-content-center">
+			<ul class="pagination justify-content-center" style="display:center-block">
 			    <c:if test="${pm.prev}">
-					<li>
-						<a class="page-link" href="${pm.makeSearch(pm.startPage-1)}">&laquo;</a>
-					</li>
+					<li><a class="page-link" href="${pm.makeSearch(pm.startPage-1)}">&laquo;</a></li>
 				</c:if>
-				<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
-				    <li <c:out value="${pm.cri.page == i?'class=active':'' }"/>>
-					  	<a class="page-link"  href="${pm.makeSearch(i)}">${i}</a>
-					</li>
+				<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="idx">
+				    <li class="page-item"<c:out value="${pm.cri.page == idx?'class=active':''}"/>>
+					    <a class="page-link" href="${pm.makeSearch(idx)} ">${idx}</a>
+				    </li>
 			    </c:forEach>
 			  	<c:if test="${pm.next && pm.endPage>0}">
 					<li><a class="page-link" href="${pm.makeSearch(pm.endPage+1)}">&raquo;</a></li>
 				</c:if>
 			</ul>
-
+			</div>
+   		</div>
+        <!-- /.row -->
+		
       </div>
       <!-- /.col-lg-9 -->
 

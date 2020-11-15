@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.sunny.domain.CategoryVO;
 import com.sunny.domain.ProductVO;
-import com.sunny.util.Criteria;
+import com.sunny.util.SearchCriteria;
 
 public interface Product_DAO {
 	
@@ -22,7 +22,7 @@ public interface Product_DAO {
 	//상품 상세 출력
 	public ProductVO readProduct(int prd_no) throws Exception;
 	//모든 상품 출력
-	public List<ProductVO> allProductList(Criteria cri) throws Exception;
+	public List<ProductVO> allProductList(SearchCriteria cri) throws Exception;
 	//모든 상품 갯수 출력
-	public int allProductCount() throws Exception;
+	public int allProductCount(SearchCriteria cri) throws Exception;
 }

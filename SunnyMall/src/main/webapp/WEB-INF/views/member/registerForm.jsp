@@ -42,6 +42,7 @@
       <div class="col-lg-9">
 				
 					<form id="joinForm" action="/member/register" method="post">
+						
 						<div class="container" style="width: 800px; padding: 10% 5%;">
 							<h4>회원가입</h4>
 							* 아래 항목을 작성해주세요.<br><br><br>

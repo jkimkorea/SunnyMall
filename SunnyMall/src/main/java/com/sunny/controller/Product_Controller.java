@@ -29,6 +29,7 @@ import com.sunny.service.Review_Service;
 import com.sunny.util.Criteria;
 import com.sunny.util.FileUtils;
 import com.sunny.util.PageMaker;
+import com.sunny.util.SearchCriteria;
 
 @Controller
 @RequestMapping("/product/*")
@@ -55,7 +56,7 @@ public class Product_Controller {
 	}
 	//카테고리에 따른 상품 리스트 출력
 	@RequestMapping(value = "productList",method=RequestMethod.GET)
-	public void list(@ModelAttribute("cri") Criteria cri,
+	public void list(@ModelAttribute("cri") SearchCriteria cri,
 					 @ModelAttribute("cg_code") String cg_code,
 					 Model model) throws Exception {
 		logger.info("==========productList() execute==============");
@@ -67,13 +68,13 @@ public class Product_Controller {
 		logger.info("============cg_code:" + cg_code);
 		
 		List<ProductVO> list= serivce.productListCG(map);
-		model.addAttribute("productList", list);
+		model.addAttribute("vo", list);
 		model.addAttribute("cg_name",cg_name);
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
 		int count = serivce.productCount(cg_code);
 		pm.setTotalCount(count);
-		logger.info("============pm:" + pm);
+		logger.info("============count:" + count);
 		
 		model.addAttribute("pm",pm);
 	}
@@ -107,15 +108,20 @@ public class Product_Controller {
 		model.addAttribute("reviewCount", reviewService.reviewCount(vo.getPrd_no()));
 		model.addAttribute("cg_name", serivce.getCGName(cg_code));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping(value = "listSearch",method=RequestMethod.GET)
+	public void listSearch(@ModelAttribute("cri") SearchCriteria cri,Model model) throws Exception {
+		
+		logger.info("==============listSearch() execute=============");
+		logger.info("==============cri:"+cri);
+		List<ProductVO> list=serivce.allProductList(cri);
+		model.addAttribute("vo", list);
+		
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		int count = serivce.allProductCount(cri);
+		pm.setTotalCount(count);
+		model.addAttribute("pm", pm);
+		
+	}
 	
 }

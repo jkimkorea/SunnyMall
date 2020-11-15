@@ -1,6 +1,7 @@
 package com.sunny.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -22,5 +23,10 @@ public class Stock_DAOImpl implements Stock_DAO {
 	@Override
 	public List<ProductVO> readStockList(SearchCriteria cri) throws Exception {
 		return session.selectList(NS+".readStockList",cri);
+	}
+	//상품 재고량 수정
+	@Override
+	public void setProductAmount(Map<String, Object> map) throws Exception {
+		session.update(NS+".setProductAmount", map);
 	}
 }

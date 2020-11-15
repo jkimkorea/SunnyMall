@@ -18,21 +18,26 @@ $(function(){
 						+"&keyword="
 						+$("#keyword").val();
 	});
-});
-</script>
-<script>
-	if("${msg}"=="EDIT_SUCCESS"){
-		 alert("상품 수정이 완료되었습니다.");
-	 }else if("${msg}"=="DELETE_SUCCESS"){
-		 alert("상품 삭제가 완료되었습니다.");
-	 }else{}
-</script>
+	//(재고 수량 변경)edit버튼 클릭시
+	$("button[name='btn_edit']").click(function(){
+		var prd_no = $(this).prev().val();
+		var prd_stock = $("input[name='amount_"+prd_no+"']").val();
+		
+		$.ajax({
+			url:'/admin/stock/edit',
+			dataType:'text',
+			type:'post',
+			data:{
+				prd_no:prd_no,
+				prd_stock:prd_stock
+			},
+			success:function(data){
+				location.href="/admin/stock/stockList${pm.makeQuery(pm.cri.page)}";
+			}
+		});
+	});
 
-<script>
-	var clickEdit = function(prd_no){
-		var url = '/admin/product/edit${pm.makeSearch(pm.cri.page)}&prd_no='+prd_no;
-		location.href=url;
-	}
+});
 </script>
 <!--
 BODY TAG OPTIONS:
@@ -112,8 +117,8 @@ desired effect
 		                     	<th>제조사</th>
 		                     	<th>재고</th>
 		                     	<th>누적 판매량</th>
-		                     	<th>품절 유/무</th>
-		                      	<th>Edit / Delete</th>
+		                     	<th>판매 상태</th>
+		                      	<th>Edit</th>
 		                        
 		                   </tr>
 		                </thead>
@@ -137,25 +142,27 @@ desired effect
 								    <td class="col-md-1"><fmt:formatNumber value="${list.prd_price}" pattern="###,###,###"/></td>
 								    <td class="col-md-1"><fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###"/></td>
 								    <td class="col-md-1">${list.prd_company}</td>
-								    <td class="col-md-1"><input name="amount_${list.prd_no}" type="number" style="width:80px; height:34px; padding-left:5px;" value="${list.prd_stock}"/></td>
+								    <td class="col-md-1"><input name="amount_${list.prd_no}" type="number" style="width:60px; height:34px; padding-left:5px;" value="${list.prd_stock}"/></td>
 								    <td class="col-md-1">${list.prd_total_sales}</td>
 								    <td class="col-md-1">
-								    	<select>
-								    		<option>판매중</option>
-								    		<option>품절</option>
-								    	</select>
+								    <c:choose>
+				         	 			<c:when test="${list.prd_stock == 0}">	
+				         	 				<p>품절</p>
+				         	 			</c:when>
+				         	 			<c:when test="${list.prd_stock > 0 && list.prd_buy eq 'Y'}">	
+				         	 				<p>판매중</p>
+				         	 			</c:when>
+				         	 			<c:when test="${list.prd_stock > 0 || list.prd_buy eq 'N'}">	
+				         	 				<p>판매보류</p>
+				         	 			</c:when>
+				         	 		</c:choose>
 								    </td>
 									<td class="col-md-2">
-										<form class="deleteForm" method="post"
-											action="/admin/product/delete${pm.makeSearch(pm.cri.page)}">
 											<!-- 상품 코드 -->
 											<input type="hidden" name="prd_no"
 												value="${list.prd_no}">
 											<!-- 수정기능 -->
-											<button type="button" name="btn_edit" class="btn btn-default" onclick="clickEdit(${list.prd_no});">Edit</button>
-											<!-- 삭제기능 -->
-											<button type="button" name="btn_delete" class="btn btn-danger">Del</button>
-										</form>
+											<button type="button" id="btn_edit" name="btn_edit" class="btn btn-primary">Edit</button>
 									</td>
 							    </tr>
 					    	</c:forEach>
@@ -166,15 +173,15 @@ desired effect
 						<div class="clearfix">
 						<ul class="pagination pull-right">
 							<c:if test="${pm.prev}">
-						  		<li><a href="list${pm.makeSearch(pm.startPage-1)}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+						  		<li><a href="stockList${pm.makeSearch(pm.startPage-1)}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
 						  	</c:if>
 						  	<c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="idx">
 							  	<li <c:out value="${pm.cri.page == idx?'class=active':'' }"/>>
-							  	<a href="list${pm.makeSearch(idx)}">${idx}</a>
+							  		<a href="stockList${pm.makeSearch(idx)}">${idx}</a>
 							  	</li>
 							 </c:forEach>
 							 <c:if test="${pm.next && pm.endPage >0}">
-						  		<li><a href="list${pm.makeSearch(pm.endPage+1)}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+						  		<li><a href="stockList${pm.makeSearch(pm.endPage+1)}"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
 							 </c:if>
 						</ul>
                 		</div>

@@ -20,7 +20,39 @@
   <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
   <%-- 우편번호API 동작코드 --%>
   <%@ include file="/WEB-INF/views/include/plugins.jsp" %>
-
+<script>
+$(function(){
+	//회원 탈퇴 클릭시
+	$("#btn_modal_confirm").on('click',function(){
+		
+		var coment = $("#coment").val();
+		var mb_id = $(".mb_id").val();
+		var mb_name= $(".mb_name").val();
+		var mb_phone= $(".mb_phone").val();
+		var mb_email= $(".mb_email").val();
+		
+		
+		alert("이용해 주셔서 감사합니다.")
+		$.ajax({
+			url:'/member/deleteUser',
+			type:'post',
+			dataType:'text',
+			data:{
+				coment:coment,
+				mb_id:mb_id,
+				mb_name:mb_name,
+				mb_phone:mb_phone,
+				mb_email:mb_email
+			},
+			success:function(data){
+				location.href="/";
+			}
+			
+		});
+		
+	});
+});
+</script>
 </head>
 
 <body>
@@ -114,12 +146,35 @@
 								취소 <i class="fa fa-times spaceLeft"></i>
 							</button>
 							<input type="button" id="btn_out" class="btn btn-link" style="float:right; display:block;
-       								margin-right:0px;"><a href="/member/deleteUser">회원 탈퇴</a><i class="fa fa-times spaceLeft"></i>
+       								margin-right:0px;"><a class='btn btn-success btn-xs' data-toggle='modal' data-target='#modifyModal'>회원 탈퇴</a><i class="fa fa-times spaceLeft"></i>
 							
 						</div>
 						<br><br><br><br>
 					</form>
-					
+					<%-- Modal : 회원 탈퇴 팝업 --%>
+					<div id="modifyModal" class="modal modal-primary fade" role="dialog">
+					  <div class="modal-dialog">
+						    <!-- Modal content-->
+						    <div class="modal-content">
+						      <div class="modal-header" >
+						        <button type="button" class="close" data-dismiss="modal">&times;</button>
+							  </div>
+							  <div class="modal-body" data-rev_no>
+							  	 <p style="font-size:15px;">개선했으면 하는 점을 남겨주시면 더 나은 서비스로 찾아뵙겠습니다.</p>
+					       		 <p><input type="text" id="coment" class="form-control"></p>
+						      </div>
+							  <div class="modal-footer">
+								<input type="hidden" class="mb_id" value="${vo.mb_id }">
+								<input type="hidden" class="mb_name" value="${vo.mb_name}">
+								<input type="hidden" class="mb_email" value="${vo.mb_email}">
+								<input type="hidden" class="mb_phone" value="${vo.mb_phone}">	
+					   			<button type="button" class="btn btn-info" id="btn_modal_confirm">확인</button>
+					  			<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+							  </div>						
+			 
+			  				</div>
+			 		 </div>
+				   </div>
 				
 				<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
 				<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">

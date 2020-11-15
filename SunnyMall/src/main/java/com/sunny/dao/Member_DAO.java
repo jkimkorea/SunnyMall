@@ -2,6 +2,7 @@ package com.sunny.dao;
 
 import java.util.Map;
 
+import com.sunny.domain.BackupMemberVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.dto.MemberDTO;
 
@@ -27,4 +28,6 @@ public interface Member_DAO {
 	public void changePw(MemberDTO dto) throws Exception;
 	//회원 정보 불러오기
 	public MemberVO readUserInfo(String mb_id) throws Exception;
+	//회원 탈퇴 사유 저장
+	public void insertComent(BackupMemberVO vo) throws Exception;
 }
