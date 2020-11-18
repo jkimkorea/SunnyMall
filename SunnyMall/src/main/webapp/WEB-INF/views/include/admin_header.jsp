@@ -52,7 +52,7 @@
 						<li class="dropdown user user-menu">
 								<!-- Menu Toggle Button -->
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> <!-- The user image in the navbar-->
-										<img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. --> <span class="hidden-xs">Alexander Pierce</span>
+										<img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. --> <span class="hidden-xs">${sessionScope.admin.admin_name}</span>
 								</a>
 								<ul class="dropdown-menu">
 									<!-- The user image in the menu -->

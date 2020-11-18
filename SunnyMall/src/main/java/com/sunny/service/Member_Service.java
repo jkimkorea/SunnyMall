@@ -3,6 +3,7 @@ package com.sunny.service;
 import java.util.Date;
 
 import com.sunny.domain.BackupMemberVO;
+import com.sunny.domain.MemberDetailVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.dto.MemberDTO;
 

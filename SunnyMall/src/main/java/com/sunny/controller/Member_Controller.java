@@ -193,13 +193,13 @@ public class Member_Controller {
 	@ResponseBody
 	@RequestMapping(value = "/deleteUser",method=RequestMethod.POST)
 	public String deleteUser(
-			String mb_id,String mb_name,@RequestParam("mb_phone") String mb_phone,String mb_email,String coment,
-			HttpSession session) throws Exception {
-			logger.info("===========deleteUser() execute=========");
-			BackupMemberVO vo = new BackupMemberVO();
-			vo.setMb_id(mb_id);
-			vo.setComent(coment);
-			vo.setMb_email(mb_email);
+		String mb_id,String mb_name,@RequestParam("mb_phone") String mb_phone,String mb_email,String comment,
+		HttpSession session) throws Exception {
+		logger.info("===========deleteUser() execute=========");
+		BackupMemberVO vo = new BackupMemberVO();
+		vo.setMb_id(mb_id);
+		vo.setComment(comment);
+		vo.setMb_email(mb_email);
 			vo.setMb_name(mb_name);
 			vo.setMb_phone(mb_phone);
 			service.insertComent(vo);

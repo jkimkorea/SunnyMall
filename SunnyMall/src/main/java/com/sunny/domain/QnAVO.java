@@ -2,9 +2,10 @@ package com.sunny.domain;
 
 import java.util.Date;
 
-public class BoardVO {
+public class QnAVO {
 	
 	private int    bod_no;
+	private int    prd_no;
 	private String mb_id;
 	private String bod_title;
 	private String bod_content;
@@ -40,11 +41,16 @@ public class BoardVO {
 	public void setBod_reg_date(Date bod_reg_date) {
 		this.bod_reg_date = bod_reg_date;
 	}
+	public int getPrd_no() {
+		return prd_no;
+	}
+	public void setPrd_no(int prd_no) {
+		this.prd_no = prd_no;
+	}
 	@Override
 	public String toString() {
-		return "BoardVO [bod_no=" + bod_no + ", mb_id=" + mb_id + ", bod_title=" + bod_title + ", bod_content="
-				+ bod_content + ", bod_reg_date=" + bod_reg_date + "]";
+		return "BoardVO [bod_no=" + bod_no + ", prd_no=" + prd_no + ", mb_id=" + mb_id + ", bod_title=" + bod_title
+				+ ", bod_content=" + bod_content + ", bod_reg_date=" + bod_reg_date + "]";
 	} 
 	
-
 }

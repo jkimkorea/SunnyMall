@@ -24,7 +24,7 @@ $(function(){
 						+"&keyword="
 						+$("#keyword").val();
 	});
-	//배송관련 여부 확인 버튼 클릭시
+	//배송상태 선택 후 확인 버튼 클릭시
 	$("button[name='btn_delivery'").click(function(){
 		var ord_no = $(this).parent().find("#ord_no").val();
 		var delivery_check = $("select[name='delivery_"+ord_no+"']").val();
@@ -38,10 +38,18 @@ $(function(){
 				ord_no:ord_no
 			},
 			success:function(data){
-				location.href="/admin/delivery/deliveryList";
+				location.href="/admin/delivery/deliveryList${pm.makeSearch(pm.cri.page)}";
 			}
 		});
+	});
+	//배송상태 체크에 맞춘 목록 불러오기 
+	$(".radio").on("click",function(){
+		var check=$("input[name='deliveryState']:checked").val();
 		
+		self.location="checkedList"
+			+'${pm.makeQuery(1)}'
+			+"&delivery_check="
+			+$("input[name='deliveryState']:checked").val();
 	});
 });
 </script>
@@ -105,9 +113,17 @@ desired effect
 							</div>
 						</div>
 			        <h4>Order List</h4>
+			        
 			        <div class="table-responsive">
-
-                
+			        	<div>	
+							<h5>주문 전체 [${pm.totalCount}건]</h5><br>
+                		</div>
+						<div>	
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="all" checked="checked">주문 전체</label>
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="배송 준비중">배송 준비중</label>
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="배송중">배송중</label>
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="배송 완료">배송 완료</label>
+                		</div>
 		              <table id="mytable" class="table table-bordred table-striped">
 		                <thead>
 		                	<tr style="font-size: 10px;text-align: right;">

@@ -20,4 +20,8 @@ public interface Delivery_DAO {
 	public List<Integer> readOrd_no() throws Exception; 
 	//배송 날짜 업데이트
 	public void deliveryDate(int ord_no) throws Exception;
+	//배송 상태에 따른 목록 총갯수
+	public int deliveryCheckedCount(String delivery_check) throws Exception;
+	//배송상태에 따른 목록 출력
+	public List<DeliveryReadVO> deliveryCheckedList(Map<String,Object> map) throws Exception;
 }

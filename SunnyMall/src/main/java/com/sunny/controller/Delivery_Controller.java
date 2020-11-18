@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,10 +55,8 @@ public class Delivery_Controller {
 	public String deliveryCheck(@RequestParam("ord_no") int ord_no,
 								@RequestParam("delivery_check") String delivery_check) throws Exception {
 		logger.info("============deliveryCheck() execute=============");
-		logger.info("============delivery_check:"+delivery_check);
 		
 		if(delivery_check.equals("배송 완료")) {
-			logger.info("============deliveryDate() execute=============");
 			service.deliveryDate(ord_no);
 			
 		}else {}
@@ -67,8 +67,36 @@ public class Delivery_Controller {
 		
 		service.deliveryCheck(map);
 		
-		return "ok";
+		return delivery_check;
 	}
-	//
+	//배송상태에 따른 목록 출력
+	@RequestMapping(value = "checkedList",method=RequestMethod.GET)
+	public void checkedList(
+			Model model,@RequestParam("delivery_check") String delivery_check,
+			@ModelAttribute("cri") SearchCriteria cri) throws Exception{
+		
+		logger.info("======================checkedList() execute=============");
+		
+		model.addAttribute("deliveryListVO",service.deliveryListAll(cri));
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		
+		if(delivery_check.equals("주문 전체")) {
+			model.addAttribute("deliveryListVO", service.deliveryListAll(cri));
+			int count = service.deliveryCount(cri);
+			pm.setTotalCount(count);
+			
+		}else {
+			map.put("cri", cri);
+			map.put("delivery_check", delivery_check);
+			model.addAttribute("deliveryListVO",service.deliveryCheckedList(map));
+			int count = service.deliveryCheckedCount(delivery_check);
+			pm.setTotalCount(count);
+		}
+		model.addAttribute("pm", pm);
+		model.addAttribute("delivery_check", delivery_check);
+	}
 	
 }

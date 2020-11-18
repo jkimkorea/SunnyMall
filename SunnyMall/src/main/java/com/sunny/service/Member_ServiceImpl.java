@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sunny.dao.Member_DAO;
 import com.sunny.domain.BackupMemberVO;
+import com.sunny.domain.MemberDetailVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.dto.MemberDTO;
 
@@ -23,7 +24,6 @@ public class Member_ServiceImpl implements Member_Service {
 	Member_DAO dao;
 	@Inject
 	private BCryptPasswordEncoder crptPassEnc;
-
 	
 	//아이디 중복체크
 	@Override

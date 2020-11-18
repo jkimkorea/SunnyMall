@@ -71,7 +71,7 @@ $(function(){
 				}
 		});
 	});
-	//상품 후기 보기 클릭시
+	//리뷰 보기 클릭시
 	$('#repliesDiv').on('click',function(){
 		var prd_no = $('#prd_no').val();
 		
@@ -97,7 +97,7 @@ $(function(){
 		var score = $(this).find('.rev_score').text();
 		
 		$('#star_grade_modal a').each(function(index,item){
-			if(index<score){
+			if(index < score){
 				$(item).addClass('on');
 			}else{
 				$(item).removeClass('on');
@@ -138,8 +138,37 @@ $(function(){
 			}
 		});
 	});
-});
+	//QnA글쓰기 클릭시 
+	$("#btn_write_qna").click(function(){
+		printBoard($("#writeQna_location"),$("#qnaTemplate"));
+	});
+	//QnA글쓰기 확인 클릭시
+	$("div#writeQna_location").on('click',"#btn_writeQnaOk",function(){
+		var title = $("input[name='title']").val();
+		var comment = $("textarea[name='comment']").val();
+		var prd_no = $("input[name='prd_no']").val();
 
+		$.ajax({
+			url:'/qna/qnaAdd',
+			type:'post',
+			dataType:'text',
+			data:{
+				title:title,
+				comment:comment,
+				prd_no:prd_no
+			},
+			success:function(data){
+				location.href="/product/readProduct?prd_no="+prd_no+"}";
+			}
+		});		
+	});
+	
+});
+//QnA글쓰기 클릭시 작동함수
+var printBoard = function(target,boardTemplate){
+	var templateObj = Handlebars.compile(boardTemplate.html());
+	target.append(templateObj);
+}
 //리뷰 보여주는 템플릿 적용함수 생성
 var printReview = function(data,target,templateObj){	
 	var template=Handlebars.compile(templateObj.html());
@@ -203,3 +232,4 @@ var deleteReview = function(rev_no,prd_no){
 		});
 	}else{}
 };
+

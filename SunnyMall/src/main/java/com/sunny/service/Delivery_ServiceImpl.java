@@ -47,6 +47,16 @@ public class Delivery_ServiceImpl implements Delivery_Service{
 	public void deliveryDate(int ord_no) throws Exception {
 		dao.deliveryDate(ord_no);
 	}
+	//배송 상태에 따른 목록 총 갯수
+	@Override
+	public int deliveryCheckedCount(String delivery_check) throws Exception {
+		return dao.deliveryCheckedCount(delivery_check);
+	}
+	//배송 상태에 따른 목록출력
+	@Override
+	public List<DeliveryReadVO> deliveryCheckedList(Map<String, Object> map) throws Exception {
+		return dao.deliveryCheckedList(map);
+	}
 	
 
 }

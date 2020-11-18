@@ -16,7 +16,7 @@
         where delivery_seq between #{rowStart} and #{rowEnd} 
 	</select>
 	<!-- 주문 총 갯수 -->
-	<select id="countTotalOrderAmount" resultType="int">
+	<select id="countTotalOrderAmount" parameterType="int" resultType="int">
 	 	select sum(ord_amount) 
 	 	from order_detail 
 	 	where ord_no=#{ord_no} 
@@ -56,5 +56,22 @@
 			</if>
 		</if>
 	</sql>
+	<!-- 배송상태에 따른 주문 목록 -->
+	<select id="deliveryCheckedList" parameterType="Map" resultType="DeliveryReadVO">
+		select ord_no,delivery_check,ord_pay,ord_name,ord_phone,ord_date,ord_zipcode,ord_add,ord_add_d,
+		 	ord_total_price,ord_total_amount,delivery_date
+		from (select o.ord_no,d.delivery_check,d.ord_pay,o.ord_name,o.ord_phone,o.ord_date,
+		 	o.ord_zipcode,o.ord_add,o.ord_add_d,
+		 	o.ord_total_price,o.ord_total_amount,d.delivery_date,row_number() over( order by o.ord_no desc) search_delivery_seq
+		 	from delivery d
+	        inner join order_tbl o
+		 	on o.ord_no = d.ord_no
+		 	where delivery_check=#{delivery_check})
+	 	where search_delivery_seq between #{cri.rowStart} and #{cri.rowEnd}
+	</select>
+	<!-- 배송 상태에 따른 목록 갯수 -->
+	<select id="deliveryCheckedCount" parameterType="String" resultType="int">
+	 	select count(ord_no) from delivery where delivery_check = #{delivery_check}
+	</select>
 	
 </mapper>

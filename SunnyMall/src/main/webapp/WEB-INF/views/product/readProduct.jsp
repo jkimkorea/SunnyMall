@@ -41,7 +41,21 @@
 		</div>
 </li>
 {{/each}}
-
+</script>
+<script id='qnaTemplate' type='text/x-handlebars-template'>
+		<div class='qna'>
+			  <label for="QnA">QnA 글쓰기</label><br>
+			  <div class="form-group">
+  				  	<label for="title">Title:</label>
+				  	<input type="text" class="form-control" name="title">
+			  </div>
+			  <div class="form-group">
+  					<label for="comment">Comment:</label>
+  					<textarea class="form-control" rows="5" name="comment" id="comment"></textarea>
+			  </div>
+			  <button class="btn_writeQnaOk" id="btn_writeQnaOk" style="float:right;"><i class="fa fa-shopping-cart"></i> 확인</button>
+			  <br><br>
+		</div>
 </script>
 <script type="text/javascript">
 	$(function(){
@@ -313,23 +327,12 @@ background:#eee;
 				<div class="col-md-12">
 					<section >
 					  <div class="row">
-						          <div class="col-md-6">
-						              <div class="pro-img-details">
-						                  <img src="/product/displayFile?fileName=${vo.prd_img }" style="display: inline; width:90%;">
-						              </div>
-						              <div class="pro-img-list">
-						                  <a href="#">
-						                      <img src="https://via.placeholder.com/110x100/87CEFA/000000" alt="">
-						                  </a>
-						                  <a href="#">
-						                      <img src="https://via.placeholder.com/110x100/FF7F50/000000" alt="">
-						                  </a>
-						                  <a href="#">
-						                      <img src="https://via.placeholder.com/110x100/FF7F50/000000" alt="">
-						                  </a>
-					                 
-					  </div>
-			          </div>
+						  <div class="col-md-6">
+						      <div class="pro-img-details">
+						            <img src="/product/displayFile?fileName=${vo.prd_img }" style="display: inline; width:90%;">
+						      </div>
+						  	</div>
+				          
 			          <div class="col-md-6">
 			              <h4 class="pro-d-title">
 			                  <strong style="font-size:20px;"><a href="#" class="">
@@ -365,17 +368,7 @@ background:#eee;
 		</section>
 		</div>
 		
-		<!-- 상품 후기 -->
-		
-		 <form role="form" action="modifyPage" method="post">
-			<input type='hidden' name='bno' value="${boardVO.bno}">
-			<input type='hidden' name='page' value="${cri.page}"> 
-			<input type='hidden' name='perPageNum' value="${cri.perPageNum}">
-			<%-- 
-			<input type='hidden' name='searchType' value="${cri.searchType}">
-			<input type='hidden' name='keyword' value="${cri.keyword}">
-			 --%>
-		</form>
+		<Br>
 			<div>
 				<!-- 리뷰 작성부분-->
 				<label for="review">Review</label><br>
@@ -392,12 +385,11 @@ background:#eee;
 						
 					<ul class="timeline">
 						<li class="time-label" id="repliesDiv" style=" list-style:none;">
-							<span class="btn btn-info">
-								상품후기 보기 <small id="replycntSmall">[${reviewCount}] </small>
+							<span class="btn btn-info" >
+								리뷰 보기 <small id="replycntSmall">[${reviewCount}] </small>
 							</span>
-							<button class="btn btn-primary" id="btn_write_review" type="button">상품후기 쓰기</button>
+							<button class="btn btn-primary" id="btn_write_review" type="button">리뷰 작성</button>
 						</li>
-						<br>
 						<li id="noReview" style="display:none;">
 							<div class="timeline-item" >
 								 <p class="timeline-header">
@@ -406,12 +398,42 @@ background:#eee;
 							</div>
 						</li>
 					</ul>
-		
-					<!-- 리뷰 페이징위치 -->  
-					
-						<ul id="pagination" class="pagination justify-content-center"></ul>
+	    		  <!-- 리뷰 페이징위치 -->  
+				  <ul id="pagination" class="pagination justify-content-center"></ul>
 					
 			  </div>
+			  <div class="table-responsive">          
+				  <label for="QnA">QnA[]</label><br>
+				  <c:if test="${empty vo}">
+		        		<span style="padding:30px 1px; ">등록된 게시글이 존재하지 않습니다.</span>
+		     	  </c:if>
+	  			  <table class="table">
+						<thead>
+						      <tr>
+						        <th>No</th>
+						        <th>Title</th>
+						        <th style="text-align:right;">User</th>
+						        <th style="text-align:right;">Date</th>
+						        <th style="text-align:right;">조회수</th>
+						      </tr>
+						  <%--<c:forEach items="" var="">
+						      <tr>
+						        <td>Firstname</td>
+						        <td>Lastname</td>
+						        <td>Email</td>
+						        <td>Email</td>
+						      </tr>
+						  	</c:forEach>--%>
+						  </thead>
+					 </table>
+				  
+				  <button class="btnSubmitFix" id="btn_write_qna" type="button" style="float:right;">글쓰기</button>
+			  </div>
+			  <br>
+			  <!-- QnA글쓰기 위치 -->
+			  <div id="writeQna_location" class="dropdown">
+			  </div>
+			  
 					<%-- Modal : 상품후기 수정/삭제 팝업 --%>
 					<div id="modifyModal" class="modal modal-primary fade" role="dialog">
 					  <div class="modal-dialog">

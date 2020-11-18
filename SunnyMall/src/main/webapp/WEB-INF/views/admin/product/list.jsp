@@ -231,7 +231,7 @@ desired effect
 					    
 					    <c:forEach items="${productList}" var="productVO">
 							    <tr>
-								    <td><input type="checkbox" name="check" class="check" value="${productVO.prd_no}" } /></td>
+								    <td><input type="checkbox" name="check" class="check" value="${productVO.prd_no}" /></td>
 								    <td class="col-md-1">${productVO.prd_no}</td>
 								    <td class="col-md-2">
 								    	<img src="/admin/product/displayFile?fileName=${productVO.prd_img}" style="width:80px;">

@@ -48,5 +48,27 @@
 		select count(mb_id) from backup_user
 		<include refid="search"/>
 	</select>
-	
+	<!-- 회원 상세 정보(crm) 불러오기 -->
+	<select id="readMemberDetailinfo" parameterType="String" resultType="MemberDetailVO">
+		select m.mb_id,m.mb_name,m.mb_email,m.mb_zipcode,m.mb_add,m.mb_add_d,m.mb_phone,m.mb_nickname,m.mb_email_accept,m.mb_point,m.ad_comment, 
+				m.mb_date_first,m.mb_date_up,m.mb_date_last,o.ord_total_price,o.ord_total_amount
+		from (select mb_id,sum(ord_total_price) as ord_total_price, sum(ord_total_amount) as ord_total_amount from order_tbl where mb_id=#{mb_id} group by mb_id) o
+		full outer join member m 
+		on m.mb_id=o.mb_id 
+		where m.mb_id=#{mb_id}
+	</select>
+	<!-- 회원별 작성 리뷰글  갯수출력-->
+	<select id="countMemberReview" parameterType="String" resultType="int">
+		select count(rev_no) from review where mb_id=#{mb_id}
+	</select>
+	<!-- 회원상세 페이지 코멘트 작성 저장 -->
+	<update id="addComment" parameterType="Map">
+		update member 
+		set ad_comment = #{ad_comment}
+		where mb_id = #{mb_id}
+	</update>
+	<!-- 회원 탈퇴 처리 -->
+	<delete id="deleteMem" parameterType="String">
+		delete member where mb_id=#{mb_id}
+	</delete>
 </mapper>

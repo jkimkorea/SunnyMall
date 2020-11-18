@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
 <!--
@@ -14,16 +15,44 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script>
 $(function(){
-	//회원 검색
+	//검색버튼 클릭시
 	$("#btn_search").click(function(){
-		self.location="memberList"
+		self.location="deliveryList"
 						+'${pm.makeQuery(1)}'
 						+"&searchType="
 						+$("select option:selected").val()
 						+"&keyword="
 						+$("#keyword").val();
 	});
-
+	//배송관련 여부 확인 버튼 클릭시
+	$("button[name='btn_delivery'").click(function(){
+		var ord_no = $(this).parent().find("#ord_no").val();
+		var delivery_check = $("select[name='delivery_"+ord_no+"']").val();
+		var delivery_checked = $("input[name='deliveryState']:checked").val();
+		
+		$.ajax({
+			url:'/admin/delivery/delivery_check',
+			type:'POST',
+			dataType:'text',
+			data:{
+				delivery_check:delivery_check,
+				ord_no:ord_no
+			},
+			success:function(data){
+				location.href="/admin/delivery/checkedList${pm.makeQuery(pm.cri.page)}&delivery_check="+delivery_checked;
+			}
+		});
+	});
+	//배송상태 체크에 맞춘 목록 불러오기 
+	$(".radio").on("click",function(){
+		var check=$("input[name='deliveryState']:checked").val();
+		
+		self.location="checkedList"
+			+'${pm.makeQuery(1)}'
+			+"&delivery_check="
+			+$("input[name='deliveryState']:checked").val();
+	});
+});
 </script>
 <!--
 BODY TAG OPTIONS:
@@ -60,106 +89,131 @@ desired effect
 					Admin Page
 				</h1>
 				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> 회원 관리</a></li>
-					<li class="active">회원 목록</li>
+					<li><a href="#"><i class="fa fa-dashboard"></i> 주문 관리</a></li>
+					<li class="active">배송 관리</li>
 				</ol>
 			</section>
-			<div class="container">
+			<section class="content container-fluid">
     			<div class="row">
-		
-        
         			<div class="col-md-12">
-        
 				        <div class="row text-center">
 							<div style="display: inline-block; float: left; margin-left:15px;">
 								<select name="searchType" style="width:180px; height:26px;">
 									<option value="null" 
 										<c:out value="${cri.searchType == null?'selected':''}"/>>검색조건 선택</option>
 									<option value="name"
-										<c:out value="${cri.searchType == 'name'?'selected':''}"/>>회원명</option>
-									<option value="mb_id"
-										<c:out value="${cri.searchType == 'id'?'selected':''}"/>>아이디</option>
+										<c:out value="${cri.searchType == 'name'?'selected':''}"/>>고객명</option>
+									<option value="phone"
+										<c:out value="${cri.searchType == 'phone'?'selected':''}"/>>연락처</option>
+									<option value="add"
+										<c:out value="${cri.searchType == 'add'?'selected':''}"/>>주소</option>
 								</select>
 								
 								<input type="text" name='keyword' id="keyword" style="width:250px; padding-left:5px;" value='${cri.keyword}' />
 								<button id="btn_search" class="btn btn-default">검색</button>
 							</div>
 						</div>
-			        <h4>Member List</h4>
+			        <h4>Order List</h4>
+			        
 			        <div class="table-responsive">
-
-                	
-					    <div class="col-xs-3 col-md-3">
-						    <div class="table table-responsive">
-						        <table class="table">
-							        <tr>
-							            <th>탈퇴 회원</th>
-							            <td>${mbCount}명</td>
-							        </tr>
-						        </table>
-						    </div>
-					     
-					    </div>
+						<div>	
+							<h5>${delivery_check} [${pm.totalCount}건]</h5><br>
+                		</div>
+                		<div>	
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="주문 전체" <c:out value="${delivery_check == '주문 전체'?'checked':'' }"/>>주문 전체</label>
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="배송 준비중" <c:out value="${delivery_check == '배송 준비중'?'checked':'' }"/>>배송 준비중</label>
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="배송중" <c:out value="${delivery_check == '배송중'?'checked':'' }"/>>배송중</label>
+							<label class="radio-inline"><input class="radio" type="radio" name="deliveryState" value="배송 완료" <c:out value="${delivery_check == '배송 완료'?'checked':'' }"/>>배송 완료</label>
+                		</div>
+                		<br>
 		              <table id="mytable" class="table table-bordred table-striped">
 		                <thead>
-		                     <tr>
-		                  	 	<th><input type="checkbox" id="checkall" /></th>
-		                   		<th style="text-align: center;">ID</th>
-		                    	<th style="text-align: center;">Name</th>
-		                     	<th style="text-align: center;">Phone</th>
-		                     	<th style="text-align: center;">Email</th>
-		                     	<th style="text-align: center;">Comment</th>
+		                	<tr style="font-size: 10px;text-align: right;">
+		                  	 	<th>주문 번호</th>
+		                   		<th>수령인</th>
+		                    	<th>수령인 연락처</th>
+		                     	<th>우편번호</th>
+		                     	<th style="text-align: center;">배송지</th>
+		                     	<th>총수량</th>
+		                     	<th>총 결제금액</th>
+		                     	<th>입금유/무</th>
+		                      	<th style="text-align: center;">주문일시</th>
+		                      	<th style="text-align: center;">배송일시</th>
+		                      	<th>배송현황</th>
+		                        <th>배송 상태 선택</th>
+		                        <th></th>
 		                	</tr>
 		                </thead>
 					    <tbody>
-		                <c:if test="${empty delMemVO}">
+		                <c:if test="${empty deliveryListVO}">
 					    		<tr>
 									<td colspan="10"> 
-										<p style="padding:50px 0px; text-align: center;"><td colspan="10"> </p>
-										<p style="padding:50px 0px; text-align: center;">등록된 회원 정보가 존재하지 않습니다.</p>
+										<p style="padding:50px 0px; text-align: left;"><td colspan="10"> </p>
+										<p style="padding:50px 0px; text-align: left;">등록된 배송 정보가 존재하지 않습니다.</p>
 									</td>
 									
 								</tr>
 					    </c:if>
-					    <c:forEach items="${delMemVO}" var="vo">
-							    <tr style="text-align:center;">
-								    <td><input type="checkbox" class="checkthis" /></td>
-								    <td>${vo.mb_id}</td>
-								    <td>${vo.mb_name}</td>
-								    <td>${vo.mb_phone}</td>
-								    <td>${vo.mb_email}</td>
-								    <td>${vo.comment}</td>
-							    </tr>
+					    <c:forEach items="${deliveryListVO}" var="deliveryVO">
+							    <tr style="text-align:center;font-size: 12px;">
+								    <td>${deliveryVO.ord_no}</td>
+								    <td>${deliveryVO.ord_name}</td>
+								    <td>${deliveryVO.ord_phone}</td>
+								    <td>${deliveryVO.ord_zipcode}</td>
+								    <td>${deliveryVO.ord_add} ${vo.ord_add_d}</td>
+								    <td>${deliveryVO.ord_total_amount}</td>
+								    <td><fmt:formatNumber value="${deliveryVO.ord_total_price}" pattern="###,###,###"/>원</td>							    
+								    <td>${deliveryVO.ord_pay}</td>
+								    <td><fmt:formatDate value="${deliveryVO.ord_date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+								    <td><fmt:formatDate value="${deliveryVO.delivery_date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+								   	<td>${deliveryVO.delivery_check}</td>
+								    <td>
+										<select class="form-control" name="delivery_${deliveryVO.ord_no}" style="text-align:center;font-size: 12px;width: 100px; displayL inline-block;">
+								 			<option value="null">상태 선택</option>
+								 			<option>배송 준비중</option>
+								 			<option>배송중</option>
+								 			<option>배송 완료</option>
+										</select>								    	
+								    </td>
+								    <td>
+								    	<input type="hidden" name="ord_no" id="ord_no" value="${deliveryVO.ord_no}">
+								    	<button class="btn btn-primary" id="btn_delivery" name="btn_delivery" type="button">확인</button>
+								    </td>
+								</tr>
 					    	</c:forEach>
 					  	  </tbody>
 		        
 						</table>
 	
 					<div class="clearfix"></div>
-					<ul class="pagination pull-right">
-						<c:if test="${pm.prev}">
-					  		<li class="disabled">
-					  			<a href="memberList${pm.makeSearch(pm.startPage-1)}">&laquo;</a>
-					  		</li>
-					    </c:if>
-					    <c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
- 					 		<li <c:out value="${pm.cri.page == i?'class=active':''}"/>>
- 					 			<a href="memberList${pm.makeSearch(i)}">${i}</a>
- 					 		</li>
-					  	</c:forEach>
-					  	<c:if test="${pm.next && pm.endPage > 0}">
+					<!-- 페이징 기능 -->
+					<ul class="pagination pull-right" style="display:center-block">
+					  <c:if test="${pm.prev}">
 					  		<li>
-					  			<a href="memberList${pm.makeSearch(pm.endPage+1)}">>&laquo;</a>
+						  		<a class="page-link" href="${pm.makeQuery(pm.startPage-1)}&delivery_check=${delivery_check}">
+							  		<span class="glyphicon glyphicon-chevron-left"></span>
+						  		</a>
 					  		</li>
-					  	</c:if>
+					  </c:if>
+					  <c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
+					  		<li <c:out value="${pm.cri.page == i?'class=active':'' }"/>>
+					  			<a class="page-link"  href="${pm.makeQuery(i)}&delivery_check=${delivery_check}">${i}</a>
+					  		</li>
+					  </c:forEach>
+					  <c:if test="${pm.next && pm.endPage > 0}">
+					  		<li>
+					  			<a class="page-link" href="${pm.makeQuery(pm.endPage+1)}&delivery_check=${delivery_check}">
+					  				<span class="glyphicon glyphicon-chevron-right"></span>
+					  			</a>
+					  		</li>
+					  </c:if>
 					</ul>
                 
           		 </div>
             
         		</div>
 			</div>
-		</div>
-
+		</section>
 
 		<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
 		      <div class="modal-dialog">

@@ -39,7 +39,33 @@ $(function(){
 			}
 		});
 	});
+	//회원 탈퇴 처리
+	$("#btn-delete").click(function(){
+		var mb_id=$("#mb_id").val();
+		alert(mb_id);
+		
+		$.ajax({
+			url:'/admin/member/deleteMem',
+			type:'post',
+			dataType:'text',
+			data:{
+				mb_id:mb_id
+			},
+			successe:function(data){
+				location.href="/admin/member/memberList";
+			}
+		});
+	});
 });
+	//crm 버튼 클릭시
+	function openWindow(mb_id){
+			var url= "/admin/member/crmPage?mb_id="+mb_id;  
+			var winWidth = 700;
+		    var winHeight = 600;
+		    var popupOption= "width="+winWidth+", height="+winHeight;    
+			window.open(url,"",popupOption);
+	}
+	
 </script>
 <!--
 BODY TAG OPTIONS:
@@ -131,7 +157,7 @@ desired effect
 		                     	<th style="text-align: center;">Address</th>
 		                     	<th style="text-align: center;">메일수신</th>
 		                     	<th style="text-align: center;">Point</th>
-		                      	<th>Edit</th>
+		                      	<th>CRM</th>
 		                        <th>탈퇴처리</th>
 		                	</tr>
 		                </thead>
@@ -159,11 +185,11 @@ desired effect
 								    <td>${vo.mb_point}</td>
 								    
 								    <td>
-								    		<button id="btn-edit" class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button>
+								    		<button id="btn-edit" class="btn btn-warning btn-xs" onclick="openWindow('${vo.mb_id}')"><span class="glyphicon glyphicon-pencil"></span></button>
 								    </td>
 								    <td>
 								    		<input type="hidden" id="mb_id" value="${vo.mb_id}">
-								    		<button id="btn-delete" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal"><span class="glyphicon glyphicon-ok"></span></button>
+								    		<button id="btn-delete" class="btn btn-danger btn-xs" data-title="Delete"><span class="glyphicon glyphicon-ok"></span></button>
 								    </td>
 							    </tr>
 					    	</c:forEach>
@@ -196,60 +222,6 @@ desired effect
 			</div>
 		</div>
 
-
-		<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-		      <div class="modal-dialog">
-		    <div class="modal-content">
-		          <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-		        <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
-		      </div>
-		          <div class="modal-body">
-		          <div class="form-group">
-		        <input class="form-control " type="text" placeholder="Mohsin">
-		        </div>
-		        <div class="form-group">
-		        
-		        <input class="form-control " type="text" placeholder="Irshad">
-		        </div>
-		        <div class="form-group">
-		        <textarea rows="2" class="form-control" placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
-		    
-		        
-		        </div>
-		      </div>
-		          <div class="modal-footer ">
-		        <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-		      </div>
-		        </div>
-		    <!-- /.modal-content --> 
-		  </div>
-		      <!-- /.modal-dialog --> 
-		    </div>
-    
-    
-    
-    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
-    <div class="modal-content">
-          <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
-      </div>
-          <div class="modal-body">
-       
-       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
-       
-      </div>
-        <div class="modal-footer ">
-        <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
-      </div>
-        </div>
-    <!-- /.modal-content --> 
-  </div>
-      <!-- /.modal-dialog --> 
-    </div>
 
 			<!-- Main content -->
 			<section class="content container-fluid">

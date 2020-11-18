@@ -1,6 +1,7 @@
 package com.sunny.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -8,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.sunny.domain.BackupMemberVO;
+import com.sunny.domain.MemberDetailVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.util.SearchCriteria;
 
@@ -43,6 +45,24 @@ public class AdMember_DAOImpl implements AdMember_DAO{
 	public int delMemberCount(SearchCriteria cri) throws Exception {
 		return session.selectOne(NS+".delMemberCount", cri);
 	}
-	
+	//회원 상세 정보 불러오기
+	@Override
+	public MemberDetailVO readMemberDetailinfo(String mb_id) throws Exception {
+		return session.selectOne(NS+".readMemberDetailinfo", mb_id);
+	}
+	//회원별 작성 리뷰 갯수 출력
+	@Override
+	public int countMemberReview(String mb_id) throws Exception {
+		return session.selectOne(NS+".countMemberReview", mb_id);
+	}
+	//회원 상세페이지 관리자 코멘트 저장
+	@Override
+	public void addComment(Map<String,Object> map) throws Exception {
+		session.update(NS+".addComment", map);
+	}
+	@Override
+	public void deleteMem(String mb_id) throws Exception {
+		session.delete(NS+".deleteMem", mb_id);
+	}
 	
 }

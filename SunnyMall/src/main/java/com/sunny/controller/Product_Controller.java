@@ -95,7 +95,7 @@ public class Product_Controller {
 	}
 	//상품 페이지
 	@RequestMapping(value = "readProduct",method=RequestMethod.GET)
-	public void readProduct(@ModelAttribute("crt") Criteria cri,
+	public void readProduct(@ModelAttribute("cri") Criteria cri,
 							@RequestParam("prd_no") int prd_no,
 							@RequestParam("cg_code") String cg_code,
 							Model model) throws Exception {

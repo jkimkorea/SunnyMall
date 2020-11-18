@@ -8,7 +8,7 @@ public class BackupMemberVO {
 	private String  mb_name;
 	private String  mb_email;
 	private String  mb_phone;
-	private String  coment;
+	private String  comment;
 	private Date 	del_date;
 	
 	public String getMb_id() {
@@ -35,11 +35,11 @@ public class BackupMemberVO {
 	public void setMb_phone(String mb_phone) {
 		this.mb_phone = mb_phone;
 	}
-	public String getComent() {
-		return coment;
+	public String getComment() {
+		return comment;
 	}
-	public void setComent(String coment) {
-		this.coment = coment;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public Date getDel_date() {
 		return del_date;
@@ -49,7 +49,7 @@ public class BackupMemberVO {
 	}
 	@Override
 	public String toString() {
-		return "BackupMemberVO [mb_id=" + mb_id + ", mb_name=" + mb_name + ", mb_email=" + mb_email  + ", mb_phone=" + mb_phone + ", coment=" + coment + ", del_date=" + del_date + "]";
+		return "BackupMemberVO [mb_id=" + mb_id + ", mb_name=" + mb_name + ", mb_email=" + mb_email  + ", mb_phone=" + mb_phone + ", comment=" + comment + ", del_date=" + del_date + "]";
 	}
 	
 }

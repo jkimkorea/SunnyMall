@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunny.mappers.QnA_Mapper">
+	<!-- 문의글 등록 -->
+	<insert id="qnaAdd" parameterType="QnAVO">
+		insert into QnA (qna_no,mb_id,prd_no,qna_title,qna_content,qna_reg_date)
+		values (#{qna_no},#{mb_id},#{prd_no},#{qna_title},#{qna_content},sysdate)
+	</insert>
+	
+</mapper>

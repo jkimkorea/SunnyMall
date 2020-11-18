@@ -1,6 +1,8 @@
 package com.sunny.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -8,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sunny.controller.AdMember_Controller;
 import com.sunny.domain.BackupMemberVO;
+import com.sunny.domain.MemberDetailVO;
 import com.sunny.domain.MemberVO;
 import com.sunny.service.AdMember_Service;
 import com.sunny.util.PageMaker;
@@ -73,6 +77,31 @@ public class AdMember_Controller {
 			
 		model.addAttribute("pm", pm);
 		return "/admin/member/delMember_List";
+	}
+	//회원 상세정보 (crm)페이지
+	@RequestMapping(value = "crmPage", method=RequestMethod.GET)
+	public void crmPage(@RequestParam("mb_id") String mb_id,Model model) throws Exception {
+		logger.info("===============crmPage() execute======================");
+		
+		model.addAttribute("memDetailVO", service.readMemberDetailinfo(mb_id));
+		model.addAttribute("reviewCount", service.countMemberReview(mb_id));
+	}
+	//회원 상세페이지 코멘트 저장
+	@RequestMapping(value = "addComment",method=RequestMethod.POST)
+	public void addComment(@RequestParam("ad_comment") String ad_comment,
+						   @RequestParam("mb_id") String mb_id) throws Exception{
+		logger.info("=============addComment() execute=============");
+		Map<String,Object> map = new HashMap<String, Object>(); 
+		map.put("ad_comment", ad_comment);
+		map.put("mb_id", mb_id);
+		logger.info("====================map:"+map);
+		service.addComment(map);
+	}
+	//회원 탈퇴 처리
+	@RequestMapping(value = "deleteMem",method=RequestMethod.POST)
+	public void deleteMem(@RequestParam("mb_id") String mb_id) throws Exception{
+		logger.info("===================deleteMem() execute====================");
+		service.deleteMem(mb_id);
 	}
 	
 }

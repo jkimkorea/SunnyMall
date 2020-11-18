@@ -49,4 +49,13 @@ public class Delivery_DAOImpl implements Delivery_DAO {
 	public void deliveryDate(int ord_no) throws Exception {
 		session.update(NS+".deliveryDate", ord_no);
 	}
+	//배송 상태에 따른 주문 총 갯수
+	@Override
+	public int deliveryCheckedCount(String delivery_check) throws Exception {
+		return session.selectOne(NS+".deliveryCheckedCount", delivery_check);
+	}
+	//배송상태에 따른 목록 출력
+	public List<DeliveryReadVO> deliveryCheckedList(Map<String,Object> map) throws Exception{
+		return session.selectList(NS+".deliveryCheckedList", map);
+	}
 }
