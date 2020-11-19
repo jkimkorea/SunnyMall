@@ -43,7 +43,6 @@
         <div class="col-lg-12 col-md-12 col-12">
             <h3 class="display-5 mb-2 text-center">Shopping Cart</h3>
             <p class="mb-5 text-center">
-                <i class="text-info font-weight-bold">${countCart}</i> items in your cart</p>
 				<div class="btn-container" style="display: inline-block; float: right; margin:20px 10px 5px 5px;">
 							<button id="btn_delete_check"  class="btn btn-info" >선택 상품 삭제</button>
 				</div>

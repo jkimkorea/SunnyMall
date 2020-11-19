@@ -24,6 +24,8 @@
 	<resources mapping="/upload/**" location="/resources/upload/" />
 	<resources mapping="/vendor/**" location="/resources/vendor/" />
 	<resources mapping="/css/**" location="/resources/css/" />
+		<resources mapping="/image/**" location="/resources/image/" />
+	
 	
 		<!-- 클라이언트로 부터 전송되어 온 파일을 스프링에서 처리하는 기능 -->
 	<!-- MultipartFile file 주입됨 -->

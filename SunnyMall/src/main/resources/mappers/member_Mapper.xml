@@ -69,7 +69,7 @@
 	</select>
 	<!-- 탈퇴 사유 -->
 	<insert id="insertComent" parameterType="BackupMemberVO">
-	 	insert into backup_user(mb_id,mb_name,mb_email,mb_phone,comment,del_date)
-	 	values(#{mb_id},#{mb_name},#{mb_email},#{mb_phone},#{comment},sysdate)
+	 	insert into backup_user(mb_id,mb_name,mb_email,mb_phone,mb_comment,del_date)
+	 	values(#{mb_id},#{mb_name},#{mb_email},#{mb_phone},#{mb_comment},sysdate)
 	</insert>
 </mapper>

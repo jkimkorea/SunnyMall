@@ -143,30 +143,35 @@ $(function(){
 		printBoard($("#writeQna_location"),$("#qnaTemplate"));
 	});
 	//QnA글쓰기 확인 클릭시
-	$("div#writeQna_location").on('click',"#btn_writeQnaOk",function(){
+	$("div#writeQna_location").on("click","#btn_writeQnaOk",function(){
 		var title = $("input[name='title']").val();
 		var comment = $("textarea[name='comment']").val();
 		var prd_no = $("input[name='prd_no']").val();
+		var cg_code=null;
+		alert(title);
+		alert(comment);
+		alert(prd_no);
 
 		$.ajax({
 			url:'/qna/qnaAdd',
 			type:'post',
 			dataType:'text',
 			data:{
-				title:title,
-				comment:comment,
+				qna_title:title,
+				qna_content:comment,
 				prd_no:prd_no
 			},
 			success:function(data){
-				location.href="/product/readProduct?prd_no="+prd_no+"}";
+				alert();
+				location.href="/product/readProduct?prd_no="+prd_no+"&cg_code="+cg_code;
 			}
 		});		
 	});
 	
 });
 //QnA글쓰기 클릭시 작동함수
-var printBoard = function(target,boardTemplate){
-	var templateObj = Handlebars.compile(boardTemplate.html());
+var printBoard = function(target,qnaTemplate){
+	var templateObj = Handlebars.compile(qnaTemplate.html());
 	target.append(templateObj);
 }
 //리뷰 보여주는 템플릿 적용함수 생성

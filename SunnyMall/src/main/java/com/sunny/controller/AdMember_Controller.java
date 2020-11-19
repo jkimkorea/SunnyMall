@@ -38,7 +38,7 @@ public class AdMember_Controller {
 	@RequestMapping(value = "memberList",method=RequestMethod.GET)
 	public String memberList(@ModelAttribute("cri") SearchCriteria cri,Model model) throws Exception {
 		logger.info("============memberList() execute============");
-		logger.info("============cri:"+cri);
+		
 		List<MemberVO> list = service.memberList(cri);
 		
 		model.addAttribute("memberVO", list);
@@ -58,13 +58,15 @@ public class AdMember_Controller {
 	@RequestMapping(value = "deleteMember",method=RequestMethod.POST)
 	public String deleteMember(@RequestParam("mb_id") String mb_id)throws Exception{
 		service.deleteMember(mb_id);
+		
 		return "ok";
 	}
 	//탈퇴회원 리스트
 	@RequestMapping(value = "delMemberList",method=RequestMethod.GET)
 	public String delMemberList(@ModelAttribute("cri") SearchCriteria cri,Model model) throws Exception {
+		
 		logger.info("============delMemberList() execute============");
-		logger.info("=================cri"+cri);
+		
 		List<BackupMemberVO> list = service.delMemberList(cri);
 			
 		model.addAttribute("delMemVO", list);
@@ -76,7 +78,7 @@ public class AdMember_Controller {
 		pm.setTotalCount(count);
 			
 		model.addAttribute("pm", pm);
-		return "/admin/member/delMember_List";
+		return "/admin/member/delMemberList";
 	}
 	//회원 상세정보 (crm)페이지
 	@RequestMapping(value = "crmPage", method=RequestMethod.GET)
@@ -94,7 +96,6 @@ public class AdMember_Controller {
 		Map<String,Object> map = new HashMap<String, Object>(); 
 		map.put("ad_comment", ad_comment);
 		map.put("mb_id", mb_id);
-		logger.info("====================map:"+map);
 		service.addComment(map);
 	}
 	//회원 탈퇴 처리

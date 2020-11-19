@@ -4,7 +4,15 @@
 	<!-- 문의글 등록 -->
 	<insert id="qnaAdd" parameterType="QnAVO">
 		insert into QnA (qna_no,mb_id,prd_no,qna_title,qna_content,qna_reg_date)
-		values (#{qna_no},#{mb_id},#{prd_no},#{qna_title},#{qna_content},sysdate)
+		values (qna_no_seq.nextval,#{mb_id},#{prd_no},#{qna_title},#{qna_content},sysdate)
 	</insert>
+	<select id="qnaList" parameterType="int" resultType="QnAVO">
+		select qna_no,prd_no,mb_id,qna_title,qna_content,qna_reg_date 
+		from qna where prd_no = #{prd_no} order by qna_no desc
+	</select>
+	<select id="qnaCount" parameterType="int" resultType="int">
+		select count(qna_no) from qna
+		where prd_no=#{prd_no} 
+	</select>
 	
 </mapper>

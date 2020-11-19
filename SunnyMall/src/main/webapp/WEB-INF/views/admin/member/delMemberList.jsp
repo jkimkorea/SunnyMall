@@ -23,7 +23,7 @@ $(function(){
 						+"&keyword="
 						+$("#keyword").val();
 	});
-
+});
 </script>
 <!--
 BODY TAG OPTIONS:
@@ -103,7 +103,6 @@ desired effect
 		              <table id="mytable" class="table table-bordred table-striped">
 		                <thead>
 		                     <tr>
-		                  	 	<th><input type="checkbox" id="checkall" /></th>
 		                   		<th style="text-align: center;">ID</th>
 		                    	<th style="text-align: center;">Name</th>
 		                     	<th style="text-align: center;">Phone</th>
@@ -123,12 +122,11 @@ desired effect
 					    </c:if>
 					    <c:forEach items="${delMemVO}" var="vo">
 							    <tr style="text-align:center;">
-								    <td><input type="checkbox" class="checkthis" /></td>
 								    <td>${vo.mb_id}</td>
 								    <td>${vo.mb_name}</td>
 								    <td>${vo.mb_phone}</td>
 								    <td>${vo.mb_email}</td>
-								    <td>${vo.comment}</td>
+								    <td>${vo.mb_comment}</td>
 							    </tr>
 					    	</c:forEach>
 					  	  </tbody>

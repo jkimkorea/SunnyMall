@@ -1,18 +1,23 @@
 package com.sunny.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sunny.domain.AdminVO;
 import com.sunny.dto.AdminDTO;
+import com.sunny.dto.SalesDTO;
 import com.sunny.service.Admin_Service;
+import com.sunny.service.Chart_Service;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -20,6 +25,9 @@ public class Admin_Controller {
 	
 	@Inject
 	private Admin_Service service;
+	@Inject
+	private Chart_Service chartService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(Admin_Controller.class);
 	
 	//관리자 로그인 페이지
@@ -29,9 +37,10 @@ public class Admin_Controller {
 
 	//로그인
 	@RequestMapping(value = "adminLogin",method=RequestMethod.POST)
-	public String adminLogin(AdminDTO dto,HttpSession session,RedirectAttributes rttr) throws Exception {
+	public String adminLogin(Model model,AdminDTO dto,HttpSession session,RedirectAttributes rttr) throws Exception {
 		logger.info("===============adminLogin() success======");
 		logger.info("===============dto:"+dto);
+		
 		
 		AdminVO vo=service.adminLogin(dto);
 		logger.info("===============vo:"+vo);
@@ -50,11 +59,12 @@ public class Admin_Controller {
 	}
 	//로그 아웃
 	@RequestMapping(value = "/adminLogout",method = RequestMethod.GET)
-	public String adminLogout(HttpSession session,RedirectAttributes rttr) {
+	public String adminLogout(HttpSession session,RedirectAttributes rttr) throws Exception {
 		logger.info("===============adminLogout() success======");
+		
 		session.invalidate();
 		rttr.addFlashAttribute("msg","LOGOUT_SUCCESS");
 		return "redirect:/admin/admin_main";
 	}
-
+	
 }

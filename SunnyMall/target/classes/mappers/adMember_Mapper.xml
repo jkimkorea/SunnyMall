@@ -34,10 +34,13 @@
 	<delete id="deleteMember" parameterType="String">
 		delete from member where mb_id=#{mb_id}
 	</delete>
+	<insert id="backupMember" parameterType="BackupMemberVO">
+	
+	</insert>
 	<!-- 탈퇴회원 목록 -->
 	<select id="del_MemberList" parameterType ="SearchCriteria" resultType="BackupMemberVO">
-		select mb_id,mb_name,mb_email,mb_phone,coment,del_date
-		from (select mb_id,mb_name,mb_email,mb_phone,coment,del_date,row_number() 
+		select mb_id,mb_name,mb_email,mb_phone,mb_comment,del_date
+		from (select mb_id,mb_name,mb_email,mb_phone,mb_comment,del_date,row_number() 
 				over(order by mb_id desc) delMem_seq
 				from backup_user 
 				<include refid="search"/>)

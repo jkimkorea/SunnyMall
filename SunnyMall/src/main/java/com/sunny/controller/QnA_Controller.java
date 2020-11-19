@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sunny.domain.QnAVO;
 import com.sunny.dto.MemberDTO;
@@ -24,17 +26,25 @@ public class QnA_Controller {
 	private static final Logger logger = LoggerFactory.getLogger(QnA_Controller.class);
 	
 	//문의글 등록
+	@ResponseBody
 	@RequestMapping(value = "qnaAdd",method=RequestMethod.POST)
-	public void insertBoard(HttpSession session,QnAVO vo) throws Exception{
+	public String insertQnA(HttpSession session,
+							String qna_title,String qna_content,
+							@RequestParam("prd_no") int prd_no) throws Exception{
+		logger.info("============insertinsertQnA() execute=============");
 		MemberDTO dto=(MemberDTO) session.getAttribute("user");
+		QnAVO vo=new QnAVO();
+		vo.setPrd_no(prd_no);
+		vo.setQna_title(qna_title);
+		vo.setQna_content(qna_content);
 		vo.setMb_id(dto.getMb_id());
 		service.qnaAdd(vo);
-	}
-	//문의글 목록
-	//@RequestMapping(value = "qnaList",method=RequestMethod.GET)
-	//public void qnaList(Model model) throws Exception{
+		logger.info("===============vo:"+vo);
 		
-	//}
+		return "ok";
+	}
+	
+	
 	
 	
 }

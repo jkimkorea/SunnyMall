@@ -142,7 +142,7 @@ desired effect
 								    <td class="col-md-1"><fmt:formatNumber value="${list.prd_price}" pattern="###,###,###"/></td>
 								    <td class="col-md-1"><fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###"/></td>
 								    <td class="col-md-1">${list.prd_company}</td>
-								    <td class="col-md-1"><input name="amount_${list.prd_no}" type="number" style="width:60px; height:34px; padding-left:5px;" value="${list.prd_stock}"/></td>
+								    <td class="col-md-1"><input name="amount_${list.prd_no}" type="number" min="1" style="width:60px; height:34px; padding-left:5px;" value="${list.prd_stock}"/></td>
 								    <td class="col-md-1">${list.prd_total_sales}</td>
 								    <td class="col-md-1">
 								    <c:choose>

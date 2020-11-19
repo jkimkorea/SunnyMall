@@ -20,39 +20,6 @@
   <%@ include file="/WEB-INF/views/include/shop_css.jsp" %>
   <%-- 우편번호API 동작코드 --%>
   <%@ include file="/WEB-INF/views/include/plugins.jsp" %>
-<script>
-$(function(){
-	//회원 탈퇴 클릭시
-	$("#btn_modal_confirm").on('click',function(){
-		
-		var coment = $("#coment").val();
-		var mb_id = $(".mb_id").val();
-		var mb_name= $(".mb_name").val();
-		var mb_phone= $(".mb_phone").val();
-		var mb_email= $(".mb_email").val();
-		
-		
-		alert("이용해 주셔서 감사합니다.")
-		$.ajax({
-			url:'/member/deleteUser',
-			type:'post',
-			dataType:'text',
-			data:{
-				coment:coment,
-				mb_id:mb_id,
-				mb_name:mb_name,
-				mb_phone:mb_phone,
-				mb_email:mb_email
-			},
-			success:function(data){
-				location.href="/";
-			}
-			
-		});
-		
-	});
-});
-</script>
 </head>
 
 <body>

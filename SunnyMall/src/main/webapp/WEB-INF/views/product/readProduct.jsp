@@ -105,6 +105,9 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+
+</script>
 <style type="text/css">
 body{margin-top:20px;
 background:#eee;
@@ -353,7 +356,7 @@ background:#eee;
 			              <form action="/order/buy" method="get">
 			              <input type="hidden" id="prd_no" name="prd_no" value="${vo.prd_no}">
 			              <label>Order amount</label><br>
-			              <input type="number" id="ord_amount" name="ord_amount" value="1" /><br><br>
+			              <input type="number" id="ord_amount" name="ord_amount" min="1" value="1" /><br><br>
 			                  <button class="btn_addCart" id="btn_addCart" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
 			              	  <button class="btn_buy" id="btn_buy" type="submit"><i class="fa fa-shopping-cart"></i> Buy</button>
 			              </form>
@@ -403,27 +406,24 @@ background:#eee;
 					
 			  </div>
 			  <div class="table-responsive">          
-				  <label for="QnA">QnA[]</label><br>
-				  <c:if test="${empty vo}">
-		        		<span style="padding:30px 1px; ">등록된 게시글이 존재하지 않습니다.</span>
+				  <label for="QnA">QnA[${qnaCount}]</label><br>
+				  <c:if test="${empty qnaList}">
+		        		<span style="padding:30px 1px;">등록된 게시글이 존재하지 않습니다.</span>
 		     	  </c:if>
 	  			  <table class="table">
 						<thead>
 						      <tr>
-						        <th>No</th>
 						        <th>Title</th>
 						        <th style="text-align:right;">User</th>
 						        <th style="text-align:right;">Date</th>
-						        <th style="text-align:right;">조회수</th>
 						      </tr>
-						  <%--<c:forEach items="" var="">
+						  <c:forEach items="${qnaList}" var="qnaVo">
 						      <tr>
-						        <td>Firstname</td>
-						        <td>Lastname</td>
-						        <td>Email</td>
-						        <td>Email</td>
+						        <td>${qnaVo.qna_title}</td>
+						        <td style="text-align:right;">${qnaVo.mb_id}</td>
+						        <td style="text-align:right;"><fmt:formatDate value="${qnaVo.qna_reg_date}" pattern="yyyy-mm-dd"/></td>
 						      </tr>
-						  	</c:forEach>--%>
+						  	</c:forEach>
 						  </thead>
 					 </table>
 				  

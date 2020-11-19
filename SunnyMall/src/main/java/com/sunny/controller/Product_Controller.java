@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sunny.domain.CategoryVO;
 import com.sunny.domain.ProductVO;
 import com.sunny.service.Product_Service;
+import com.sunny.service.QnA_Service;
 import com.sunny.service.Review_Service;
 import com.sunny.util.Criteria;
 import com.sunny.util.FileUtils;
@@ -40,6 +41,9 @@ public class Product_Controller {
 	
 	@Inject
 	private Review_Service reviewService;
+	
+	@Inject
+	private QnA_Service qnaService;
 	
 	@Resource(name="uploadPath")
 	private String uploadPath;	
@@ -95,7 +99,7 @@ public class Product_Controller {
 	}
 	//상품 페이지
 	@RequestMapping(value = "readProduct",method=RequestMethod.GET)
-	public void readProduct(@ModelAttribute("cri") Criteria cri,
+	public void readProduct(@ModelAttribute("cri") SearchCriteria cri,
 							@RequestParam("prd_no") int prd_no,
 							@RequestParam("cg_code") String cg_code,
 							Model model) throws Exception {
@@ -104,9 +108,12 @@ public class Product_Controller {
 		model.addAttribute("vo", vo);
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
+		logger.info("=================pm:"+pm);
 		model.addAttribute("pm", pm);
 		model.addAttribute("reviewCount", reviewService.reviewCount(vo.getPrd_no()));
 		model.addAttribute("cg_name", serivce.getCGName(cg_code));
+		model.addAttribute("qnaCount", qnaService.qnaCount(prd_no));
+		model.addAttribute("qnaList", qnaService.qnaList(prd_no));
 	}
 	@RequestMapping(value = "listSearch",method=RequestMethod.GET)
 	public void listSearch(@ModelAttribute("cri") SearchCriteria cri,Model model) throws Exception {

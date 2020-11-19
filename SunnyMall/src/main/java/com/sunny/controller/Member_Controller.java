@@ -198,15 +198,16 @@ public class Member_Controller {
 		logger.info("===========deleteUser() execute=========");
 		BackupMemberVO vo = new BackupMemberVO();
 		vo.setMb_id(mb_id);
-		vo.setComment(comment);
+		vo.setMb_comment(comment);
 		vo.setMb_email(mb_email);
-			vo.setMb_name(mb_name);
-			vo.setMb_phone(mb_phone);
-			service.insertComent(vo);
+		vo.setMb_name(mb_name);
+		vo.setMb_phone(mb_phone);
+		logger.info("==================vo:"+vo);
+		service.insertComent(vo);
 			
-			MemberDTO dto=(MemberDTO) session.getAttribute("user");
-			service.deleteUser(dto.getMb_id());
-			session.invalidate();
+		MemberDTO dto=(MemberDTO) session.getAttribute("user");
+		service.deleteUser(dto.getMb_id());
+		session.invalidate();
 			
 			return "ok";
 	}

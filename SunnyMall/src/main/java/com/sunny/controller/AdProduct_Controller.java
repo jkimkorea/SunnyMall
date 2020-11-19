@@ -256,8 +256,10 @@ public class AdProduct_Controller {
 		
 		
 		
-		
-		
+		@RequestMapping(value = "bar",method = RequestMethod.GET)
+		public void chart() {
+			
+		}
 		
 		
 		

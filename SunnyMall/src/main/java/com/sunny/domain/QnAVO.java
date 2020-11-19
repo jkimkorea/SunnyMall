@@ -4,42 +4,18 @@ import java.util.Date;
 
 public class QnAVO {
 	
-	private int    bod_no;
+	private int    qna_no;
 	private int    prd_no;
 	private String mb_id;
-	private String bod_title;
-	private String bod_content;
-	private Date   bod_reg_date;
+	private String qna_title;
+	private String qna_content;
+	private Date   qna_reg_date;
 	
-	public int getBod_no() {
-		return bod_no;
+	public int getQna_no() {
+		return qna_no;
 	}
-	public void setBod_no(int bod_no) {
-		this.bod_no = bod_no;
-	}
-	public String getMb_id() {
-		return mb_id;
-	}
-	public void setMb_id(String mb_id) {
-		this.mb_id = mb_id;
-	}
-	public String getBod_title() {
-		return bod_title;
-	}
-	public void setBod_title(String bod_title) {
-		this.bod_title = bod_title;
-	}
-	public String getBod_content() {
-		return bod_content;
-	}
-	public void setBod_content(String bod_content) {
-		this.bod_content = bod_content;
-	}
-	public Date getBod_reg_date() {
-		return bod_reg_date;
-	}
-	public void setBod_reg_date(Date bod_reg_date) {
-		this.bod_reg_date = bod_reg_date;
+	public void setQna_no(int qna_no) {
+		this.qna_no = qna_no;
 	}
 	public int getPrd_no() {
 		return prd_no;
@@ -47,10 +23,35 @@ public class QnAVO {
 	public void setPrd_no(int prd_no) {
 		this.prd_no = prd_no;
 	}
+	public String getMb_id() {
+		return mb_id;
+	}
+	public void setMb_id(String mb_id) {
+		this.mb_id = mb_id;
+	}
+	public String getQna_title() {
+		return qna_title;
+	}
+	public void setQna_title(String qna_title) {
+		this.qna_title = qna_title;
+	}
+	public String getQna_content() {
+		return qna_content;
+	}
+	public void setQna_content(String qna_content) {
+		this.qna_content = qna_content;
+	}
+	public Date getQna_reg_date() {
+		return qna_reg_date;
+	}
+	public void setQna_reg_date(Date qna_reg_date) {
+		this.qna_reg_date = qna_reg_date;
+	}
+	
 	@Override
 	public String toString() {
-		return "BoardVO [bod_no=" + bod_no + ", prd_no=" + prd_no + ", mb_id=" + mb_id + ", bod_title=" + bod_title
-				+ ", bod_content=" + bod_content + ", bod_reg_date=" + bod_reg_date + "]";
-	} 
+		return "QnAVO [qna_no=" + qna_no + ", prd_no=" + prd_no + ", mb_id=" + mb_id + ", qna_title=" + qna_title
+				+ ", qna_content=" + qna_content + ", qna_reg_date=" + qna_reg_date + "]";
+	}
 	
 }

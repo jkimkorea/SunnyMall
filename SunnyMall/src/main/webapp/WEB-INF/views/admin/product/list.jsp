@@ -244,7 +244,7 @@ desired effect
 								    <td class="col-md-1">${productVO.prd_price}</td>
 								    <td class="col-md-1">${productVO.prd_discount}</td>
 								    <td class="col-md-2">${productVO.prd_company}</td>
-								    <td class="col-md-1"><input name="amount_${productVO.prd_no}" type="number" style="width:80px; height:34px; padding-left:5px;" value="${productVO.prd_stock}"/></td>
+								    <td class="col-md-1"><input name="amount_${productVO.prd_no}" type="number" min="1" style="width:80px; height:34px; padding-left:5px;" value="${productVO.prd_stock}"/></td>
 								 	<td>
 								 		<select class="form-control" name="buy_${productVO.prd_no}" style="width: 60px; displayL inline-block;">
 								 			<option <c:out value="${productVO.prd_buy == 'Y'?'selected':''}"/>>Y</option>

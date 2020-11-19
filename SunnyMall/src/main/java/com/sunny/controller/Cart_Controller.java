@@ -66,14 +66,6 @@ public class Cart_Controller {
 			List<CartProductVO> list=service.cartList(mb_id);
 			model.addAttribute("cartProList",list);
 			
-			logger.info("============list:"+list);
-			
-			int count=service.countCart(mb_id);
-			
-			logger.info("============count:"+count);
-			
-			model.addAttribute("countCart", count);
-			
 	}
 	//장바구니 상품 삭제
 	@ResponseBody

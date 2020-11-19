@@ -73,13 +73,13 @@
           </ol>
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+              <img class="d-block img-fluid" src="/image/123.jpg" alt="First slide">
             </div>
             <div class="carousel-item">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+              <img class="d-block img-fluid" src="/image/222.jpg" alt="Second slide">
             </div>
             <div class="carousel-item">
-              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+              <img class="d-block img-fluid" src="/image/333.jpg" alt="Third slide">
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -115,7 +115,7 @@
 			       <div class="card h-100">
 			        	 <div class="card-body">
 				         	 <c:choose>
-				         	 	<c:when test="${list.prd_buy eq 'N' || list.prd_stock == 0}">
+				         	 	<c:when test="${list.prd_buy eq 'N' || list.prd_stock <= 0}">
 									<img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
 						            <h4 class="card-title" style="pointer-events:none; text-decoration: line-through;">
 						                <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
