@@ -14,6 +14,7 @@ public class MemberInterceptor extends HandlerInterceptorAdapter {
 	private static final String LOGIN = "user";  
 	
 	private void saveDest(HttpServletRequest req) {
+		logger.info("==========saveDest() execute==========");
 		String uri = req.getRequestURI();
 		String query = req.getQueryString();
 		
@@ -42,9 +43,9 @@ public class MemberInterceptor extends HandlerInterceptorAdapter {
 			saveDest(request); // 원래요청된 주소를 세션형태로 저장하는 메서드
 			
 			response.sendRedirect("/member/loginPage");
+			
 			return false;
 		}
-		
 		
 		return true; // 요청된 주소의 해당 컨트롤러 메서드로 진행이 이루어진다.
 		

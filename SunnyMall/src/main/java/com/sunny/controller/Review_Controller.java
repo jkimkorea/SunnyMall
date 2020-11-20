@@ -41,11 +41,28 @@ public class Review_Controller {
 	//리뷰 작성
 	@ResponseBody
 	@RequestMapping(value = "write",method=RequestMethod.POST)
-	public void write(ReviewVO vo,HttpSession session) throws Exception {
+	public ResponseEntity<String> write(ReviewVO vo,HttpSession session) throws Exception {
 		
 		logger.info("========write() execute=======");
+		
+		ResponseEntity<String> entity = null;
+		//로그인 체크 수동처리	
+		try {
 			MemberDTO dto=(MemberDTO) session.getAttribute("user");
-			service.writeReview(vo, dto.getMb_id());
+			
+			if(dto != null) {
+				service.writeReview(vo, dto.getMb_id());
+				entity = new ResponseEntity<String>("SUCCECC",HttpStatus.OK);
+			
+			}else {
+				entity = new ResponseEntity<String>("FAIL",HttpStatus.OK);
+				logger.info("===================dto null");
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 	//상품 후기 리스트
 	@RequestMapping(value = "{prd_no}/{page}",method=RequestMethod.GET)

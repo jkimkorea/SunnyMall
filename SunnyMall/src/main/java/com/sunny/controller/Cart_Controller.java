@@ -90,17 +90,24 @@ public class Cart_Controller {
 		logger.info("================add() execute=============");
 		
 		ResponseEntity<String> entity=null;
-		MemberDTO dto = (MemberDTO) session.getAttribute("user");
+		
 		try {
-			CartVO vo = new CartVO();
-			vo.setMb_id(dto.getMb_id());
-			vo.setPrd_no(prd_no);
-			vo.setCart_amount(1);
-			service.addToCart(vo);
-			entity = new ResponseEntity<String>(HttpStatus.OK);
+			MemberDTO dto = (MemberDTO) session.getAttribute("user");
+			
+			//로그인 체크 수동처리
+			if(dto != null) {
+				CartVO vo = new CartVO();
+				vo.setMb_id(dto.getMb_id());
+				vo.setPrd_no(prd_no);
+				vo.setCart_amount(1);
+				service.addToCart(vo);
+				entity = new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
+			}else {
+				entity = new ResponseEntity<String>("FAIL",HttpStatus.OK); 
+			}
 		}catch(Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+				e.printStackTrace();
+				entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}

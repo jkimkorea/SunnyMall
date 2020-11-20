@@ -31,6 +31,8 @@
 	}else{}
   </script>
   <script type="text/javascript">
+  
+    <%-- 장바구니 클리시 --%>
   	var cart_click = function(prd_no){
   		$.ajax({
   			url:'/cart/add',
@@ -38,9 +40,15 @@
   			dataType:'text',
   			data:{prd_no:prd_no},
   			success:function(data){
-	  			var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
+  				if(data=="SUCCESS"){
+  					alert();
+	  				var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
 	  				if(result){
 	  					location.href="/cart/cartList";
+	  				}else{
+	  				}
+  				}else if(data == "FAIL"){
+  					location.href="/member/loginPage";
   				}
   			}
   		});

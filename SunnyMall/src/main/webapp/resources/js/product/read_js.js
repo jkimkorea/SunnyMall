@@ -63,12 +63,17 @@ $(function(){
 				prd_no:prd_no
 				},
 			success:function(data){
-				alert("리뷰가 작성되었습니다.");
-				$('#star_grade a').parent().children('a').removeClass('on');
-				$('#reviewContent').val('');
-				replyPage = 1;
-				getPage('/review/'+prd_no+'/1');
+				if(data == "SUCCESS"){
+					$('#star_grade a').parent().children('a').removeClass('on');
+					$('#reviewContent').val('');
+					alert("리뷰가 작성되었습니다.");
+					replyPage = 1;
+					getPage('/review/'+prd_no+'/1');
+				}else if(data == "FAIL"){
+					alert("로그인이 필요한 작업입니다.");
+					location.href="/member/loginPage";
 				}
+			}
 		});
 	});
 	//리뷰 보기 클릭시
@@ -148,9 +153,6 @@ $(function(){
 		var comment = $("textarea[name='comment']").val();
 		var prd_no = $("input[name='prd_no']").val();
 		var cg_code=null;
-		alert(title);
-		alert(comment);
-		alert(prd_no);
 
 		$.ajax({
 			url:'/qna/qnaAdd',
@@ -162,7 +164,6 @@ $(function(){
 				prd_no:prd_no
 			},
 			success:function(data){
-				alert();
 				location.href="/product/readProduct?prd_no="+prd_no+"&cg_code="+cg_code;
 			}
 		});		
