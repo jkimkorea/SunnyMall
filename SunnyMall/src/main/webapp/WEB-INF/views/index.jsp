@@ -41,7 +41,6 @@
   			data:{prd_no:prd_no},
   			success:function(data){
   				if(data=="SUCCESS"){
-  					alert();
 	  				var result = confirm("장바구니에 추가되었습니다.\n지금 확인 하시겠습니까?");
 	  				if(result){
 	  					location.href="/cart/cartList";

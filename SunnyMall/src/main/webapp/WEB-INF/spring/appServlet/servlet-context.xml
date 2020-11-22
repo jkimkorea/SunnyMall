@@ -26,7 +26,6 @@
 	<resources mapping="/css/**" location="/resources/css/" />
 		<resources mapping="/image/**" location="/resources/image/" />
 	
-	
 		<!-- 클라이언트로 부터 전송되어 온 파일을 스프링에서 처리하는 기능 -->
 	<!-- MultipartFile file 주입됨 -->
 	<beans:bean id="multipartResolver"
@@ -43,9 +42,15 @@
 	<beans:bean id="memberInterceptor" class="com.sunny.interceptor.MemberInterceptor" />
 	<interceptors>
 		 <interceptor>
+			<mapping path="/cart/*"/>
+			<mapping path="/order/*"/>
+			<mapping path="/member/*"/>
 			<mapping path="/order/orderList"/>
 			<mapping path="/order/buy"/>
 		 	<mapping path="/cart/addToCart"/> 
+		 	<mapping path="/qna/qndAdd"/> 
+			<exclude-mapping path="/member/loginPage"/>
+			<exclude-mapping path="/member/login"/>
 			<beans:ref bean="memberInterceptor"/>
 		</interceptor>
 	</interceptors>
@@ -57,7 +62,5 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.sunny.controller" />
-	
-	
 	
 </beans:beans>

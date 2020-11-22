@@ -164,7 +164,11 @@ $(function(){
 				prd_no:prd_no
 			},
 			success:function(data){
-				location.href="/product/readProduct?prd_no="+prd_no+"&cg_code="+cg_code;
+				if(data=="ok"){location.href="/product/readProduct?prd_no="+prd_no+"&cg_code="+cg_code;
+				}else if(data =="null"){
+					alert("로그인이 필요한 작업입니다.");
+					location.href="/member/loginPage";
+				}
 			}
 		});		
 	});

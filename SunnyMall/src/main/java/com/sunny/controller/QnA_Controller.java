@@ -31,17 +31,25 @@ public class QnA_Controller {
 	public String insertQnA(HttpSession session,
 							String qna_title,String qna_content,
 							@RequestParam("prd_no") int prd_no) throws Exception{
-		logger.info("============insertinsertQnA() execute=============");
+		logger.info("============qnaAdd() execute=============");
 		MemberDTO dto=(MemberDTO) session.getAttribute("user");
-		QnAVO vo=new QnAVO();
-		vo.setPrd_no(prd_no);
-		vo.setQna_title(qna_title);
-		vo.setQna_content(qna_content);
-		vo.setMb_id(dto.getMb_id());
-		service.qnaAdd(vo);
-		logger.info("===============vo:"+vo);
+		String str="";
+		//수동 로그인 체크
+		if(dto != null) {
 		
-		return "ok";
+			QnAVO vo=new QnAVO();
+			vo.setPrd_no(prd_no);
+			vo.setQna_title(qna_title);
+			vo.setQna_content(qna_content);
+			vo.setMb_id(dto.getMb_id());
+			service.qnaAdd(vo);
+			logger.info("===============vo:"+vo);
+			str="ok";
+		}else {
+			str="null";
+		}
+		
+		return str;
 	}
 	
 	
