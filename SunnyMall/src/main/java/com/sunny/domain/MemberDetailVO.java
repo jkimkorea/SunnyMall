@@ -19,8 +19,8 @@ public class MemberDetailVO {
 	private Date    mb_date_first;
 	private Date	mb_date_up;
 	private Date	mb_date_last;
-	private int    ord_total_price;
-	private int    ord_total_amount;
+	private int     ord_total_price;
+	private int     ord_total_amount;
 	
 	public String getMb_id() {
 		return mb_id;

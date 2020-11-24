@@ -45,10 +45,13 @@ public class Member_Controller {
 	@RequestMapping(value = "/login",method=RequestMethod.POST)
 	public String login(MemberDTO dto,HttpSession session,RedirectAttributes rttr) throws Exception {
 		logger.info("============login() execute=====");
+		
 		MemberDTO memDTO = service.login(dto);
+		
 		if(memDTO !=null) {
-			logger.info("============login() succed=====");
+			
 			session.setAttribute("user", memDTO);
+			
 			if(memDTO.isUseCookie()) {
 				int amount=60*60*24*7;
 				Date sessionLimit = new Date(System.currentTimeMillis()+(1000*amount));
@@ -65,6 +68,7 @@ public class Member_Controller {
 	@RequestMapping(value = "/logout",method=RequestMethod.GET)
 	public String logout(HttpSession session,RedirectAttributes rttr) {
 		logger.info("=============logout() execute=======");
+		
 		session.invalidate();
 		rttr.addFlashAttribute("msg", "LOGOUT_SUCCESS");
 		return "redirect:/";
@@ -100,7 +104,7 @@ public class Member_Controller {
 	@RequestMapping(value = "/checkAuthcode",method=RequestMethod.POST)
 	public ResponseEntity<String> checkAuthcode(@RequestParam("code") String code,HttpSession session) {
 		logger.info("============checkAuthode() execute===========");
-		logger.info("============checkAuthode:"+code);
+		
 		ResponseEntity<String> entity=null;
 		try {
 			if(code.equals(session.getAttribute("authcode"))) {
@@ -120,14 +124,13 @@ public class Member_Controller {
 	public ResponseEntity<String> checkPw(@RequestParam("mb_pw") String mb_pw,
 			                              HttpSession session,Model model) {
 		logger.info("=============checkPW() execute==========");
-		logger.info("=============pw:"+mb_pw);
+		
 		ResponseEntity<String> entity=null;
 		MemberDTO dto=(MemberDTO)session.getAttribute("user");
+		
 		if(crptPassEnc.matches(mb_pw, dto.getMb_pw())) {
-			logger.info("===========checkPw success============");
 			entity=new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
 		}else {
-			logger.info("=============checkPw fail=================");
 			entity=new ResponseEntity<String>("FAIL",HttpStatus.BAD_REQUEST);
 		} 
 		return entity;
@@ -136,7 +139,6 @@ public class Member_Controller {
 	@RequestMapping(value = "/register",method=RequestMethod.POST)
 	public String register(MemberVO vo,RedirectAttributes rttr) throws Exception {
 		logger.info("=============register() execute============");
-		logger.info("================입력데이타:"+vo.toString());
 		//비밀번호의 암호화 처리
 		vo.setMb_pw(crptPassEnc.encode(vo.getMb_pw()));
 		service.register(vo);
@@ -149,10 +151,8 @@ public class Member_Controller {
 		logger.info("=========modifyGet() execute===========");
 		MemberDTO dto=(MemberDTO)session.getAttribute("user");
 		String mb_id=dto.getMb_id();
-		logger.info("==============mb_id:"+mb_id);
 		
 		MemberVO vo=service.readUserInfo(mb_id);
-		logger.info("==============vo:"+vo);
 	
 		model.addAttribute("vo",vo);
 		return "/member/modifyForm";

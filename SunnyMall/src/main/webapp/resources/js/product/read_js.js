@@ -210,7 +210,9 @@ var printPaging = function(pageMaker,target){
 //리뷰 뿌려주는 작업함수 생성
 function getPage(reviewInfo){
 	$.getJSON(reviewInfo,function(data){
+		
 		if(data.list.length >0){
+			
 			printReview(data.list,$("#repliesDiv"),$("#template"))
 			printPaging(data.pageMaker,$(".pagination"));
 			

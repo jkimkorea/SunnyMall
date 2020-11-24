@@ -25,6 +25,7 @@ public class Email_Controller {
 	@Inject
 	Email_Service service;
 	
+	//인증코드담은 이메일 사용자에게 발송
 	@ResponseBody
 	@RequestMapping("send")
 	public ResponseEntity<String> sendEmail(@ModelAttribute EmailDTO dto,HttpSession session){
@@ -34,14 +35,12 @@ public class Email_Controller {
 		ResponseEntity<String> entity=null;
 		String authcode="";
 		
+		//렌덤 인증코드 생성
 		for(int i=0;i<6;i++) {
 			authcode +=String.valueOf((int)(Math.random()*10));
 		}
-		
 		session.setAttribute("authcode", authcode);
-		
-		logger.info("=======authcode:"+authcode);
-		
+		//이멜일 발송
 		try {
 			service.sendEmail(dto, authcode);
 			entity=new ResponseEntity<String>(HttpStatus.OK);

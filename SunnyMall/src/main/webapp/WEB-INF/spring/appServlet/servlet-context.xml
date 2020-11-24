@@ -26,7 +26,7 @@
 	<resources mapping="/css/**" location="/resources/css/" />
 		<resources mapping="/image/**" location="/resources/image/" />
 	
-		<!-- 클라이언트로 부터 전송되어 온 파일을 스프링에서 처리하는 기능 -->
+	<!-- 클라이언트로 부터 전송되어 온 파일을 스프링에서 처리하는 기능 -->
 	<!-- MultipartFile file 주입됨 -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -51,7 +51,17 @@
 		 	<mapping path="/qna/qndAdd"/> 
 			<exclude-mapping path="/member/loginPage"/>
 			<exclude-mapping path="/member/login"/>
+			<exclude-mapping path="/member/registerForm"/>
+			<exclude-mapping path="/member/checkIdDuplicate"/>
+			<exclude-mapping path="/member/checkAuthcode"/>
+			<exclude-mapping path="/member/register"/>
 			<beans:ref bean="memberInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/*"/> 
+		 	<exclude-mapping path="/admin/admin_main"/>
+		 	<exclude-mapping path="/admin/adminLogin"/>
+			<beans:ref bean="adminInterceptor"/>
 		</interceptor>
 	</interceptors>
 	

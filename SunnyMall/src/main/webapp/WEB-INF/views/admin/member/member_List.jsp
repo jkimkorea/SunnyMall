@@ -185,7 +185,9 @@ desired effect
 								    <td>${vo.mb_point}</td>
 								    
 								    <td>
-								    		<button id="btn-edit" class="btn btn-warning btn-xs" onclick="openWindow('${vo.mb_id}')"><span class="glyphicon glyphicon-pencil"></span></button>
+								    		<button id="btn-edit" class="btn btn-warning btn-xs" onclick="openWindow('${vo.mb_id}')">
+								    			<span class="glyphicon glyphicon-pencil"></span>
+								    		</button>
 								    </td>
 								    <td>
 								    		<input type="hidden" id="mb_id" value="${vo.mb_id}">

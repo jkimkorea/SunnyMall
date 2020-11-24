@@ -49,7 +49,7 @@ public class Order_ServiceImpl implements Order_Service {
 		}
 		dao.addTotalAmount(ord_no);
 	}
-	//자바구니->주문결제
+	//장바구니->주문결제
 	@Transactional
 	@Override
 	public void addOrderCart(OrderVO order, OrderDetailVOList orderDetailVOList,String mb_id) throws Exception {

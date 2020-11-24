@@ -21,6 +21,7 @@ public class FileUtils {
 
 	//파일 업로드
 	public static String uploadFile(String uploadPath,String originName,byte[] fileData) throws Exception{
+		//파일 이름 겹치지 않게 랜덤으로 생성작업
 		UUID uuid=UUID.randomUUID();
 		String savedName = uuid.toString() + "-" + originName;
 		File target = new File(uploadPath, savedName);
@@ -38,9 +39,10 @@ public class FileUtils {
 	}
 	//썸네일작업
 	public static String makeThumbNail(String uploadPath,String fileName) throws IOException {
+		//파일 이미지 읽어와서 싸이즈 축소
 		BufferedImage sourceImg = ImageIO.read(new File(uploadPath, fileName));
 		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT,120);
-		
+		//이미지일경우 이름에 s_더해서 생성
 		String thumbNailName = uploadPath+File.separator + "s_"+fileName;
 		File newFile = new File(thumbNailName);
 		String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
