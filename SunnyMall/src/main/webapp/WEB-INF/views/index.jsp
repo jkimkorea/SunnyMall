@@ -132,7 +132,8 @@
 									       할인가: <fmt:formatNumber value="${list.prd_discount}" pattern="###,###,###" />원</p>
 				             	</c:when>
 				             	<c:when test="${list.prd_buy eq 'Y'}">
-			             			<a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}"><img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
+			             			<a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">
+			             			<img class="card-img-top" src="/product/displayFile?fileName=${list.prd_img}" alt=""></a>
 							         <h4 class="card-title">
 							             <a href="/product/readProduct${pm.makeQuery(pm.cri.page)}&prd_no=${list.prd_no}&cg_code=${list.cg_code}">${list.prd_name}</a>
 							       </h4>

@@ -31,7 +31,7 @@ public class Cart_Controller {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Cart_Controller.class);
 	
-	//관리자 리스트
+	//상품 장바구니 추가
 	@ResponseBody
 	@RequestMapping(value = "/addToCart",method = RequestMethod.POST)
 	public ResponseEntity<String> addToCart(int cart_amount,int prd_no,

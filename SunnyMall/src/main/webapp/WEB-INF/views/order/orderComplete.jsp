@@ -24,18 +24,13 @@
 
   <!-- Page Content -->
   <div class="container">
-
      <div class="row">
-
 	      <div class="col-lg-3">
-	
 		  <!-- sidebar -->
 	      <%@ include file="/WEB-INF/views/include/home_sidebar.jsp" %>
 	      </div>
 	      <!-- /.col-lg-3 -->
-	     
 	      <div class="col-lg-9">
-	     
 				<%-- MAIN CONTENT --%> 
 				<section class="content container-fluid">
 			 	<form id="orderForm" method="post" action="/order/orderFromCart">
@@ -51,7 +46,6 @@
 		
 			</div>
 		</div>
-   
 	</div>
     <!-- /.container -->
   <!-- Footer -->

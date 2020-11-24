@@ -39,14 +39,17 @@ public class Order_ServiceImpl implements Order_Service {
 		
 		order.setOrd_no(ord_no);
 		dao.addOrder(order);
+		//주문 발생시 배송상태 입력
 		dao.addToDelivery(ord_no);
 		logger.info("=================addOrder()=>ord_no:"+ord_no);
 		List<OrderDetailVO> list = orderDetailList.getOrderDetailVOList();
 		for(int i=0; i < list.size(); i++) {
 			OrderDetailVO orderDetail = list.get(i);
 			orderDetail.setOrd_no(ord_no);
+			//주문 내역 입력
 			dao.addOrderDetail(orderDetail);
 		}
+		//주문 총 수량 입력
 		dao.addTotalAmount(ord_no);
 	}
 	//장바구니->주문결제
@@ -57,7 +60,9 @@ public class Order_ServiceImpl implements Order_Service {
 		logger.info("=================addOrderCart() execute=================");
 		int ord_no = dao.readOrderNo();
 		order.setOrd_no(ord_no);
+		//주문 추가
 		dao.addOrder(order);
+		//주문발생시 배송상태 입력
 		dao.addToDelivery(ord_no);
 		logger.info("==================orderService=>ord_no:"+ord_no);
 		
@@ -65,11 +70,14 @@ public class Order_ServiceImpl implements Order_Service {
 		for(int i=0; i<list.size(); i++) {
 			OrderDetailVO orderDetail = list.get(i);
 			orderDetail.setOrd_no(ord_no);
+			//주문 내역 입력
 			dao.addOrderDetail(orderDetail);
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("mb_id", mb_id);
 		map.put("prd_no",orderDetail.getPrd_no());
+		//총 주문 수량 업데이트
 		dao.addTotalAmount(ord_no);
+		//결제완료 후 장바구니에 있던 상품 삭제
 		cartService.deleteCartAfterPay(map);	
 		}
 	}

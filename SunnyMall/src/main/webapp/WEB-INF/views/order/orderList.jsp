@@ -70,8 +70,13 @@
 	      				</c:if>
 	                </thead>
 	                <tbody>
-	         			
+	         			 	<tr>
+	                    		<c:if test ="${empty orderList}">
+	                    			<span>구매하신 상품이 존재하지 않습니다.</span>
+	                    		</c:if>
+	                    	</tr>
 		                    <tr id="productVO_${vo.prd_no}" class="productRow">
+		                    
 		                    	<td>
 		                    		<a href="/product/read?pdt_num=${orderVO.prd_no}">
 										<img src="/product/displayFile?fileName=${orderVO.prd_img}" style="width:100px;">

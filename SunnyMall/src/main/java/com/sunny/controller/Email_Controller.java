@@ -30,7 +30,6 @@ public class Email_Controller {
 	@RequestMapping("send")
 	public ResponseEntity<String> sendEmail(@ModelAttribute EmailDTO dto,HttpSession session){
 		
-		logger.info("=======emailDTO:"+dto.toString());
 		
 		ResponseEntity<String> entity=null;
 		String authcode="";
@@ -38,6 +37,7 @@ public class Email_Controller {
 		//렌덤 인증코드 생성
 		for(int i=0;i<6;i++) {
 			authcode +=String.valueOf((int)(Math.random()*10));
+			logger.info("=======authcode:"+authcode);
 		}
 		session.setAttribute("authcode", authcode);
 		//이멜일 발송

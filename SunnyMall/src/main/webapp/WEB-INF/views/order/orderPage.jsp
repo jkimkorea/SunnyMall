@@ -127,7 +127,8 @@
 						<div class="form-group">
 							<label for="inputAddr">* 주소</label> <br />
 							<input type="text" id="sample2_postcode" name="ord_zipcode" class="form-control" 
-								style="max-width: 510px; width:calc(100% - 128px); margin-right: 5px; display: inline-block;" placeholder="우편번호" readonly value="${user.mb_zipcode}">
+								style="max-width: 510px; width:calc(100% - 128px); margin-right: 5px; display: inline-block;" placeholder="우편번호" 
+								readonly value="${user.mb_zipcode}">
 							<input type="button" onclick="sample2_execDaumPostcode()" id="btn_postCode" class="btn btn-info" value="우편번호 찾기"><br>
 							<input type="text" id="sample2_address" name="ord_add" class="form-control" 
 								placeholder="주소" style="max-width: 630px; margin:3px 0px;" readonly value="${user.mb_add}">
