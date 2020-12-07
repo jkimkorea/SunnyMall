@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunny.mappers.Chart_Mapper">
 
-	<select id="readChart" parameterType="String" resultType="SalesDTO">
+	<select id="readChart" parameterType="RecentDateDTO" resultType="SalesDTO">
 	 <![CDATA[       
 		SELECT TO_CHAR(b.ordDate,'YYYY-MM-DD') ordDate, NVL(SUM(a.sales), 0) sales
 		from
@@ -11,10 +11,10 @@
 			from order_tbl
 			group by to_char(ord_date,'yyyy-mm-dd')) a,
 
-			(select to_date('2020-11-01','YYYY-MM-DD') + level - 1 AS ordDate
+			(select to_date('#{date_s}','YYYY-MM-DD') + level - 1 AS ordDate
 			from dual 
-			connect by level <= (to_date('2020-11-30','YYYY-MM-DD') 
-			- to_date('2020-11-01','YYYY-MM-DD') + 1)) b
+			connect by level <= (to_date('#{date_e}','YYYY-MM-DD') 
+			- to_date('#{date_s}','YYYY-MM-DD') + 1)) b
 
 	    where b.ordDate = a.ord_date(+)
 		group by to_char(b.ordDate,'YYYY-MM-DD')

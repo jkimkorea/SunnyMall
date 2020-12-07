@@ -26,10 +26,13 @@
 
 <body>
    <%-- 챠트 위치 --%>
+   <form action="/admin/chart/read" method="post">
 		<label for="birthday">날짜 선택:</label>
-		<input type="date" id="birthday" name="birthday">-
-		<input type="date" id="birthday" name="birthday">까지
+		<input type="date" id="date_s" name="date_s" value="${date_s}">-
+		<input type="date" id="date_e" name="date_e" value="${date_e}">까지
 		<div id="chart_div" style="width: 50%; height: 250px;"></div>
+		
+   </form>
 </body>
 
 </html>
