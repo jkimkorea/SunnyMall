@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.sunny.dto.RecentDateDTO;
 import com.sunny.dto.SalesDTO;
 
 @Repository
@@ -19,8 +20,8 @@ public class Chart_DAOImpl implements Chart_DAO {
 
 	//챠트값 불러오기
 	@Override
-	public List<SalesDTO> readChart() throws Exception {
-		return session.selectList(NS+".readChart");
+	public List<SalesDTO> readChart(RecentDateDTO date) throws Exception {
+		return session.selectList(NS+".readChart",date);
 	}
 	
 	

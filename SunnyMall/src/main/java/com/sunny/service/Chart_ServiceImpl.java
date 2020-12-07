@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.sunny.dao.Chart_DAO;
+import com.sunny.dto.RecentDateDTO;
 import com.sunny.dto.SalesDTO;
 
 @Service
@@ -17,8 +18,8 @@ public class Chart_ServiceImpl implements Chart_Service {
 
 	//챠트값 불러오기
 	@Override
-	public List<SalesDTO> readChart() throws Exception {
-		return dao.readChart();
+	public List<SalesDTO> readChart(RecentDateDTO date) throws Exception {
+		return dao.readChart(date);
 	}
 	
 	
