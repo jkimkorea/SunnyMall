@@ -17,6 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     		alert("아이디와 비밀번호를 확인해 주세요.");
     	}
     </script>
+    
 </head>
 	<!-- REQUIRED JS SCRIPTS -->
 	<%@ include file="/WEB-INF/views/include/plugins.jsp" %>

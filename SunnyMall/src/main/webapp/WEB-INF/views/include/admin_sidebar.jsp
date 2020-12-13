@@ -42,9 +42,6 @@
 							<li>
 								<a href="/admin/product/list">상품리스트</a>
 							</li>
-							<li>
-								<a href="/admin/chart/readChart">통계</a>
-							</li>
 						</ul>
 					</li>
 					<li class="treeview">
@@ -57,6 +54,9 @@
 							</li>
 							<li>
 								<a href="/admin/stock/stockList">재고 관리</a>
+							</li>
+							<li>
+								<a href="/admin/chart/readChart">매출 현황</a>
 							</li>
 						</ul>
 					</li>

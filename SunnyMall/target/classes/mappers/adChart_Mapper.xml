@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunny.mappers.AdChart_Mapper">
+
+	<select id="readChart" parameterType="String" resultType="SalesDTO">
+		SELECT TO_CHAR(b.ordDate,'YYYY-MM-DD') ordDate, NVL(SUM(a.sales), 0) sales
+        from
+         (select to_char(ord_date,'yyyy-mm-dd') ord_date,
+         sum(ord_total_price) sales
+         from order_tbl
+         group by to_char(ord_date,'yyyy-mm-dd')) a,
+     <![CDATA[   
+         (select TO_DATE(#{ord_date}) + level -1 ordDate
+         from dual 
+         connect by level <= (last_day(TO_DATE(#{ord_date}))) 
+         - trunc(TO_DATE(#{ord_date}),'month') + 1) b
+     ]]> 
+         where b.ordDate = a.ord_date(+)
+         group by to_char(b.ordDate,'YYYY-MM-DD')
+         order by to_char(b.ordDate,'YYYY-MM-DD')
+	</select>
+	<select id="searchChart" resultType="SalesDTO">
+		select to_char(b.ordDate,'YYYY-MM-DD') ordDate, NVL(sum(a.sales),0) sales
+ 		from 
+        ( select to_char(ord_date,'YYYY-MM-DD') ord_date, sum(ord_total_price) sales 
+          from order_tbl
+          group by to_char(ord_date,'YYYY-MM-DD'))a right join
+     <![CDATA[   
+        ( select to_date(#{date_s})+level-1 ordDate 
+          from dual
+          connect by level <= (TO_DATE(#{date_e})) - (TO_DATE(#{date_s})) + 1)b
+     ]]> 
+		on b.ordDate = a.ord_date
+		group by to_char(b.ordDate,'YYYY-MM-DD')
+		order by to_char(b.ordDate,'YYYY-MM-DD')
+	</select>
+</mapper>

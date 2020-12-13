@@ -17,7 +17,7 @@ import com.sunny.domain.AdminVO;
 import com.sunny.dto.AdminDTO;
 import com.sunny.dto.SalesDTO;
 import com.sunny.service.Admin_Service;
-import com.sunny.service.Chart_Service;
+import com.sunny.service.AdChart_Service;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -26,7 +26,7 @@ public class Admin_Controller {
 	@Inject
 	private Admin_Service service;
 	@Inject
-	private Chart_Service chartService;
+	private AdChart_Service chartService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(Admin_Controller.class);
 	

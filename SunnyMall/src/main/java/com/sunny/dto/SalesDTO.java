@@ -1,6 +1,5 @@
 package com.sunny.dto;
 
-import java.security.Timestamp;
 
 public class SalesDTO {
 

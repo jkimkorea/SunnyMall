@@ -1,11 +1,10 @@
 package com.sunny.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -15,79 +14,118 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.sunny.dto.DateDTO;
-import com.sunny.dto.RecentDateDTO;
 import com.sunny.dto.SalesDTO;
-import com.sunny.service.Chart_Service;
+import com.sunny.service.AdChart_Service;
 
 @Controller
 @RequestMapping("/admin/chart/*")
 public class AdChart_Controller {
 
 	@Inject
-	private Chart_Service service;
+	private AdChart_Service service;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdChart_Controller.class);
 	
 	
 	//챠트불러오기 
 	@RequestMapping(value = "readChart",method=RequestMethod.GET)
-	public void chartAdd(Model model,RecentDateDTO dto,DateDTO date) throws Exception {
+	public ModelAndView addChart(Model model) throws Exception {
 	
 		logger.info("=================chartAdd() execute===============");
-		SimpleDateFormat Format = new SimpleDateFormat("yyyy-mm-dd");
-		 int nYear;
-	     int nMonth;
-	     int nDay;
-		Calendar calendar = new GregorianCalendar(Locale.KOREA);
-        nYear = calendar.get(Calendar.YEAR);
-        nMonth = calendar.get(Calendar.MONTH)+1;
-        nDay = calendar.get(Calendar.DAY_OF_MONTH);
-		String today = (String)(nYear+"-"+nMonth+"-"+nDay);
-		calendar.add(Calendar.MONTH, 1);
 		
-		nMonth = calendar.get(Calendar.MONTH)+1;
-		if(nYear == 12) {
-			calendar.add(Calendar.YEAR, 1);
-		}
-		logger.info("======================"+ today);
+		ModelAndView mv = new ModelAndView();
 		
-		String month_lastday = (String)(nYear+"-"+nMonth+"-"+nDay);
-
-		logger.info("======================"+ month_lastday );
-
-
-		model.addAttribute("date_s", today);
-		model.addAttribute("date_e", month_lastday);
 		
-		Date date_start = Format.parse(today);
-		Date date_end = Format.parse(month_lastday);
-		dto.setDate_s(date_start);
-		dto.setDate_e(date_end);
+		//현재달 정보 가져오기
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String targetDate = format.format(currentDate);//2020-12-12
+		
+		//Timestamp형식으로 저장하기위해 형변환 /해당 달의 첫째날 셋팅
+		String ord_date = targetDate.substring(0, 7)+"-01";
+		
+		//이달에 첫날부터 접속날 add
+		model.addAttribute("date_s", ord_date);
+		model.addAttribute("date_e", targetDate);
+		
+		
+		List<SalesDTO> monthlyList= service.readChart(ord_date);
 		
 		String str="";
 		
-		str += "[[Date,Sales],";
-		
-		
-		List<SalesDTO> list= service.readChart(dto);
-		logger.info("==========list:"+list.toString());
+		str += "[['Date','Sales'],";
+
+		logger.info("==========list:"+monthlyList.toString());
 		int num = 0;
 		//향상된 for문
-		for(SalesDTO totalSales:list) {
+		for(SalesDTO totalSales:monthlyList) {
 			
-			str += "[";
-			str += totalSales.getOrdDate()+","+totalSales.getSales()+"]";
+			str += "['";
+			str += totalSales.getOrdDate()+"',"+totalSales.getSales()+"]";
 			num ++;
-			if(num<list.size()) {
-			str += ",";
+			
+			if(num < monthlyList.size()) {
+			
+				str += ",";
 			}
 		}
 		str +="]";
+		
 		logger.info("===================str:"+str);
-		model.addAttribute("str", str);
+		
+		mv.addObject("monthlyList",monthlyList);
+		mv.addObject("str", str);
+		mv.setViewName("/admin/chart/readChart");
+		return mv;
 	}
+	//원하는 날짜에 따른 매출 검색
+		@RequestMapping(value = "searchChart",method=RequestMethod.POST)
+		public ModelAndView searchChart(String date_s,String date_e,Model model) throws Exception {
+		
+			logger.info("=================chartAdd() execute===============");
+			//검색한날짜 재전달
+			model.addAttribute("date_s", date_s);
+			model.addAttribute("date_e", date_e);
+			
+			ModelAndView mv = new ModelAndView();
+			
+			Map<String,Object> map = new HashMap<String, Object>();
+			
+			map.put("date_s", date_s);
+			map.put("date_e", date_e);
+			
+			//검색한 날에 해당하는 리스트 불러옴
+			List<SalesDTO> monthlyList= service.searchChart(map);
+			
+			String str="";
+			
+			str += "[['Date','Sales'],";
+
+			logger.info("==========list:"+monthlyList.toString());
+			int num = 0;
+			//향상된 for문
+			for(SalesDTO totalSales:monthlyList) {
+				
+				str += "['";
+				str += totalSales.getOrdDate()+"',"+totalSales.getSales()+"]";
+				num ++;
+				
+				if(num < monthlyList.size()) {
+				
+					str += ",";
+				}
+			}
+			str +="]";
+			
+			logger.info("===================str:"+str);
+			
+			mv.addObject("monthlyList",monthlyList);
+			mv.addObject("str", str);
+			mv.setViewName("/admin/chart/readChart");
+			return mv;
+		}
 
 }
